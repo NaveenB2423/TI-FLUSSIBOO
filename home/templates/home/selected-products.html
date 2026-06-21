@@ -1,120 +1,68 @@
 {% extends 'home/commons/main.html' %}
 {% load static %}
-{% load custom_filters %} 
+{% load custom_filters %}
 {% block content %}
-<div class="bg0 m-t-23 p-b-40">
-    <div class="container">
-        <div class="flex-w flex-sb-m p-b-22">
-            <!-- <div class="flex-w flex-l-m filter-tope-group m-tb-10">
-                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" >
-                    {{products.last.main_menu.name}}
-                </button>
-                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" >
-                    {{products.last.sub_menu.name}}
-                </button>
-                
-                <a href="{% url 'main_products' products.last.main_menu.name %}" type="button" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                    {{ products.last.main_menu.name }}
-                </a>
-                    <a href="{% url 'sub_products' products.last.main_menu.name products.last.sub_menu.name %}" type="button" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                        {{ products.last.sub_menu.name }}
-                    </a>    
-            </div> -->
-            <div class="flex-w flex-l-m filter-tope-group m-tb-10">
-                {% for menu in menus %}
-                    {% if menu.submenus_set.all %}
-                        <!-- Main Menu Button -->
-                        <a href="{% url 'main_products' menu.name|slugify %}" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                            {{ menu.name }}
-                        </a>
-            
-                        <!-- Submenu Buttons -->
-                        {% for sub_menu in menu.submenus_set.all %}
-                            <a href="{% url 'sub_products' menu.name|slugify sub_menu.name|slugify %}" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                                {{ sub_menu.name }}
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <!-- Menu Button Without Submenu -->
-                        <a href="{% url 'main_products' menu.name|slugify %}" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-                            {{ menu.name }}
-                        </a>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        
-            
-            <!-- Search product -->
-            <div class="dis-none panel-search w-full p-t-10 p-b-15">
-                <div class="bor8 dis-flex p-l-15">
-                    <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-                        <i class="zmdi zmdi-search"></i>
-                    </button>
 
-                    <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
-                </div>	
-            </div>
-
-            
-        </div>
-
-        <div class="row isotope-grid">
-            {% for product in products %}
-            <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item" >
-                <!-- Block2 -->
-                <div class="block2">
-                    <div class="block2-pic hov-img0">
-                        <img src="{{product.image.url}}" alt="IMG-PRODUCT">
-                        <a href="{% url 'product_details' product.name|slugify %}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
-                            Quick View
-                        </a>
-                    </div>
-                    
-
-                    <div class="block2-txt flex-w flex-t p-t-14">
-                        <div class="block2-txt-child1 flex-col-l ">
-                            <a href="{% url 'product_details' product.name|slugify %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                {{product.name}}
-                            </a>
-
-                            <div class="stext-105 cl3 " style="flex-direction: column;">
-                            
-                                <div style="display:flex !important;margin-top: 3px;">
-                                    <i class="fa fa-inr" style="flex: none !important; color: #4272d7; font-size:16px;font-weight: 550;">{{product.discount_price|floatformat:0 }}</i> 
-                                    <i class="fa fa-inr" style="font-size: 15px; color: #949393; padding: 0px 5px;"><del>{{ product.price|floatformat:0 }}</del></i>
-                                    <span><h6>Off</h6></span></div>  
-                                <div class="sizes mt-1">
-                                    <ul style="display: flex;">
-                                        {% for size in product.productvariant_set.all|distinct_sizes %}
-                                        <li>{{ size }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="block2-txt-child2 flex-r p-t-3">
-                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                <img class="icon-heart1 dis-block trans-04" src="{% static 'home/images/icons/icon-heart-01.png' %}" alt="ICON">
-                                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'home/images/icons/icon-heart-02.png' %}" alt="ICON">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-
-            
-        </div>
-
-        <!-- Load more -->
-        <!-- <div class="flex-c-m flex-w w-full p-t-45">
-            <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-                Load More
-            </a>
-        </div> -->
+<!-- Page header -->
+<div class="tl-pagehead tl-scope">
+    <div class="tl-container">
+        <nav class="tl-breadcrumb">
+            <a href="{% url 'index' %}">Home</a>
+            <span>&rsaquo;</span>
+            <span style="color:var(--tl-ink); font-weight:600;">{{ current_url|default:"Products"|title }}</span>
+        </nav>
+        <h1>{{ current_url|default:"Products"|title }}</h1>
     </div>
 </div>
 
-{% endblock %}
+<section class="tl-section tl-scope">
+    <div class="tl-container">
 
+        <!-- Filters -->
+        <div class="tl-filter" style="margin-bottom:34px;">
+            {% for menu in menus %}
+                <a href="{% url 'main_products' menu.name|slugify %}" class="tl-chip {% if current_url == menu.name|slugify %}is-active{% endif %}">{{ menu.name }}</a>
+                {% for sub_menu in menu.submenus_set.all %}
+                    <a href="{% url 'sub_products' menu.name|slugify sub_menu.name|slugify %}" class="tl-chip">{{ sub_menu.name }}</a>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <!-- Product grid -->
+        <div class="tl-grid">
+            {% for product in products %}
+                <article class="tl-card">
+                    <div class="tl-card__media">
+                        {% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% endif %}
+                        <a href="#" class="tl-card__fav" aria-label="Add to wishlist"><i class="fa fa-heart-o"></i></a>
+                        <div class="tl-card__quick">
+                            <a href="{% url 'product_details' product.name|slugify %}" class="tl-btn tl-btn--dark tl-btn--block">Quick View</a>
+                        </div>
+                    </div>
+                    <div class="tl-card__body">
+                        <a href="{% url 'product_details' product.name|slugify %}" class="tl-card__name">{{ product.name }}</a>
+                        <div class="tl-price">
+                            <span class="tl-price__now">&#8377;{{ product.discount_price|floatformat:0 }}</span>
+                            {% if product.price > product.discount_price %}
+                                <span class="tl-price__old">&#8377;{{ product.price|floatformat:0 }}</span>
+                                <span class="tl-price__off">Save</span>
+                            {% endif %}
+                        </div>
+                        <div class="tl-sizes">
+                            {% for size in product.productvariant_set.all|distinct_sizes %}
+                                <span class="tl-size">{{ size }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="tl-empty" style="grid-column:1/-1;">
+                    <i class="fa fa-shopping-bag"></i>
+                    No products found in this collection yet.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

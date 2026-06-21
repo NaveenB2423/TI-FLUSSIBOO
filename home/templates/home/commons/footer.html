@@ -1,148 +1,62 @@
 {% load static %}
 
-<footer class="bg3 p-t-70 p-b-30">
-    <div class="container">
+<footer class="tl-footer">
+    <div class="tl-container">
+        <div class="tl-footer__grid">
 
-        <!-- ================= FOOTER TOP ================= -->
-        <div class="row">
+            <!-- Brand -->
+            <div>
+                <span class="tl-footer__brand">Trendy Looms</span>
+                <p>Premium men's &amp; women's wear and custom-designed apparel. Crafted for comfort, made to stand out.</p>
+                <div class="tl-footer__socials">
+                    <a href="#" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+                </div>
+            </div>
 
             <!-- Categories -->
-            <div class="col-sm-6 col-lg-3 p-b-40">
-                <h4 class="stext-301 cl0 p-b-25">
-                    Categories
-                </h4>
+            <div>
+                <h5>Shop</h5>
                 <ul>
-                    <li class="p-b-10">
-                        <a href="{% url 'products' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Women
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="{% url 'products' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Men
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="{% url 'custompage' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Custom Design T-Shirts
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="#Themes" class="stext-107 cl7 hov-cl1 trans-04">
-                            Themes
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="#Pillow" class="stext-107 cl7 hov-cl1 trans-04">
-                            Pillow
-                        </a>
-                    </li>
+                    <li><a href="{% url 'products' %}">Women</a></li>
+                    <li><a href="{% url 'products' %}">Men</a></li>
+                    <li><a href="{% url 'custompage' %}">Custom Design T-Shirts</a></li>
+                    <li><a href="#Themes">Themes</a></li>
+                    <li><a href="#Pillow">Pillow</a></li>
                 </ul>
             </div>
 
             <!-- Quick Links -->
-            <div class="col-sm-6 col-lg-3 p-b-40">
-                <h4 class="stext-301 cl0 p-b-25">
-                    Quick Links
-                </h4>
+            <div>
+                <h5>Company</h5>
                 <ul>
-                    <li class="p-b-10">
-                        <a href="{% url 'index' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Home
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="{% url 'about_us' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            About Us
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="{% url 'contact_us' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Contact Us
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="{% url 'shopping_cart' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Cart
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="{% url 'customer_login' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Login
-                        </a>
-                    </li>
-                    <li class="p-b-10">
-                        <a href="{% url 'customer_signup' %}" class="stext-107 cl7 hov-cl1 trans-04">
-                            Signup
-                        </a>
-                    </li>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'about_us' %}">About Us</a></li>
+                    <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                    <li><a href="{% url 'shopping_cart' %}">Cart</a></li>
+                    <li><a href="{% url 'customer_signup' %}">Create Account</a></li>
                 </ul>
             </div>
 
             <!-- Contact -->
-            <div class="col-sm-6 col-lg-3 p-b-40">
-                <h4 class="stext-301 cl0 p-b-25">
-                    Get In Touch
-                </h4>
-
-                <p class="stext-107 cl7 size-201 p-b-10">
+            <div>
+                <h5>Get In Touch</h5>
+                <p>
                     #30 ABC Colony,<br>
                     XYZ Main Road,<br>
                     Salem, Tamil Nadu, India
                 </p>
-
-                <p class="stext-107 cl7 p-b-10">
-                    <i class="fa fa-phone"></i> +91-99999-88888
+                <p>
+                    <i class="fa fa-phone"></i> +91-99999-88888<br>
+                    <i class="fa fa-envelope-o"></i> trendylooms123@gmail.com
                 </p>
-
-                <p class="stext-107 cl7">
-                    <i class="fa fa-envelope"></i> trendylooms123@gmail.com
-                </p>
-
-                <div class="p-t-15">
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-whatsapp"></i>
-                    </a>
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-instagram"></i>
-                    </a>
-                </div>
             </div>
-
-            <!-- Payments -->
-            <div class="col-sm-6 col-lg-3 p-b-40">
-                <h4 class="stext-301 cl0 p-b-25">
-                    We Accept
-                </h4>
-                <div class="flex-w">
-                    <img src="{% static 'home/images/icons/icon-pay-01.png' %}" class="m-r-5 m-b-5" alt="">
-                    <img src="{% static 'home/images/icons/icon-pay-02.png' %}" class="m-r-5 m-b-5" alt="">
-                    <img src="{% static 'home/images/icons/icon-pay-03.png' %}" class="m-r-5 m-b-5" alt="">
-                    <img src="{% static 'home/images/icons/icon-pay-04.png' %}" class="m-r-5 m-b-5" alt="">
-                    <img src="{% static 'home/images/icons/icon-pay-05.png' %}" class="m-r-5 m-b-5" alt="">
-                </div>
-            </div>
-
         </div>
 
-        <!-- ================= FOOTER BOTTOM ================= -->
-        <div class="p-t-30">
-            <hr style="border-color: rgba(255,255,255,0.1);">
-
-            <p class="stext-107 cl6 txt-center">
-                © {{ now|date:"Y" }} Trendy Looms.  
-                All rights reserved. Made with
-                <i class="fa fa-heart-o text-danger"></i>
-                by <a href="https://TrendyLooms.com" target="_blank" class="cl7 hov-cl1">TrendyLooms</a>
-            </p>
+        <div class="tl-footer__bottom">
+            <span>&copy; {% now "Y" %} Trendy Looms. All rights reserved.</span>
+            <span>Made with <i class="fa fa-heart" style="color:#ef4444;"></i> by <a href="https://TrendyLooms.com" target="_blank" rel="noopener">TrendyLooms</a></span>
         </div>
-
     </div>
 </footer>
-
-<!-- ================= BACK TO TOP ================= -->
-<div class="btn-back-to-top" id="myBtn">
-    <span class="symbol-btn-back-to-top">
-        <i class="zmdi zmdi-chevron-up"></i>
-    </span>
-</div>

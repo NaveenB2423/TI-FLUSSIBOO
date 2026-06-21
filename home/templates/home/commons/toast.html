@@ -1,0 +1,99 @@
+{% if messages %}
+<style>
+    .tl-toast-wrap {
+        position: fixed; top: 22px; right: 22px; z-index: 99999;
+        display: flex; flex-direction: column; gap: 12px;
+        max-width: min(380px, calc(100vw - 44px));
+    }
+    .tl-toast {
+        display: flex; align-items: flex-start; gap: 12px;
+        background: #fff; color: #14141b;
+        border-radius: 14px; padding: 15px 16px;
+        box-shadow: 0 18px 45px rgba(20, 20, 40, 0.18);
+        border-left: 5px solid #5a4ff3;
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        transform: translateX(120%); opacity: 0;
+        transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .45s ease;
+    }
+    .tl-toast.is-in { transform: translateX(0); opacity: 1; }
+    .tl-toast.is-out { transform: translateX(120%); opacity: 0; }
+    .tl-toast__icon {
+        flex: none; width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: #fff; font-size: 15px; font-weight: 700;
+    }
+    .tl-toast__body { flex: 1; padding-top: 2px; }
+    .tl-toast__title { font-weight: 700; font-size: 14.5px; margin: 0 0 2px; }
+    .tl-toast__msg { font-size: 13.5px; color: #5b5b6b; line-height: 1.45; }
+    .tl-toast__close {
+        flex: none; background: none; border: none; cursor: pointer;
+        color: #b5b5c2; font-size: 18px; line-height: 1; padding: 2px 4px;
+    }
+    .tl-toast__close:hover { color: #14141b; }
+    .tl-toast--error   { border-left-color: #e5484d; }
+    .tl-toast--error   .tl-toast__icon { background: #e5484d; }
+    .tl-toast--success { border-left-color: #16a34a; }
+    .tl-toast--success .tl-toast__icon { background: #16a34a; }
+    .tl-toast--warning { border-left-color: #f5a524; }
+    .tl-toast--warning .tl-toast__icon { background: #f5a524; }
+    .tl-toast--info    { border-left-color: #5a4ff3; }
+    .tl-toast--info    .tl-toast__icon { background: #5a4ff3; }
+    .tl-toast__bar {
+        position: absolute; left: 0; bottom: 0; height: 3px;
+        background: rgba(0,0,0,0.12); width: 100%;
+        animation: tlToastBar 4.5s linear forwards;
+    }
+    @keyframes tlToastBar { from { width: 100%; } to { width: 0%; } }
+</style>
+
+<div class="tl-toast-wrap" id="tlToastWrap">
+    {% for message in messages %}
+        {% if 'error' in message.tags %}{% with cls='error' icon='!' title='Oops' %}
+            <div class="tl-toast tl-toast--{{ cls }}" style="position:relative; overflow:hidden;">
+                <div class="tl-toast__icon">{{ icon }}</div>
+                <div class="tl-toast__body"><p class="tl-toast__title">{{ title }}</p><div class="tl-toast__msg">{{ message }}</div></div>
+                <button type="button" class="tl-toast__close" aria-label="Close">&times;</button>
+                <span class="tl-toast__bar"></span>
+            </div>
+        {% endwith %}{% elif 'success' in message.tags %}{% with cls='success' icon='✓' title='Success' %}
+            <div class="tl-toast tl-toast--{{ cls }}" style="position:relative; overflow:hidden;">
+                <div class="tl-toast__icon">{{ icon }}</div>
+                <div class="tl-toast__body"><p class="tl-toast__title">{{ title }}</p><div class="tl-toast__msg">{{ message }}</div></div>
+                <button type="button" class="tl-toast__close" aria-label="Close">&times;</button>
+                <span class="tl-toast__bar"></span>
+            </div>
+        {% endwith %}{% elif 'warning' in message.tags %}{% with cls='warning' icon='!' title='Heads up' %}
+            <div class="tl-toast tl-toast--{{ cls }}" style="position:relative; overflow:hidden;">
+                <div class="tl-toast__icon">{{ icon }}</div>
+                <div class="tl-toast__body"><p class="tl-toast__title">{{ title }}</p><div class="tl-toast__msg">{{ message }}</div></div>
+                <button type="button" class="tl-toast__close" aria-label="Close">&times;</button>
+                <span class="tl-toast__bar"></span>
+            </div>
+        {% endwith %}{% else %}{% with cls='info' icon='i' title='Notice' %}
+            <div class="tl-toast tl-toast--{{ cls }}" style="position:relative; overflow:hidden;">
+                <div class="tl-toast__icon">{{ icon }}</div>
+                <div class="tl-toast__body"><p class="tl-toast__title">{{ title }}</p><div class="tl-toast__msg">{{ message }}</div></div>
+                <button type="button" class="tl-toast__close" aria-label="Close">&times;</button>
+                <span class="tl-toast__bar"></span>
+            </div>
+        {% endwith %}{% endif %}
+    {% endfor %}
+</div>
+
+<script>
+    (function () {
+        var toasts = document.querySelectorAll('#tlToastWrap .tl-toast');
+        toasts.forEach(function (el, i) {
+            setTimeout(function () { el.classList.add('is-in'); }, 80 + i * 120);
+            var dismiss = function () {
+                el.classList.remove('is-in');
+                el.classList.add('is-out');
+                setTimeout(function () { el.remove(); }, 480);
+            };
+            var btn = el.querySelector('.tl-toast__close');
+            if (btn) { btn.addEventListener('click', dismiss); }
+            setTimeout(dismiss, 4500 + i * 120);
+        });
+    })();
+</script>
+{% endif %}

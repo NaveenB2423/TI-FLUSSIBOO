@@ -9,7 +9,6 @@ def admin_login(request):
         mobile_no = request.POST.get('mobile_no', '')
         password = request.POST.get('password', '')
         user = authenticate(request,mobile_no=mobile_no, password=password)
-        print(user)
         if user and user.is_active:
             login(request, user) 
             return redirect(dashboard)

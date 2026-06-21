@@ -74,7 +74,6 @@ def edit_product(request,id):
 def update_home_item(request):
     id =  request.POST.get('id')
     data_id = request.POST.get('data_id') if request.POST.get('data_id') else  None
-    print(id,data_id)
     return JsonResponse({"status" : "success"})
 
 def delete_product(request,id):

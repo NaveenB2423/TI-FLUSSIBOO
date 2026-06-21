@@ -2,199 +2,86 @@
 {% load static %}
 {% block content %}
 
-<style>
-/* ===== Custom Professional Styling ===== */
-.page-header {
-    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
-                url("{% static 'home/images/bg-01.jpg' %}");
-    background-size: cover;
-    background-position: center;
-    padding: 90px 15px;
-}
-
-.page-header h2 {
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.custom-card {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-}
-
-.custom-card h4 {
-    font-weight: 700;
-    color: #0b0b8f;
-}
-
-.form-control-custom {
-    height: 52px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    padding-left: 15px;
-    transition: all 0.3s ease;
-}
-
-.form-control-custom:focus {
-    border-color: #0b0b8f;
-    box-shadow: 0 0 0 3px rgba(11,11,143,0.15);
-}
-
-textarea.form-control-custom {
-    height: auto;
-}
-
-.submit-btn {
-    height: 54px;
-    border-radius: 30px;
-    font-weight: 600;
-    background: linear-gradient(135deg, #0b0b8f, #3b5bdb);
-    transition: 0.3s ease;
-}
-
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(11,11,143,0.3);
-}
-
-.info-box {
-    background: #f8f9fc;
-    border-radius: 12px;
-    padding: 35px;
-}
-
-.info-item {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 35px;
-}
-
-.info-icon {
-    font-size: 26px;
-    color: #0b0b8f;
-}
-</style>
-
-<!-- ===== Header ===== -->
-<section class="page-header txt-center">
-    <h2 class="ltext-105 cl0">
-        Customize Your Dress
-    </h2>
+<!-- Hero -->
+<section class="tl-scope" style="background:radial-gradient(900px 360px at 85% -20%, rgba(123,113,255,0.30), transparent 60%), linear-gradient(135deg,#14141b,#2a2440); color:#fff; padding:64px 0;">
+    <div class="tl-container" style="text-align:center;">
+        <span class="tl-eyebrow" style="color:#b3aaff;">Made To Order</span>
+        <h1 style="font-family:'Plus Jakarta Sans'; font-weight:800; font-size:clamp(30px,4vw,46px); letter-spacing:-1px; margin:6px 0 12px;">Customize Your Dress</h1>
+        <p style="color:rgba(255,255,255,0.78); max-width:560px; margin:0 auto;">Pick your color and size, upload your artwork, and we'll bring your design to life.</p>
+    </div>
 </section>
 
-<!-- ===== Content ===== -->
-<section class="bg0 p-t-90 p-b-100">
-    <div class="container">
-        <div class="row justify-content-center">
+<section class="tl-section tl-scope">
+    <div class="tl-container">
+        <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:32px; align-items:start;">
 
-            <!-- ===== Form Card ===== -->
-            <div class="col-lg-6 col-md-10 mb-4">
-                <div class="custom-card p-5">
-                    <h4 class="txt-center m-b-25">
-                        Design Your Perfect Outfit
-                    </h4>
+            <!-- Form -->
+            <div class="tl-card" style="padding:38px;">
+                <h3 class="tl-section__title" style="font-size:23px; margin-bottom:24px;">Design your perfect outfit</h3>
 
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
 
-                        <div class="m-b-20">
-                            <input type="text" name="name" class="form-control-custom w-full"
-                                   placeholder="Your Full Name" required>
-                        </div>
+                    <div style="margin-bottom:18px;">
+                        <input type="text" name="name" placeholder="Your Full Name" required
+                               style="width:100%; height:52px; padding:0 16px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px;">
+                    </div>
+                    <div style="margin-bottom:18px;">
+                        <input type="tel" name="mobile_no" placeholder="Mobile Number" required
+                               style="width:100%; height:52px; padding:0 16px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px;">
+                    </div>
+                    <div style="margin-bottom:18px;">
+                        <input type="email" name="email" placeholder="Email Address" required
+                               style="width:100%; height:52px; padding:0 16px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px;">
+                    </div>
 
-                        <div class="m-b-20">
-                            <input type="tel" name="mobile_no" class="form-control-custom w-full"
-                                   placeholder="Mobile Number" required>
-                        </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;">
+                        <select name="color" required
+                                style="height:52px; padding:0 14px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px; background:#fff;">
+                            <option value="">Select Dress Color</option>
+                            {% for color in color %}
+                                <option value="{{ color.id }}">{{ color.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="size" required
+                                style="height:52px; padding:0 14px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px; background:#fff;">
+                            <option value="">Select Size</option>
+                            {% for size in size %}
+                                <option value="{{ size.id }}">{{ size.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-                        <div class="m-b-20">
-                            <input type="email" name="email" class="form-control-custom w-full"
-                                   placeholder="Email Address" required>
-                        </div>
+                    <div style="margin-bottom:18px;">
+                        <label style="display:block; font-weight:600; color:var(--tl-ink); margin-bottom:8px;">Upload your design</label>
+                        <input type="file" name="design_image" accept="image/*" required
+                               style="width:100%; padding:12px; border:1px dashed var(--tl-line); border-radius:var(--tl-radius-sm); font-size:14px; background:var(--tl-bg);">
+                    </div>
 
-                        <div class="m-b-20">
-                            <select name="color" class="form-control-custom w-full" required>
-                                <option value="">Select Dress Color</option>
-                                {% for color in color %}
-                                    <option value="{{ color.id }}">{{ color.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                    <div style="margin-bottom:24px;">
+                        <textarea name="design" rows="4" placeholder="Describe your design preferences..."
+                                  style="width:100%; padding:14px 16px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px; resize:vertical;"></textarea>
+                    </div>
 
-                        <div class="m-b-20">
-                            <select name="size" class="form-control-custom w-full" required>
-                                <option value="">Select Size</option>
-                                {% for size in size %}
-                                    <option value="{{ size.id }}">{{ size.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="m-b-20">
-                            <input type="file" name="design_image"
-                                   class="form-control-custom w-full"
-                                   accept="image/*" required>
-                        </div>
-
-                        <div class="m-b-25">
-                            <textarea name="design" rows="4"
-                                      class="form-control-custom w-full"
-                                      placeholder="Describe your design preferences..."></textarea>
-                        </div>
-
-                        <button type="submit"
-                                class="submit-btn flex-c-m stext-101 cl0 w-full">
-                            Submit Custom Order
-                        </button>
-                    </form>
-                </div>
+                    <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block">Submit Custom Order</button>
+                </form>
             </div>
 
-            <!-- ===== Info Panel ===== -->
-            <div class="col-lg-4 col-md-10">
-                <div class="info-box">
-
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <span class="lnr lnr-calendar-full"></span>
-                        </div>
-                        <div>
-                            <h6 class="mtext-110">Delivery Time</h6>
-                            <p class="stext-115 cl1">
-                                Estimated 4–6 weeks from confirmation
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <span class="lnr lnr-checkmark-circle"></span>
-                        </div>
-                        <div>
-                            <h6 class="mtext-110">Order Confirmation</h6>
-                            <p class="stext-115 cl1">
-                                Our team will contact you to finalize details
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="info-item mb-0">
-                        <div class="info-icon">
-                            <span class="lnr lnr-envelope"></span>
-                        </div>
-                        <div>
-                            <h6 class="mtext-110">Need Help?</h6>
-                            <p class="stext-115 cl1">
-                                +91 99999 88888<br>
-                                contact@example.com
-                            </p>
-                        </div>
-                    </div>
-
+            <!-- Info -->
+            <div class="tl-card" style="padding:32px; display:flex; flex-direction:column; gap:24px;">
+                <div class="tl-feature" style="box-shadow:none; border:none; padding:0; background:transparent;">
+                    <div class="tl-feature__icon"><i class="fa fa-calendar"></i></div>
+                    <div><b>Delivery Time</b><span>Estimated 4&ndash;6 weeks from confirmation</span></div>
+                </div>
+                <div class="tl-feature" style="box-shadow:none; border:none; padding:0; background:transparent;">
+                    <div class="tl-feature__icon"><i class="fa fa-check-circle"></i></div>
+                    <div><b>Order Confirmation</b><span>Our team will contact you to finalize details</span></div>
+                </div>
+                <div class="tl-feature" style="box-shadow:none; border:none; padding:0; background:transparent;">
+                    <div class="tl-feature__icon"><i class="fa fa-envelope-o"></i></div>
+                    <div><b>Need Help?</b><span>+91 99999 88888<br>contact@example.com</span></div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>

@@ -1,5 +1,24 @@
 from django.urls import path
-from .views import *
+
+from .views import (
+    about_us,
+    blog,
+    blog_details,
+    cart,
+    contact_us,
+    create_order,
+    custompage,
+    customer_login,
+    customer_logout,
+    customer_signup,
+    index,
+    main_products,
+    product_details,
+    products,
+    shopping_cart,
+    sub_products,
+    update_cart,
+)
 
 urlpatterns = [
     path('', index,name='index' ),

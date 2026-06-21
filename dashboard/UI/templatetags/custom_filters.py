@@ -23,11 +23,9 @@ def distinct_colors(product_variants):
     
 
     for variant in product_variants:
-       
         if variant.color.name not in color_set and variant.status == 1:
             color_set.add(variant.color.name)
             distinct_colors.append(variant.color.name)
-    print(distinct_colors)
     return distinct_colors
 
 
@@ -44,7 +42,6 @@ def check_colors(product, color ):
 
 @register.simple_tag(name='check_sizes')
 def check_sizes(product, size ):   
-    print('variant')
     variant = ProductVariant.objects.filter(product=product, size=size, status= 1).exists()
     
     if variant :

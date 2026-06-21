@@ -1,38 +1,25 @@
-from django.conf import settings
-from django.shortcuts import redirect, render, HttpResponse
-from domain.models import Product, ProductVariant, Cart, Color, Size
-from domain.models import MainMenus, SubMenus, User,Customizedesgin,Image
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth import authenticate, login, logout
-from django.db.models import Sum
-from django.contrib import messages
 import razorpay
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password
+from django.db.models import Sum
 from django.http import JsonResponse
+from django.shortcuts import HttpResponse, redirect, render
+
+from domain.models import (
+    Cart,
+    Color,
+    Customizedesgin,
+    Image,
+    MainMenus,
+    Product,
+    ProductVariant,
+    Size,
+    User,
+)
 
 
-# Create your views here.
-# def index(request):
-#     print(request.user.id)
-#     product = Product.objects.filter(status=1).last()
-#     if request.method == 'POST':
-#         product_id = request.POST.get('product_id')
-#         size_name = request.POST.get('size')
-        
-#         color_name =request.POST.get('color')
-       
-#         qty =request.POST.get('qty')
-#         size = Size.objects.get(name=size_name,status=1)
-#         color = Color.objects.get(name=color_name,status=1)
-#         productVariant = ProductVariant.objects.get(product_id=product_id, size=size, color=color)
-#         cart = Cart()
-#         cart.made_by=request.user
-#         cart.variant=productVariant
-#         cart.qty = qty
-#         cart.save()
-#     return render(request, 'home/index.html')   
-#     return render(request,'home/index.html',{'product':product})
 def index(request):
     menus = MainMenus.objects.filter(status=1).order_by('priority')
     image = Image.objects.filter(describe = "Printed T-Shits")
@@ -47,20 +34,15 @@ def index(request):
     return render(request, 'home/index.html',context)  
 
 def main_products(request, menu):
-    original_menu = menu.replace("-", " ")
     products = Product.objects.filter(main_menu__name__iexact=menu)
     if not products.exists():
-        # Handle the case where no products are found
-        return HttpResponse(f"No products found for {original_menu}")
+        return HttpResponse(f"No products found for {menu}")
     return render(request, 'home/selected-products.html', {'current_url': menu, 'products': products})
 
 def sub_products(request, main_menu, sub_menu):
-    original_menu = main_menu.replace("-", " ")
-    original_sub_menu = sub_menu.replace("-", " ")
-    products = Product.objects.filter(main_menu__name__iexact=original_menu, sub_menu__name__iexact=original_sub_menu)
+    products = Product.objects.filter(main_menu__name__iexact=main_menu, sub_menu__name__iexact=sub_menu)
     if not products.exists():
-        # Handle the case where no products are found
-        return HttpResponse(f"No products found for {original_menu}")
+        return HttpResponse(f"No products found for {main_menu} / {sub_menu}")
     return render(request, 'home/selected-products.html', {'current_url': main_menu, 'products': products})
 
 def about_us(request):
@@ -76,13 +58,14 @@ def customer_login(request):
         password = request.POST.get('password', '')
         
         user = authenticate(request,mobile_no=mobile, password=password)
-        print(user)
-        
+
         if user and user.is_active:
             login(request, user)
-            return redirect(index)
+            messages.success(request, "Welcome back! You are now logged in.")
+            return redirect('index')
         else:
-            return HttpResponse('failed')
+            messages.error(request, "Invalid mobile number or password. Please try again.")
+            return redirect('customer_login')
 
 
     return render(request,'home/login.html')
@@ -100,6 +83,8 @@ def customer_signup(request):
        new_user.password = make_password(request.POST.get('password','').strip())
        new_user.is_password_set =1
        new_user.save()
+       messages.success(request, "Account created successfully. Please login to continue.")
+       return redirect('customer_login')
     return render(request,'home/signup.html')
 
 def products(request):
@@ -131,18 +116,20 @@ def product_details(request,name):
             cart.qty = qty
             cart.price=product.discount_price * float(qty)
             cart.save()
+            messages.success(request, f"{product.name} added to your cart.")
+            return redirect('product_details', name=name)
         else:
-            return HttpResponse(f"Please login to add items to cart.") 
-    print(product.__dict__)
+            messages.error(request, "Please login to add items to your cart.")
+            return redirect('customer_login')
     return render(request,'home/product-details.html',{'product':product})
 
 def shopping_cart(request):
     if request.user.is_authenticated:
         carts = Cart.objects.filter(made_by=request.user)
         total_amount = carts.aggregate(Sum('price'))['price__sum']
-        print(total_amount)
     else:
-        return HttpResponse("Please login to view cart.")
+        messages.error(request, "Please login to view your cart.")
+        return redirect('customer_login')
     return render(request,'home/shopping-cart.html',{'carts':carts,'total_amount':total_amount})
 
 
@@ -174,8 +161,12 @@ def blog_details(request):
     return render(request,'home/blog-details.html')
 
 def cart(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please login to view your cart.")
+        return redirect('customer_login')
     carts = Cart.objects.filter(made_by=request.user)
-    return render(request,'home/pay-cart.html',{'carts':carts})
+    total_amount = carts.aggregate(Sum('price'))['price__sum'] or 0
+    return render(request,'home/pay-cart.html',{'carts':carts,'total_amount':total_amount})
 
 def custompage(request):
     sizes = Size.objects.filter(status=1).all()
@@ -233,7 +224,7 @@ def create_order(request):
     return JsonResponse({
         "order_id": order["id"],
         "amount": amount_in_paisa,
-        "key": 'rzp_test_Re3mSnvORrkpiR',
+        "key": settings.RAZORPAY_API_KEY,
         "name": "Your Store",
         "email": request.user.email,
     })

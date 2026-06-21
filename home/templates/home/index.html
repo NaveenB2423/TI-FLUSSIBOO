@@ -1,731 +1,268 @@
 {% extends 'home/commons/main.html' %}
 {% load static %}
+
+{% block extra_css %}
+<style>
+    /* Hero flourish */
+    .tl-hero { position: relative; }
+    .tl-hero__glow { position:absolute; width:520px; height:520px; border-radius:50%;
+        background:radial-gradient(circle, rgba(123,113,255,0.45), transparent 65%);
+        filter:blur(20px); top:-120px; left:-100px; pointer-events:none; }
+    .tl-hero__art { position: relative; }
+    .tl-float { position:absolute; background:rgba(255,255,255,0.96); border-radius:16px;
+        box-shadow:0 18px 40px rgba(10,10,30,0.28); padding:12px 16px; display:flex; align-items:center; gap:11px;
+        backdrop-filter:blur(6px); animation:tlFloat 4.5s ease-in-out infinite; }
+    .tl-float--offer { bottom:30px; left:-26px; }
+    .tl-float__ic { width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+        color:#fff; font-size:16px; background:linear-gradient(135deg,#7b71ff,#5a4ff3); flex:none; }
+    .tl-float__t { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:15px; color:#14141b; line-height:1.1; }
+    .tl-float__s { font-size:11.5px; color:#7b7b8a; }
+    @keyframes tlFloat { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-9px); } }
+    @media (max-width:1024px){ .tl-float { display:none; } }
+
+    /* Marquee strip */
+    .tl-marquee { background:var(--tl-ink); color:#fff; overflow:hidden; padding:15px 0; }
+    .tl-marquee__row { display:flex; gap:60px; white-space:nowrap; width:max-content; animation:tlMarquee 22s linear infinite; }
+    .tl-marquee span { font-family:'Plus Jakarta Sans'; font-weight:700; font-size:15px; letter-spacing:0.5px; opacity:0.85; display:inline-flex; align-items:center; gap:12px; }
+    .tl-marquee span i { color:#b3aaff; }
+    @keyframes tlMarquee { from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+    /* Testimonials */
+    .tl-quotes { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+    .tl-quote { background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius); padding:28px;
+        box-shadow:var(--tl-shadow-sm); transition:all var(--tl-ease); }
+    .tl-quote:hover { transform:translateY(-4px); box-shadow:var(--tl-shadow); }
+    .tl-quote__stars { color:#f5a524; margin-bottom:12px; font-size:14px; }
+    .tl-quote__text { color:var(--tl-text); line-height:1.7; font-size:15px; margin:0 0 18px; }
+    .tl-quote__who { display:flex; align-items:center; gap:12px; }
+    .tl-quote__av { width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,#7b71ff,#5a4ff3);
+        color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Plus Jakarta Sans'; }
+    .tl-quote__name { font-weight:700; color:var(--tl-ink); font-size:14.5px; }
+    .tl-quote__role { font-size:12.5px; color:var(--tl-muted); }
+
+    /* Newsletter */
+    .tl-news { background:linear-gradient(135deg,#14141b,#2a2440); border-radius:24px; padding:50px 44px; text-align:center;
+        position:relative; overflow:hidden; }
+    .tl-news:before { content:""; position:absolute; width:380px; height:380px; border-radius:50%;
+        background:radial-gradient(circle, rgba(123,113,255,0.4), transparent 65%); top:-160px; right:-80px; }
+    .tl-news h2 { font-family:'Plus Jakarta Sans'; font-weight:800; color:#fff; font-size:clamp(24px,3vw,34px); margin:0 0 10px; position:relative; }
+    .tl-news p { color:rgba(255,255,255,0.75); margin:0 0 26px; position:relative; }
+    .tl-news__form { display:flex; gap:12px; max-width:480px; margin:0 auto; position:relative; flex-wrap:wrap; justify-content:center; }
+    .tl-news__form input { flex:1; min-width:220px; height:54px; padding:0 18px; border:none; border-radius:var(--tl-radius-sm); font-size:15px; }
+</style>
+{% endblock %}
+
 {% block content %}
 
-
-	<!-- Slider -->
-	<section class="section-slide">
-		<div class="wrap-slick1 rs1-slick1">
-			<div class="slick1">
-				<div class="item-slick1" style="background-image: url('{% static "home/images/slide-03.jpg" %}');">
-					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30">
-							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-								<span class="ltext-202 cl2 respon2">
-									Men Wear 2023
-								</span>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
-								<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-									New arrivals
-								</h2>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-								<a href="products/" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-									Shop Now
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="item-slick1" style="background-image: url('{% static "home/images/slide-02.jpg" %}');">
-					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30">
-							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
-								<span class="ltext-202 cl2 respon2">
-									Custom Designs
-								</span>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
-								<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-									User's Choice
-								</h2>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-								<a href="{% url 'products' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-									Shop Now
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="item-slick1" style="background-image: url('{% static "home/images/slide-04.jpg" %}');">
-					<div class="container h-full">
-						<div class="flex-col-l-m h-full p-t-100 p-b-30">
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
-								<span class="ltext-202 cl2 respon2">
-									Women’s Wear 2023
-								</span>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
-								<h2 class="ltext-104 cl2 p-t-19 p-b-43 respon1">
-									NEW SEASON
-								</h2>
-							</div>
-								
-							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-								<a href="{% url 'products' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-									Shop Now
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-		</div>
-	</section>
-
-
-	<!-- Product -->
-	 <!-- Custom Design Product -->
-	 <section class="sec-product bg0 p-t-40 p-b-30" id="CustomDesign">
-		<div class="container">
-			<div class="p-b-10">
-				<h1 class="cl5 txt-center respon1" style="color:rgb(7, 7, 156);font-weight: 800 !important;">
-					PRINTED T-SHIRTS
-				</h1>
-			</div>
-	
-			<!-- Tab01 -->
-			<div class="tab01">
-				<!-- Nav tabs -->
-				<!-- Tab panes -->
-				<div class="tab-content p-t-20">
-					<!-- - -->
-					<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
-						<!-- Slide2 -->
-						<div class="wrap-slick2">
-							<div class="slick2">
-
-								{% for image in image %}
-								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									<!-- Block2 -->
-									
-										<div class="block2">
-											{% if image.image %}
-												<div class="block2-pic hov-img0">
-													<img src="{{ image.image.url }}" alt="IMG-PRODUCT">
-			
-													<!-- <a href="{% url 'products' %}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
-														Quick View
-													</a> -->
-												</div>
-			
-												<div class="block2-txt flex-w flex-t p-t-14">
-													<div class="block2-txt-child1 flex-col-l ">
-														<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-															{{ image.name }}
-														</a>
-													</div>
-												</div>
-											{% else %}
-											<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									
-												<div class="block2">
-													<div class="block2-pic hov-img0">
-														<img src="{% static 'home/images/product-08.jpg' %}" alt="IMG-PRODUCT">
-													</div>
-				
-													<div class="block2-txt flex-w flex-t p-t-14">
-														<div class="block2-txt-child1 flex-col-l ">
-															<a href="{% url 'product' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-																Esprit Ruffle Shirt
-															</a>
-														</div>
-													</div>
-												</div>
-											</div>
-											{% endif %}
-										</div>
-									
-								</div>
-								{% endfor %}
-								<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-									
-									<div class="block2">
-										<div class="block2-pic hov-img0">
-											<img src="{% static 'home/images/product-08.jpg' %}" alt="IMG-PRODUCT">
-	
-											 <a href="product-detail.html" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
-												Quick View
-											</a>
-										</div>
-	
-										<div class="block2-txt flex-w flex-t p-t-14">
-											<div class="block2-txt-child1 flex-col-l ">
-												<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Esprit Ruffle Shirt
-												</a>
-											</div>
-	
-											<div class="block2-txt-child2 flex-r p-t-3">
-												<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-													<img class="icon-heart1 dis-block trans-04" src="{% static 'home/images/icons/icon-heart-01.png' %}" alt="ICON">
-													<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'home/images/icons/icon-heart-02.png' %}" alt="ICON">
-												</a>
-											</div>
-										</div>
-									</div>
-								</div> -->
-						
-							</div>
-						</div>
-					</div>	
-				</div>
-			</div>
-		</div>
-	</section>
-
-
-		<!-- Banner -->
-		<div class="sec-banner bg0 p-t-5 p-b-10">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6 p-b-20 m-lr-auto">
-						<!-- Block1 -->
-						<div class="block1 wrap-pic-w">
-							<img src="{% static 'home/images/banner-04.jpg' %}" alt="IMG-BANNER">
-	
-							<a href="{% url 'products' %}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-								<div class="block1-txt-child1 flex-col-l">
-									<span class="block1-name ltext-102 trans-04 p-b-8">
-										Women
-									</span>
-	
-									<span class="block1-info stext-102 trans-04">
-										New Trend
-									</span>
-								</div>
-	
-								<div class="block1-txt-child2 p-b-4 trans-05">
-									<div class="block1-link stext-101 cl0 trans-09">
-										Shop Now
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-	
-					<div class="col-md-6 p-b-10 m-lr-auto">
-						<!-- Block1 -->
-						<div class="block1 wrap-pic-w">
-							<img src="{% static 'home/images/banner-05.jpg' %}" alt="IMG-BANNER">
-	
-							<a href="{% url 'products' %}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-								<div class="block1-txt-child1 flex-col-l">
-									<span class="block1-name ltext-102 trans-04 p-b-8">
-										Men
-									</span>
-	
-									<span class="block1-info stext-102 trans-04">
-										New Trend
-									</span>
-								</div>
-	
-								<div class="block1-txt-child2 p-b-4 trans-05">
-									<div class="block1-link stext-101 cl0 trans-09">
-										Shop Now
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-	
-				
-				</div>
-			</div>
-		</div>
-
-
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-	<ol class="carousel-indicators">
-	  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-	  <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-	  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-	</ol>
-	<div class="carousel-inner">
-	  <div class="carousel-item active" style="object-fit:cover; height: 400px; padding: 40px 0px;">
-		<img src="{% static 'home//images/s1.png' %}" class="d-block w-100" alt="...">
-	  </div>
-	  <div class="carousel-item" style="object-fit:cover; height: 400px; padding: 40px 0px;">
-		<img src="{% static 'home//images/s2.png' %}" class="d-block w-100" alt="...">
-	  </div>
-	  <div class="carousel-item" style="object-fit:cover; height: 400px; padding: 40px 0px;">
-		<img src="{% static 'home//images/s3.png' %}" class="d-block w-100" alt="...">
-	  </div>
-	</div>
-	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-	  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	  <span class="sr-only">Previous</span>
-	</a>
-	<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-	  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	  <span class="sr-only">Next</span>
-	</a>
-  </div>
-
-
-<!-- Product -->
-<section class="bg0 p-t-40 p-b-30">
-	<div class="container">
-		<!-- Women Product -->
-		<section class="sec-product bg0 p-t-40 p-b-30" id="Women">
-			<div class="container">
-				<div class="p-b-10">
-					<h1 class="cl5 txt-center respon1" style="color:rgb(7, 7, 156);font-weight: 800 !important;">
-						CATOGERY FOR WOMEN
-					</h1>
-				</div>
-	
-				<!-- Tab01 -->
-				<div class="tab01">
-					<!-- Nav tabs -->
-			
-	
-					<!-- Tab panes -->
-					<div class="tab-content p-t-20">
-						<!-- - -->
-						<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
-							<!-- Slide2 -->
-							<div class="wrap-slick2">
-								<div class="slick2">
-									{% for image in women_image%}
-										<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-											<!-- Block2 -->
-											<div class="block2">		
-												<div class="block2-txt flex-w flex-t p-t-14">
-													<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-														<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-															<div class="block2-pic hov-img0">
-																<img src="{{image.image.url}}" alt="IMG-PRODUCT">
-															</div>
-															{{image.name}}
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									{% endfor %}
-									<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-										
-										<div class="block2">		
-											<div class="block2-txt flex-w flex-t p-t-14">
-												<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-													<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-														<div class="block2-pic hov-img0">
-															<img src="{% static 'home/images/product-01.jpg' %}" alt="IMG-PRODUCT">
-														</div>
-														Printed T-Shirts
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-										
-										<div class="block2">		
-											<div class="block2-txt flex-w flex-t p-t-14">
-												<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-													<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-														<div class="block2-pic hov-img0">
-															<img src="{% static 'home/images/product-01.jpg' %}" alt="IMG-PRODUCT">
-														</div>
-														Plain T-Shirts
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-	
-									<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-										
-										<div class="block2">		
-											<div class="block2-txt flex-w flex-t p-t-14">
-												<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-													<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-														<div class="block2-pic hov-img0">
-															<img src="{% static 'home/images/product-01.jpg' %}" alt="IMG-PRODUCT">
-														</div>
-														Polos
-													</a>
-												</div>
-											</div>
-										</div>
-									</div> -->
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<!-- Men Product -->
-		<section class="sec-product bg0 p-t-40 p-b-30" id="Men">
-			<div class="container">
-				<div class="p-b-10">
-					<h1 class="cl5 txt-center respon1" style="color:rgb(7, 7, 156);font-weight: 800 !important;">
-						CATOGERY FOR MEN
-					</h1>
-				</div>
-	
-				<!-- Tab01 -->
-				<div class="tab01">
-					<!-- Nav tabs -->
-					<!-- Tab panes -->
-					<div class="tab-content p-t-20">
-						<!-- - -->
-						<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
-							<!-- Slide2 -->
-							<div class="wrap-slick2">
-								<div class="slick2">
-									{% for image in men_image%}
-										<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-											<!-- Block2 -->
-											<div class="block2">		
-												<div class="block2-txt flex-w flex-t p-t-14">
-													<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-														<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-															<div class="block2-pic hov-img0">
-																<img src="{{image.image.url}}" alt="IMG-PRODUCT">
-															</div>
-															{{image.name}}
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									{% endfor %}
-									<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-										
-										<div class="block2">		
-											<div class="block2-txt flex-w flex-t p-t-14">
-												<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-													<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-														<div class="block2-pic hov-img0">
-															<img src="{% static 'home/images/product-11.jpg' %}" alt="IMG-PRODUCT">
-														</div>
-														Printed T-Shirts
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-	
-	
-									<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-										
-										<div class="block2">		
-											<div class="block2-txt flex-w flex-t p-t-14">
-												<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-													<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-														<div class="block2-pic hov-img0">
-															<img src="{% static 'home/images/product-11.jpg' %}" alt="IMG-PRODUCT">
-														</div>
-														Plain T-Shirts
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-	
-									<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-										
-										<div class="block2">		
-											<div class="block2-txt flex-w flex-t p-t-14">
-												<div class="block2-txt-child1 flex-col-l" style="background-color: #c5d2f8;">
-													<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-														<div class="block2-pic hov-img0">
-															<img src="{% static 'home/images/product-11.jpg' %}" alt="IMG-PRODUCT">
-														</div>
-														Polos
-													</a>
-												</div>
-											</div>
-										</div>
-									</div> -->
-	
-								</div>
-							</div>
-						</div>
-					
-					</div>
-				</div>
-			</div>
-		</section>
-
-   <!-- Pillow Product -->
-   <section class="sec-product bg0 p-t-40 p-b-30" id="Pillow">
-	<div class="container">
-		<div class="p-b-10">
-			<h1 class="cl5 txt-center respon1" style="color:rgb(7, 7, 156);font-weight: 800 !important;">
-				PILLOWS
-			</h1>
-		</div>
-
-		<!-- Tab01 -->
-		<div class="tab01">
-			<!-- Nav tabs -->
-			<!-- Tab panes -->
-			<div class="tab-content p-t-20">
-				<!-- - -->
-				<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
-					<!-- Slide2 -->
-					<div class="wrap-slick2">
-						<div class="slick2">
-							
-
-							<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l">
-											<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-06.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Pieces Metallic Printed
-												</a>
-											</a>
-										</div>
-										<div class="stext-105 cl3 " style="flex-direction: column;">
-											
-											<div style="display:flex !important;margin-top: 3px;">
-												<i class="fa fa-inr" style="flex: none !important; color: #4272d7; font-size:16px;font-weight: 550;">160</i> 
-												<i class="fa fa-inr" style="font-size: 15px; color: #949393; padding: 0px 5px;"><del>200</del></i>
-												<span><h6>Off</h6></span></div>  
-											<div class="sizes mt-1">
-												<ul style="display: flex;">
-													<li>S</li>
-													<li>M</li>
-													<li>L</li>
-													<li>XL</li>
-													<li>XXL</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-							<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l">
-											<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-06.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Pieces Metallic Printed
-												</a>
-											</a>
-										</div>
-										<div class="stext-105 cl3 " style="flex-direction: column;">
-											
-											<div style="display:flex !important;margin-top: 3px;">
-												<i class="fa fa-inr" style="flex: none !important; color: #4272d7; font-size:16px;font-weight: 550;">160</i> 
-												<i class="fa fa-inr" style="font-size: 15px; color: #949393; padding: 0px 5px;"><del>200</del></i>
-												<span><h6>Off</h6></span></div>  
-											<div class="sizes mt-1">
-												<ul style="display: flex;">
-													<li>S</li>
-													<li>M</li>
-													<li>L</li>
-													<li>XL</li>
-													<li>XXL</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l">
-											<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-06.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Pieces Metallic Printed
-												</a>
-											</a>
-										</div>
-										<div class="stext-105 cl3 " style="flex-direction: column;">
-											
-											<div style="display:flex !important;margin-top: 3px;">
-												<i class="fa fa-inr" style="flex: none !important; color: #4272d7; font-size:16px;font-weight: 550;">160</i> 
-												<i class="fa fa-inr" style="font-size: 15px; color: #949393; padding: 0px 5px;"><del>200</del></i>
-												<span><h6>Off</h6></span></div>  
-											<div class="sizes mt-1">
-												<ul style="display: flex;">
-													<li>S</li>
-													<li>M</li>
-													<li>L</li>
-													<li>XL</li>
-													<li>XXL</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l">
-											<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-06.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-													Pieces Metallic Printed
-												</a>
-											</a>
-										</div>
-										<div class="stext-105 cl3 " style="flex-direction: column;">
-											
-											<div style="display:flex !important;margin-top: 3px;">
-												<i class="fa fa-inr" style="flex: none !important; color: #4272d7; font-size:16px;font-weight: 550;">160</i> 
-												<i class="fa fa-inr" style="font-size: 15px; color: #949393; padding: 0px 5px;"><del>200</del></i>
-												<span><h6>Off</h6></span></div>  
-											<div class="sizes mt-1">
-												<ul style="display: flex;">
-													<li>S</li>
-													<li>M</li>
-													<li>L</li>
-													<li>XL</li>
-													<li>XXL</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-						</div>
-					</div>
-				</div>	
-			</div>
-		</div>
-	</div>
+<!-- ================= HERO ================= -->
+<section class="tl-hero tl-scope">
+    <span class="tl-hero__glow"></span>
+    <div class="tl-container">
+        <div class="tl-hero__inner">
+            <div class="tl-reveal">
+                <span class="tl-hero__eyebrow"><i class="fa fa-star"></i> New Season 2026 Collection</span>
+                <h1 class="tl-hero__title">Wear your <span class="tl-grad">story.</span><br>Designed for you.</h1>
+                <p class="tl-hero__sub">
+                    Premium men's &amp; women's apparel and fully custom-designed
+                    t-shirts. Quality fabric, bold prints, and a fit that feels made to order.
+                </p>
+                <div class="tl-hero__cta">
+                    <a href="{% url 'products' %}" class="tl-btn tl-btn--primary tl-btn--lg">Shop Collection <i class="fa fa-arrow-right"></i></a>
+                    <a href="{% url 'custompage' %}" class="tl-btn tl-btn--light tl-btn--lg">Customize Design</a>
+                </div>
+                <div class="tl-hero__stats">
+                    <div class="tl-hero__stat"><b>10k+</b><span>Happy customers</span></div>
+                    <div class="tl-hero__stat"><b>500+</b><span>Unique designs</span></div>
+                    <div class="tl-hero__stat"><b>4.8&#9733;</b><span>Avg. rating</span></div>
+                </div>
+            </div>
+            <div class="tl-hero__art tl-reveal">
+                <img src="{% static 'home/images/slide-03.jpg' %}" alt="Trendy Looms collection">
+                <div class="tl-float tl-float--offer">
+                    <div class="tl-float__ic"><i class="fa fa-tags"></i></div>
+                    <div><div class="tl-float__t">Limited Offers</div><div class="tl-float__s">Up to 50% off this week</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-   <!-- Themes Product -->
-   <section class="sec-product bg0 p-t-40 p-b-30" id="Themes">
-	<div class="container">
-		<div class="p-b-10">
-			<h4 class="ltext-105 cl5 txt-left respon1" style="color:rgb(6, 6, 6)">
-				Themes
-			</h4>
-			<h1 class="cl5 txt-center respon1" style="color:rgb(7, 7, 156);font-weight: 800 !important;">
-				SHAMY SQUAD
-			</h1>
-		</div>
+<!-- ================= MARQUEE ================= -->
+<div class="tl-marquee">
+    <div class="tl-marquee__row">
+        <span><i class="fa fa-leaf"></i> Premium Fabric</span>
+        <span><i class="fa fa-magic"></i> Custom Prints</span>
+        <span><i class="fa fa-bolt"></i> Fast Delivery</span>
+        <span><i class="fa fa-shield"></i> Secure Checkout</span>
+        <span><i class="fa fa-refresh"></i> Easy Returns</span>
+        <span><i class="fa fa-heart"></i> Loved by 10k+</span>
+        <span><i class="fa fa-leaf"></i> Premium Fabric</span>
+        <span><i class="fa fa-magic"></i> Custom Prints</span>
+        <span><i class="fa fa-bolt"></i> Fast Delivery</span>
+        <span><i class="fa fa-shield"></i> Secure Checkout</span>
+        <span><i class="fa fa-refresh"></i> Easy Returns</span>
+        <span><i class="fa fa-heart"></i> Loved by 10k+</span>
+    </div>
+</div>
 
-		<!-- Tab01 -->
-		<div class="tab01">
-			<!-- Nav tabs -->
-			<!-- Tab panes -->
-			<div class="tab-content p-t-20">
-				<!-- - -->
-				<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
-					<!-- Slide2 -->
-					<div class="wrap-slick2">
-						<div class="slick2">
-							<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-											<a href="" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-08.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												Esprit Ruffle Shirt
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-											<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-08.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												Esprit Ruffle Shirt
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-											<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-08.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												Esprit Ruffle Shirt
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-							<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-								<!-- Block2 -->
-								<div class="block2">		
-									<div class="block2-txt flex-w flex-t p-t-14">
-										<div class="block2-txt-child1 flex-col-l" style="background-color: #c1cdf1;">
-											<a href="{% url 'products' %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 txt-center" style="color:black">
-												<div class="block2-pic hov-img0">
-													<img src="{% static 'home/images/product-08.jpg' %}" alt="IMG-PRODUCT">
-												</div>
-												Esprit Ruffle Shirt
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-			
-						</div>
-					</div>
-				</div>	
-			</div>
-		</div>
-	</div>
+<!-- ================= FEATURES ================= -->
+<section class="tl-section tl-section--tight tl-scope">
+    <div class="tl-container">
+        <div class="tl-features">
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-truck"></i></div><div><b>Free Shipping</b><span>On orders over &#8377;999</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-shield"></i></div><div><b>Secure Payments</b><span>100% protected checkout</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-magic"></i></div><div><b>Custom Designs</b><span>Make it truly yours</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-refresh"></i></div><div><b>Easy Returns</b><span>Hassle-free 7-day returns</span></div></div>
+        </div>
+    </div>
 </section>
 
-	</div>
+<!-- ================= PRINTED T-SHIRTS ================= -->
+<section class="tl-section tl-scope" id="CustomDesign" style="padding-top:0;">
+    <div class="tl-container">
+        <div class="tl-section__head">
+            <span class="tl-eyebrow">Trending Now</span>
+            <h2 class="tl-section__title">Printed T-Shirts</h2>
+            <p class="tl-section__sub">Bold graphics and premium prints, picked just for you.</p>
+        </div>
+        <div class="tl-cat-grid">
+            {% for image in image %}
+                <a href="{% url 'products' %}" class="tl-cat tl-reveal">
+                    {% if image.image %}<img src="{{ image.image.url }}" alt="{{ image.name }}">{% endif %}
+                    <div class="tl-cat__overlay">
+                        <span class="tl-cat__name">{{ image.name }}</span>
+                        <span class="tl-cat__link">Shop now <i class="fa fa-arrow-right"></i></span>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="tl-empty" style="grid-column:1/-1;"><i class="fa fa-image"></i>New prints dropping soon.</div>
+            {% endfor %}
+        </div>
+    </div>
 </section>
 
+<!-- ================= CATEGORY BANNERS ================= -->
+<section class="tl-section tl-scope" style="padding-top:0;">
+    <div class="tl-container">
+        <div class="tl-cat-grid" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr));">
+            <a href="{% url 'products' %}" class="tl-cat" style="aspect-ratio:16/10;">
+                <img src="{% static 'home/images/banner-04.jpg' %}" alt="Women">
+                <div class="tl-cat__overlay">
+                    <span class="tl-cat__name">Women</span>
+                    <span class="tl-cat__link">Explore new trends <i class="fa fa-arrow-right"></i></span>
+                </div>
+            </a>
+            <a href="{% url 'products' %}" class="tl-cat" style="aspect-ratio:16/10;">
+                <img src="{% static 'home/images/banner-05.jpg' %}" alt="Men">
+                <div class="tl-cat__overlay">
+                    <span class="tl-cat__name">Men</span>
+                    <span class="tl-cat__link">Explore new trends <i class="fa fa-arrow-right"></i></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= WOMEN ================= -->
+<section class="tl-section tl-scope" id="Women" style="padding-top:0;">
+    <div class="tl-container">
+        <div class="tl-section__head">
+            <span class="tl-eyebrow">For Her</span>
+            <h2 class="tl-section__title">Category for Women</h2>
+        </div>
+        <div class="tl-cat-grid">
+            {% for image in women_image %}
+                <a href="{% url 'products' %}" class="tl-cat">
+                    {% if image.image %}<img src="{{ image.image.url }}" alt="{{ image.name }}">{% endif %}
+                    <div class="tl-cat__overlay">
+                        <span class="tl-cat__name">{{ image.name }}</span>
+                        <span class="tl-cat__link">Shop now <i class="fa fa-arrow-right"></i></span>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="tl-empty" style="grid-column:1/-1;"><i class="fa fa-image"></i>Collection coming soon.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= MEN ================= -->
+<section class="tl-section tl-scope" id="Men" style="padding-top:0;">
+    <div class="tl-container">
+        <div class="tl-section__head">
+            <span class="tl-eyebrow">For Him</span>
+            <h2 class="tl-section__title">Category for Men</h2>
+        </div>
+        <div class="tl-cat-grid">
+            {% for image in men_image %}
+                <a href="{% url 'products' %}" class="tl-cat">
+                    {% if image.image %}<img src="{{ image.image.url }}" alt="{{ image.name }}">{% endif %}
+                    <div class="tl-cat__overlay">
+                        <span class="tl-cat__name">{{ image.name }}</span>
+                        <span class="tl-cat__link">Shop now <i class="fa fa-arrow-right"></i></span>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="tl-empty" style="grid-column:1/-1;"><i class="fa fa-image"></i>Collection coming soon.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="tl-section tl-scope" style="padding-top:0;">
+    <div class="tl-container">
+        <div class="tl-section__head">
+            <span class="tl-eyebrow">Loved by Customers</span>
+            <h2 class="tl-section__title">What our customers say</h2>
+            <p class="tl-section__sub">Real reviews from people who wear Trendy Looms every day.</p>
+        </div>
+        <div class="tl-quotes">
+            <div class="tl-quote">
+                <div class="tl-quote__stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                <p class="tl-quote__text">"The fabric quality is unreal and the custom print came out exactly like my design. My new favourite store."</p>
+                <div class="tl-quote__who"><div class="tl-quote__av">A</div><div><div class="tl-quote__name">Ananya R.</div><div class="tl-quote__role">Verified Buyer</div></div></div>
+            </div>
+            <div class="tl-quote">
+                <div class="tl-quote__stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                <p class="tl-quote__text">"Fast delivery, premium packaging, and the fit is perfect. The men's shirts look way more expensive than they are."</p>
+                <div class="tl-quote__who"><div class="tl-quote__av">R</div><div><div class="tl-quote__name">Rohan M.</div><div class="tl-quote__role">Verified Buyer</div></div></div>
+            </div>
+            <div class="tl-quote">
+                <div class="tl-quote__stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                <p class="tl-quote__text">"Designed a tee for my whole team and everyone loved it. The customization tool is so easy to use!"</p>
+                <div class="tl-quote__who"><div class="tl-quote__av">S</div><div><div class="tl-quote__name">Sneha K.</div><div class="tl-quote__role">Verified Buyer</div></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= NEWSLETTER ================= -->
+<section class="tl-section tl-scope" style="padding-top:0;">
+    <div class="tl-container">
+        <div class="tl-news">
+            <h2>Get 10% off your first order</h2>
+            <p>Join our newsletter for early access to drops, offers, and styling tips.</p>
+            <form class="tl-news__form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg">Subscribe</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CUSTOM DESIGN CTA ================= -->
+<section class="tl-section tl-scope" style="padding-top:0;">
+    <div class="tl-container">
+        <div style="background:radial-gradient(900px 360px at 90% -20%, rgba(123,113,255,0.30), transparent 60%), linear-gradient(135deg,#14141b,#2a2440); border-radius:24px; padding:54px 44px; color:#fff; text-align:center;">
+            <span class="tl-eyebrow" style="color:#b3aaff;">Make It Yours</span>
+            <h2 class="tl-section__title" style="color:#fff;">Design your own custom t-shirt</h2>
+            <p class="tl-section__sub" style="color:rgba(255,255,255,0.78); max-width:560px; margin:0 auto 26px;">
+                Upload your artwork, pick your color and size, and we'll bring your idea to life.
+            </p>
+            <a href="{% url 'custompage' %}" class="tl-btn tl-btn--primary tl-btn--lg">Start Designing <i class="fa fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

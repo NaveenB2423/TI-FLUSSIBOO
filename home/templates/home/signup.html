@@ -5,180 +5,70 @@
     <title>Sign Up | Trendy Looms</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="icon" href="{% static 'home/images/icons/favicon.png' %}">
-    <link rel="stylesheet" href="{% static 'home/vendor/bootstrap/css/bootstrap.min.css' %}">
-
+    <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
     <style>
-        body {
-            min-height: 100vh;
-            background: #f4f6f9;
-            font-family: "Inter", "Segoe UI", sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-wrapper {
-            width: 100%;
-            max-width: 1000px;
-            display: flex;
-            background: #ffffff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.08);
-        }
-
-        .brand-panel {
-            width: 45%;
-            background: linear-gradient(160deg, #1f3c88, #2a5bd7);
-            color: #fff;
-            padding: 60px 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .brand-panel h1 {
-            font-weight: 700;
-            font-size: 34px;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .brand-panel p {
-            font-size: 15px;
-            opacity: 0.9;
-            max-width: 320px;
-        }
-
-        .login-panel {
-            width: 55%;
-            padding: 60px 50px;
-        }
-
-        .login-panel h3 {
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .login-panel p {
-            color: #6c757d;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .form-group label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #444;
-        }
-
-        .form-control {
-            height: 46px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #2a5bd7;
-        }
-
-        .btn-primary {
-            background: #2a5bd7;
-            color: #fff;
-            height: 46px;
-            border-radius: 10px;
-            font-weight: 600;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #2049b8;
-        }
-
-        .signup-link {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 18px;
-        }
-
-        .signup-link a {
-            color: #2a5bd7;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .login-wrapper {
-                flex-direction: column;
-            }
-
-            .brand-panel,
-            .login-panel {
-                width: 100%;
-                padding: 40px 30px;
-            }
-
-            .brand-panel {
-                text-align: center;
-            }
-        }
+        body { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+        .tl-auth { width:100%; max-width:980px; display:grid; grid-template-columns:0.9fr 1.1fr;
+            background:#fff; border-radius:var(--tl-radius); overflow:hidden; box-shadow:var(--tl-shadow-lg); }
+        .tl-auth__brand { background:radial-gradient(600px 300px at 20% 0%, rgba(123,113,255,0.4), transparent 60%), linear-gradient(160deg,#14141b,#2a2440);
+            color:#fff; padding:56px 46px; display:flex; flex-direction:column; justify-content:center; }
+        .tl-auth__brand h1 { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:32px; letter-spacing:-0.5px; margin:0 0 14px; }
+        .tl-auth__brand p { color:rgba(255,255,255,0.78); line-height:1.7; margin:0; }
+        .tl-auth__form { padding:54px 48px; }
+        .tl-auth__form h3 { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:26px; color:var(--tl-ink); margin:0 0 6px; }
+        .tl-auth__form .sub { color:var(--tl-muted); margin:0 0 28px; }
+        .tl-field { margin-bottom:16px; }
+        .tl-field label { display:block; font-weight:600; font-size:13.5px; color:var(--tl-ink); margin-bottom:7px; }
+        .tl-input { width:100%; height:50px; padding:0 16px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px; transition:all var(--tl-ease); }
+        .tl-input:focus { outline:none; border-color:var(--tl-primary); box-shadow:0 0 0 4px var(--tl-primary-soft); }
+        .tl-auth__alt { text-align:center; margin-top:18px; font-size:14px; color:var(--tl-muted); }
+        .tl-auth__alt a { color:var(--tl-primary); font-weight:600; text-decoration:none; }
+        @media (max-width:768px){ .tl-auth { grid-template-columns:1fr; } .tl-auth__brand { padding:40px 32px; text-align:center; } .tl-auth__form { padding:40px 30px; } }
     </style>
 </head>
-
 <body>
+    <div class="tl-auth tl-scope">
+        <div class="tl-auth__brand">
+            <a href="{% url 'index' %}" class="tl-nav__logo" style="color:#fff; margin-bottom:24px;">
+                <span class="tl-nav__mark">T</span> Trendy<span class="tl-dot">Looms</span>
+            </a>
+            <h1>Join the look.</h1>
+            <p>Create your account to shop premium fashion, design custom pieces, and track your orders.</p>
+        </div>
 
-<div class="login-wrapper">
+        <div class="tl-auth__form">
+            <h3>Create Account</h3>
+            <p class="sub">Fill in your details to get started.</p>
 
-    <!-- Brand Section -->
-    <div class="brand-panel">
-        <h1>TRENDY LOOMS</h1>
-        <p>Join our premium fashion community and experience modern style.</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="tl-field">
+                    <label>Full Name</label>
+                    <input type="text" name="firstname" class="tl-input" placeholder="Enter your full name" required>
+                </div>
+                <div class="tl-field">
+                    <label>Mobile Number</label>
+                    <input type="text" name="mobile" class="tl-input" placeholder="Enter your mobile number" required>
+                </div>
+                <div class="tl-field">
+                    <label>Email Address</label>
+                    <input type="email" name="email" class="tl-input" placeholder="Enter your email address" required>
+                </div>
+                <div class="tl-field">
+                    <label>Password</label>
+                    <input type="password" name="password" class="tl-input" placeholder="Create password">
+                </div>
+                <div class="tl-field" style="margin-bottom:24px;">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" class="tl-input" placeholder="Confirm password">
+                </div>
+                <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block">Create Account</button>
+                <div class="tl-auth__alt">Already have an account? <a href="{% url 'customer_login' %}">Login</a></div>
+            </form>
+        </div>
     </div>
 
-    <!-- Signup Section -->
-    <div class="login-panel">
-        <h3>Create Account</h3>
-        <p>Please fill the details to get started</p>
-
-        <form method="post">
-            {% csrf_token %}
-
-            <div class="form-group mb-3">
-                <label>Full Name</label>
-                <input type="text" name="name" class="form-control" placeholder="Enter your full name">
-            </div>
-
-            <div class="form-group mb-3">
-                <label>Mobile Number</label>
-                <input type="text" name="mobile" class="form-control" placeholder="Enter your mobile number">
-            </div>
-
-            <div class="form-group mb-3">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" placeholder="Create password">
-            </div>
-
-            <div class="form-group mb-4">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password">
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">
-                Create Account
-            </button>
-
-            <div class="signup-link">
-                Already have an account?
-                <a href="/login">Login</a>
-            </div>
-        </form>
-    </div>
-
-</div>
-
+    {% include 'home/commons/toast.html' %}
 </body>
 </html>

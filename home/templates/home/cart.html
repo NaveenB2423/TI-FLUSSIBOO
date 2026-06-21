@@ -5,244 +5,60 @@
     <title>Shopping Cart | Trendy Looms</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="icon" href="{% static 'home/images/icons/favicon.png' %}">
-    <link rel="stylesheet" href="{% static 'home/vendor/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'home/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-
+    <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
     <style>
-        body {
-            background: #f4f6f9;
-            font-family: "Inter", "Segoe UI", system-ui, sans-serif;
-            color: #1f2937;
-        }
-
-        /* PAGE */
-        .cart-container {
-            padding: 50px 0;
-        }
-
-        .cart-title {
-            font-weight: 700;
-            margin-bottom: 30px;
-            letter-spacing: -0.5px;
-        }
-
-        /* CART ITEM */
-        .cart-item {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-            transition: all 0.25s ease;
-        }
-
-        .cart-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 18px 45px rgba(0,0,0,0.08);
-        }
-
-        .cart-item img {
-            width: 95px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .cart-details {
-            flex: 1;
-        }
-
-        .cart-details h6 {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 6px;
-        }
-
-        .cart-details .price {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .qty-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .qty-box span {
-            font-size: 14px;
-            color: #6b7280;
-        }
-
-        .qty-box input {
-            width: 60px;
-            height: 36px;
-            text-align: center;
-            border-radius: 10px;
-            border: 1px solid #d1d5db;
-            background: #f9fafb;
-            font-weight: 600;
-        }
-
-        .cart-price {
-            font-weight: 700;
-            font-size: 16px;
-            color: #111827;
-        }
-
-        /* SUMMARY */
-        .summary-card {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 30px;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 30px;
-        }
-
-        .summary-card h5 {
-            font-weight: 700;
-            margin-bottom: 25px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 14px;
-            font-size: 14px;
-            color: #374151;
-        }
-
-        .summary-total {
-            font-size: 17px;
-            font-weight: 800;
-            color: #111827;
-            margin-top: 18px;
-        }
-
-        .btn-checkout {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: #ffffff;
-            border-radius: 12px;
-            height: 48px;
-            font-weight: 600;
-            border: none;
-            width: 100%;
-            margin-top: 22px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-checkout:hover {
-            background: linear-gradient(135deg, #1e40af, #1e3a8a);
-            transform: translateY(-1px);
-        }
-
-        /* EMPTY CART */
-        .empty-cart {
-            background: #ffffff;
-            padding: 70px 40px;
-            border-radius: 18px;
-            text-align: center;
-            box-shadow: 0 14px 35px rgba(0,0,0,0.07);
-        }
-
-        .empty-cart h5 {
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .empty-cart p {
-            color: #6b7280;
-        }
-
-        /* MOBILE */
-        @media (max-width: 768px) {
-            .cart-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .cart-price {
-                align-self: flex-end;
-            }
-        }
+        .tl-cartwrap { padding:48px 0; }
+        .tl-cartgrid { display:grid; grid-template-columns:1.6fr 1fr; gap:28px; align-items:start; }
+        .tl-cartitem { display:flex; gap:18px; align-items:center; background:#fff; border:1px solid var(--tl-line);
+            border-radius:var(--tl-radius); padding:18px; margin-bottom:16px; box-shadow:var(--tl-shadow-sm); }
+        .tl-cartitem img { width:92px; height:112px; object-fit:cover; border-radius:12px; border:1px solid var(--tl-line); }
+        .tl-cartitem h6 { font-weight:600; font-size:16px; color:var(--tl-ink); margin:0 0 6px; }
+        .tl-qty { display:inline-flex; align-items:center; gap:8px; margin-top:10px; color:var(--tl-muted); font-size:14px; }
+        .tl-qty input { width:56px; height:34px; text-align:center; border:1px solid var(--tl-line); border-radius:9px; background:var(--tl-bg); font-weight:600; }
+        .tl-cartprice { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:16px; color:var(--tl-ink); margin-left:auto; }
+        .tl-summary { background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius); padding:28px; box-shadow:var(--tl-shadow-sm); position:sticky; top:24px; }
+        .tl-summary h5 { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:19px; color:var(--tl-ink); margin:0 0 22px; }
+        .tl-srow { display:flex; justify-content:space-between; margin-bottom:14px; color:var(--tl-text); font-size:15px; }
+        .tl-stotal { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:19px; color:var(--tl-ink); }
+        @media (max-width:860px){ .tl-cartgrid { grid-template-columns:1fr; } }
     </style>
 </head>
+<body class="tl-scope">
 
-<body>
+<div class="tl-container tl-cartwrap">
+    <h1 style="font-family:'Plus Jakarta Sans'; font-weight:800; font-size:30px; color:var(--tl-ink); margin:0 0 26px;">Shopping Cart</h1>
 
-<div class="container cart-container">
-    <h3 class="cart-title">Shopping Cart</h3>
-
-    <div class="row">
-
-        <!-- CART ITEMS -->
-        <div class="col-lg-8">
-
+    <div class="tl-cartgrid">
+        <div>
             {% for cart in carts %}
-            <div class="cart-item">
-                <img src="{{ cart.variant.product.image.url }}" alt="Product">
-
-                <div class="cart-details">
-                    <h6>{{ cart.variant.product.name }}</h6>
-                    <div class="price">₹{{ cart.variant.product.price }}</div>
-
-                    <div class="qty-box">
-                        <span>Quantity</span>
-                        <input type="number" value="{{ cart.qty }}" readonly>
+                <div class="tl-cartitem">
+                    <img src="{{ cart.variant.product.image.url }}" alt="{{ cart.variant.product.name }}">
+                    <div>
+                        <h6>{{ cart.variant.product.name }}</h6>
+                        <div style="color:var(--tl-muted); font-size:14px;">&#8377;{{ cart.variant.product.price }}</div>
+                        <div class="tl-qty"><span>Qty</span><input type="number" value="{{ cart.qty }}" readonly></div>
                     </div>
+                    <div class="tl-cartprice">&#8377;{{ cart.variant.product.price }}</div>
                 </div>
-
-                <div class="cart-price">
-                    ₹{{ cart.variant.product.price }}
-                </div>
-            </div>
-
             {% empty %}
-            <div class="empty-cart">
-                <h5>Your cart is empty</h5>
-                <p>You haven’t added any items yet.</p>
-                <a href="/" class="btn btn-primary mt-3 px-4">Continue Shopping</a>
-            </div>
+                <div class="tl-empty" style="background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius);">
+                    <i class="fa fa-shopping-cart"></i>
+                    Your cart is empty.
+                    <div style="margin-top:18px;"><a href="{% url 'index' %}" class="tl-btn tl-btn--primary">Continue Shopping</a></div>
+                </div>
             {% endfor %}
-
         </div>
 
-        <!-- SUMMARY -->
-        <div class="col-lg-4">
-            <div class="summary-card">
-                <h5>Order Summary</h5>
-
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>₹{{ total }}</span>
-                </div>
-
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span class="text-success">Free</span>
-                </div>
-
-                <hr>
-
-                <div class="summary-row summary-total">
-                    <span>Total</span>
-                    <span>₹{{ total }}</span>
-                </div>
-
-                <a href="/checkout" class="btn btn-checkout">
-                    Proceed to Checkout
-                </a>
-            </div>
+        <div class="tl-summary">
+            <h5>Order Summary</h5>
+            <div class="tl-srow"><span>Subtotal</span><span>&#8377;{{ total }}</span></div>
+            <div class="tl-srow"><span>Shipping</span><span style="color:#16a34a; font-weight:600;">Free</span></div>
+            <hr style="border:none; border-top:1px solid var(--tl-line); margin:16px 0;">
+            <div class="tl-srow tl-stotal"><span>Total</span><span>&#8377;{{ total }}</span></div>
+            <a href="{% url 'shopping_cart' %}" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block" style="margin-top:22px;">Proceed to Checkout</a>
         </div>
-
     </div>
 </div>
 

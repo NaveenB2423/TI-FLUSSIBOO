@@ -1,217 +1,112 @@
 {% extends 'home/commons/main.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 
-<style>
-/* ===== CART PAGE UI IMPROVEMENTS ===== */
-.cart-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-    padding: 25px;
-}
+<section class="tl-section tl-scope">
+    <div class="tl-container">
 
-.cart-title {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
+        <!-- Breadcrumb -->
+        <nav class="tl-breadcrumb" style="margin-bottom:26px;">
+            <a href="{% url 'index' %}">Home</a>
+            <span>&rsaquo;</span>
+            <a href="{% url 'products' %}">Products</a>
+            <span>&rsaquo;</span>
+            <span style="color:var(--tl-ink); font-weight:600;">{{ product.name }}</span>
+        </nav>
 
-.cart-table th {
-    font-size: 14px;
-    color: #777;
-    text-transform: uppercase;
-    border-bottom: 2px solid #eee;
-}
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start;">
 
-.cart-table td {
-    vertical-align: middle;
-    padding: 18px 10px;
-}
+            <!-- Gallery -->
+            <div style="border-radius:var(--tl-radius); overflow:hidden; box-shadow:var(--tl-shadow); background:#f0f0f7; position:sticky; top:90px;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%; display:block;">
+                {% endif %}
+            </div>
 
-.cart-img {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    object-fit: cover;
-    border: 1px solid #eee;
-}
+            <!-- Info -->
+            <div>
+                {% if product.main_menu %}
+                    <span class="tl-eyebrow">{{ product.main_menu.name }}{% if product.sub_menu %} &middot; {{ product.sub_menu.name }}{% endif %}</span>
+                {% endif %}
+                <h1 style="font-family:'Plus Jakarta Sans'; font-weight:800; font-size:clamp(26px,3.4vw,38px); letter-spacing:-0.6px; color:var(--tl-ink); margin:6px 0 16px;">
+                    {{ product.name }}
+                </h1>
 
-.qty-box {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 120px;
-    overflow: hidden;
-}
+                <div class="tl-price" style="margin-bottom:22px;">
+                    <span class="tl-price__now" style="font-size:28px;">&#8377;{{ product.discount_price|floatformat:0 }}</span>
+                    {% if product.price > product.discount_price %}
+                        <span class="tl-price__old" style="font-size:18px;">&#8377;{{ product.price|floatformat:0 }}</span>
+                        <span class="tl-price__off">Save &#8377;{{ product.price|floatformat:0 }}</span>
+                    {% endif %}
+                </div>
 
-.qty-box button {
-    width: 35px;
-    height: 35px;
-    border: none;
-    background: #f5f5f5;
-    font-size: 18px;
-}
+                {% if product.description %}
+                    <p style="color:var(--tl-muted); line-height:1.8; font-size:16px; margin:0 0 26px;">
+                        {{ product.description }}
+                    </p>
+                {% endif %}
 
-.qty-box input {
-    width: 50px;
-    border: none;
-    text-align: center;
-}
+                <!-- Add to cart -->
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
 
-.price {
-    font-weight: 600;
-}
+                    <!-- Colors -->
+                    {% with colors=product.productvariant_set.all|distinct_colors %}
+                        {% if colors %}
+                            <div style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:600; color:var(--tl-ink); margin-bottom:10px;">Color</label>
+                                <select name="color" required
+                                        style="height:50px; min-width:200px; padding:0 14px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px; background:#fff;">
+                                    <option value="">Select Color</option>
+                                    {% for color in colors %}
+                                        <option value="{{ color }}">{{ color }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
 
-.cart-summary {
-    position: sticky;
-    top: 90px;
-}
+                    <!-- Sizes -->
+                    {% with sizes=product.productvariant_set.all|distinct_sizes %}
+                        {% if sizes %}
+                            <div style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:600; color:var(--tl-ink); margin-bottom:10px;">Size</label>
+                                <select name="size" required
+                                        style="height:50px; min-width:200px; padding:0 14px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px; background:#fff;">
+                                    <option value="">Select Size</option>
+                                    {% for size in sizes %}
+                                        <option value="{{ size }}">{{ size }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
 
-.summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
+                    <!-- Quantity -->
+                    <div style="margin-bottom:26px;">
+                        <label style="display:block; font-weight:600; color:var(--tl-ink); margin-bottom:10px;">Quantity</label>
+                        <input type="number" name="qty" value="1" min="1"
+                               style="height:50px; width:110px; padding:0 14px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px;">
+                    </div>
 
-.summary-total {
-    font-size: 20px;
-    font-weight: 700;
-}
+                    <!-- Actions -->
+                    <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:30px;">
+                        <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg"><i class="zmdi zmdi-shopping-cart"></i> Add to Cart</button>
+                        <a href="{% url 'shopping_cart' %}" class="tl-btn tl-btn--ghost tl-btn--lg">View Cart</a>
+                        <a href="{% url 'products' %}" class="tl-btn tl-btn--ghost tl-btn--lg">Continue Shopping</a>
+                    </div>
+                </form>
 
-.checkout-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 30px;
-    background: #222;
-    color: #fff;
-    font-weight: 600;
-    border: none;
-}
-
-.checkout-btn:hover {
-    background: #000;
-}
-
-.coupon-box {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.coupon-box input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 30px;
-    border: 1px solid #ddd;
-}
-
-.coupon-box button {
-    padding: 12px 25px;
-    border-radius: 30px;
-    background: #eee;
-    border: none;
-}
-</style>
-
-<!-- Breadcrumb -->
-<div class="container mt-4">
-    <div class="bread-crumb">
-        <a href="/" class="text-muted">Home</a>
-        <span class="mx-2">›</span>
-        <span class="fw-bold">Shopping Cart</span>
-    </div>
-</div>
-
-<form class="mt-4">
-<div class="container">
-    <div class="row">
-
-        <!-- CART ITEMS -->
-        <div class="col-lg-8 mb-4">
-            <div class="cart-card">
-                <h3 class="cart-title">Your Cart</h3>
-
-                <table class="table cart-table">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th></th>
-                            <th>Price</th>
-                            <th>Qty</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                    {% for cart in carts %}
-                        <tr>
-                            <td>
-                                <img src="{{ cart.variant.product.image.url }}" class="cart-img">
-                            </td>
-
-                            <td>
-                                <strong>{{ cart.variant.product.name }}</strong>
-                            </td>
-
-                            <td class="price">
-                                ₹{{ cart.variant.product.discount_price }}
-                            </td>
-
-                            <td>
-                                <div class="qty-box">
-                                    <button type="button">−</button>
-                                    <input type="number" value="{{ cart.qty }}">
-                                    <button type="button">+</button>
-                                </div>
-                            </td>
-
-                            <td class="price">
-                                ₹{{ cart.price }}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
-                <div class="coupon-box">
-                    <input type="text" placeholder="Coupon code">
-                    <button type="button">Apply</button>
+                <!-- Trust -->
+                <div class="tl-features" style="grid-template-columns:1fr 1fr;">
+                    <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-truck"></i></div><div><b>Free Shipping</b><span>Over &#8377;999</span></div></div>
+                    <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-refresh"></i></div><div><b>Easy Returns</b><span>7-day policy</span></div></div>
                 </div>
             </div>
         </div>
-
-        <!-- CART SUMMARY -->
-        <div class="col-lg-4">
-            <div class="cart-card cart-summary">
-                <h3 class="cart-title">Order Summary</h3>
-
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>₹{{ total_amount }}</span>
-                </div>
-
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span class="text-muted">Free</span>
-                </div>
-
-                <hr>
-
-                <div class="summary-row summary-total">
-                    <span>Total</span>
-                    <span>₹{{ total_amount }}</span>
-                </div>
-
-                <button class="checkout-btn mt-4">
-                    Proceed to Checkout
-                </button>
-            </div>
-        </div>
-
     </div>
-</div>
-</form>
+</section>
 
 {% endblock %}

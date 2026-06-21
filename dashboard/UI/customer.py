@@ -1,7 +1,10 @@
-from django.shortcuts import render, HttpResponse, redirect
-from django.http.response import JsonResponse
-from domain.models import User, UserAddrsss,Customizedesgin
+import logging
+
+from django.shortcuts import render
+from domain.models import User, UserAddrsss, Customizedesgin
 from django.contrib.auth.hashers import make_password
+
+logger = logging.getLogger(__name__)
 
 def add_customer(request):
    if request.method == "POST":
@@ -23,10 +26,8 @@ def add_customer(request):
          userdetails.city = request.POST.get("city",'').strip()
          userdetails.pincode = request.POST.get("pincode",'').strip()
          userdetails.save()
-      except:
-         pass
-   else:
-      print("It Else Part")
+      except Exception:
+         logger.exception("Failed to add customer")
    return render(request, 'customers/add_customer.html')
 
 def view_customer(request):

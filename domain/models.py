@@ -1,11 +1,6 @@
+from django.conf import settings
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from trendylooms import settings
-# Create your models here.
-
-
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
 
 
 class MyUserManager(BaseUserManager):

@@ -2,207 +2,67 @@
 {% load static %}
 {% block content %}
 
-<style>
-/* ================= ABOUT PAGE UI REFINEMENT ================= */
-
-:root {
-    --primary: #717fe0;
-    --dark: #222;
-    --text: #555;
-    --light-bg: #f8f9fc;
-}
-
-/* ---------- HERO ---------- */
-.about-hero {
-    position: relative;
-    min-height: 420px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-size: cover;
-    background-position: center;
-}
-
-.about-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        rgba(0,0,0,0.65),
-        rgba(0,0,0,0.45)
-    );
-}
-
-.about-hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 720px;
-    padding: 0 20px;
-}
-
-.section-title {
-    font-weight: 700;
-    letter-spacing: 0.8px;
-}
-
-/* ---------- CARDS ---------- */
-.about-card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 42px;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 25px 55px rgba(0,0,0,0.12);
-}
-
-.about-text {
-    font-size: 15.5px;
-    line-height: 1.85;
-    color: var(--text);
-}
-
-/* ---------- IMAGES ---------- */
-.about-image {
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 20px 45px rgba(0,0,0,0.18);
-    transition: transform 0.4s ease;
-}
-
-.about-image img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.4s ease;
-}
-
-.about-image:hover img {
-    transform: scale(1.05);
-}
-
-/* ---------- QUOTE ---------- */
-.quote-box {
-    border-left: 4px solid var(--primary);
-    background: var(--light-bg);
-    padding: 28px;
-    border-radius: 10px;
-    margin-top: 30px;
-}
-
-.quote-author {
-    font-weight: 600;
-    color: var(--dark);
-}
-
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 768px) {
-    .about-hero {
-        min-height: 340px;
-    }
-
-    .about-card {
-        padding: 30px;
-    }
-
-    .section-title {
-        font-size: 26px;
-    }
-}
-
-@media (max-width: 576px) {
-    .about-card {
-        padding: 26px;
-    }
-
-    .about-text {
-        font-size: 15px;
-    }
-}
-</style>
-
-<!-- ================= HERO SECTION ================= -->
-<section class="about-hero text-center"
-    style="background-image: url('{% static 'home/images/bg-01.jpg' %}');">
-    <div class="about-hero-content">
-        <h1 class="ltext-105 cl0 section-title">
-            About Us
-        </h1>
-        <p class="stext-113 cl0 p-t-15">
-            Who we are & what we believe in
-        </p>
+<!-- Page header -->
+<div class="tl-pagehead tl-scope">
+    <div class="tl-container">
+        <nav class="tl-breadcrumb">
+            <a href="{% url 'index' %}">Home</a>
+            <span>&rsaquo;</span>
+            <span style="color:var(--tl-ink); font-weight:600;">About Us</span>
+        </nav>
+        <h1>About Trendy Looms</h1>
     </div>
-</section>
+</div>
 
-<!-- ================= ABOUT CONTENT ================= -->
-<section class="bg0 p-t-100 p-b-120">
-    <div class="container">
+<section class="tl-section tl-scope">
+    <div class="tl-container">
 
-        <!-- OUR STORY -->
-        <div class="row align-items-center p-b-120">
-            <div class="col-md-7 col-lg-8 p-b-30">
-                <div class="about-card">
-                    <h3 class="mtext-111 cl2 p-b-20 section-title">
-                        Our Story
-                    </h3>
+        <!-- Intro -->
+        <div class="tl-section__head" style="margin-bottom:48px;">
+            <span class="tl-eyebrow">Who We Are</span>
+            <h2 class="tl-section__title">Fashion that tells your story</h2>
+            <p class="tl-section__sub">
+                A person's character, taste, and lifestyle can be understood through the way they dress.
+                At Trendy Looms we craft premium apparel that blends tradition with modern style.
+            </p>
+        </div>
 
-                    <p class="about-text p-b-15">
-                        Fashion is a necessity of life. A person’s character, taste, and lifestyle can be understood through the way they dress. Clothing represents the stages of a person’s journey.
-                    </p>
-
-                    <p class="about-text p-b-15">
-                        Over the years, fashion has evolved significantly. From traditional attire like dhotis, kurtas, sarees, and lehngas to modern pant-shirt and contemporary styles, fashion continues to transform.
-                    </p>
-
-                    <p class="about-text">
-                        Colors, fits, and patterns change with time — from loose to slim fits, light shades to bold tones, reflecting culture and confidence.
-                    </p>
-                </div>
+        <!-- Story -->
+        <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:center; margin-bottom:60px;">
+            <div class="tl-card" style="padding:38px;">
+                <h3 class="tl-section__title" style="font-size:24px;">Our Story</h3>
+                <p style="color:var(--tl-muted); line-height:1.9; margin:14px 0 0;">
+                    Over the years, fashion has evolved significantly — from traditional attire like dhotis,
+                    kurtas, sarees, and lehngas to modern, contemporary styles. Colors, fits, and patterns
+                    change with time, reflecting culture and confidence. We celebrate that journey with
+                    designs made for every generation.
+                </p>
             </div>
-
-            <div class="col-md-5 col-lg-4 p-b-30">
-                <div class="about-image">
-                    <img src="{% static 'home/images/about-01.jpg' %}" alt="Our Story">
-                </div>
+            <div style="border-radius:var(--tl-radius); overflow:hidden; box-shadow:var(--tl-shadow);">
+                <img src="{% static 'home/images/about-01.jpg' %}" alt="Our story" style="width:100%; display:block;">
             </div>
         </div>
 
-        <!-- OUR MISSION -->
-        <div class="row align-items-center">
-            <div class="order-md-2 col-md-7 col-lg-8 p-b-30">
-                <div class="about-card">
-                    <h3 class="mtext-111 cl2 p-b-20 section-title">
-                        Our Mission
-                    </h3>
-
-                    <p class="about-text p-b-20">
-                        Our mission is to redefine fashion by blending tradition with modern style. We believe clothing should express confidence, creativity, and individuality.
-                    </p>
-
-                    <p class="about-text">
-                        We focus on quality, comfort, and timeless designs that suit every generation. Fashion should inspire people and empower them to express themselves freely.
-                    </p>
-
-                    <div class="quote-box">
-                        <p class="about-text p-b-10">
-                            “Creativity is just connecting things. When creative people explain their process, they realize it felt obvious to them after some time.”
-                        </p>
-                        <span class="quote-author">
-                            — Steve Jobs
-                        </span>
-                    </div>
-                </div>
+        <!-- Mission -->
+        <div style="display:grid; grid-template-columns:1fr 1.3fr; gap:40px; align-items:center;">
+            <div style="border-radius:var(--tl-radius); overflow:hidden; box-shadow:var(--tl-shadow);">
+                <img src="{% static 'home/images/about-02.jpg' %}" alt="Our mission" style="width:100%; display:block;">
             </div>
-
-            <div class="order-md-1 col-md-5 col-lg-4 p-b-30">
-                <div class="about-image">
-                    <img src="{% static 'home/images/about-02.jpg' %}" alt="Our Mission">
+            <div class="tl-card" style="padding:38px;">
+                <h3 class="tl-section__title" style="font-size:24px;">Our Mission</h3>
+                <p style="color:var(--tl-muted); line-height:1.9; margin:14px 0 0;">
+                    To redefine fashion by blending tradition with modern style. We believe clothing should
+                    express confidence, creativity, and individuality — focusing on quality, comfort, and
+                    timeless designs that empower people to express themselves freely.
+                </p>
+                <div style="border-left:4px solid var(--tl-primary); background:var(--tl-bg); padding:20px 24px; border-radius:10px; margin-top:24px;">
+                    <p style="margin:0 0 8px; color:var(--tl-text); font-style:italic;">
+                        "Creativity is just connecting things."
+                    </p>
+                    <span style="font-weight:700; color:var(--tl-ink);">&mdash; Steve Jobs</span>
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
