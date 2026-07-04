@@ -2,247 +2,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Privacy Policy</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap">
-
-	<style>
-		:root {
-			--primary: #5a4ff3;
-			--secondary: #7b71ff;
-			--bg: #f8fafc;
-			--card: #ffffff;
-			--text-dark: #0f172a;
-			--text-muted: #64748b;
-			--border: #e5e7eb;
-			--radius: 16px;
-			--shadow: 0 20px 50px rgba(0,0,0,0.08);
-		}
-
-		* {
-			box-sizing: border-box;
-		}
-
-		body {
-			margin: 0;
-			font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-			background: linear-gradient(135deg, #eef2ff, #f8fafc);
-			color: var(--text-dark);
-			line-height: 1.7;
-		}
-
-		.page-wrapper {
-			max-width: 900px;
-			margin: 60px auto;
-			padding: 0 20px;
-		}
-
-		.page-card {
-			background: var(--card);
-			border-radius: var(--radius);
-			box-shadow: var(--shadow);
-			padding: 48px 42px;
-			animation: fadeIn 0.6s ease;
-		}
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-				transform: translateY(20px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		.page-title {
-			font-size: 36px;
-			font-weight: 900;
-			color: var(--primary);
-			margin-bottom: 12px;
-		}
-
-		.page-subtitle {
-			color: var(--text-muted);
-			font-size: 15px;
-			margin-bottom: 40px;
-		}
-
-		.section {
-			margin-bottom: 36px;
-		}
-
-		.section h2 {
-			font-size: 20px;
-			font-weight: 700;
-			margin-bottom: 12px;
-			color: #111827;
-		}
-
-		.section p {
-			font-size: 15px;
-			color: var(--text-dark);
-			margin-bottom: 12px;
-		}
-
-		.section ul {
-			padding-left: 20px;
-			margin-top: 10px;
-		}
-
-		.section ul li {
-			margin-bottom: 8px;
-			color: var(--text-dark);
-			font-size: 15px;
-		}
-
-		.divider {
-			height: 1px;
-			background: var(--border);
-			margin: 40px 0;
-		}
-
-		.footer-actions {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 16px;
-			margin-top: 40px;
-		}
-
-		.last-updated {
-			font-size: 14px;
-			color: var(--text-muted);
-		}
-
-		.btn-home {
-			padding: 12px 26px;
-			border-radius: 999px;
-			background: linear-gradient(135deg, var(--primary), var(--secondary));
-			color: #ffffff;
-			font-weight: 600;
-			font-size: 14px;
-			text-decoration: none;
-			transition: all 0.3s ease;
-			box-shadow: 0 10px 25px rgba(30,64,175,0.35);
-		}
-
-		.btn-home:hover {
-			transform: translateY(-2px) scale(1.03);
-			box-shadow: 0 18px 40px rgba(30,64,175,0.45);
-		}
-
-		.btn-home:focus {
-			outline: 3px solid rgba(59,130,246,0.5);
-			outline-offset: 3px;
-		}
-
-		@media (max-width: 640px) {
-			.page-card {
-				padding: 36px 24px;
-			}
-
-			.page-title {
-				font-size: 28px;
-			}
-		}
-	</style>
+    <meta charset="UTF-8">
+    <title>Privacy Policy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
 </head>
+<body class="tl-standalone tl-standalone--legal">
+    <div class="tl-legal">
+        <div class="tl-legal__card">
+            <h1 class="tl-legal__title">Privacy Policy</h1>
+            <p class="tl-legal__subtitle">Your privacy is important to us. This policy explains how we collect, use, and protect your personal information.</p>
 
-<body>
+            <div class="tl-legal__section">
+                <h2>1. Information We Collect</h2>
+                <p>We may collect personal information such as your name, email address, phone number, and other details when you interact with our website, register an account, or place an order.</p>
+            </div>
+            <div class="tl-legal__section">
+                <h2>2. How We Use Your Information</h2>
+                <p>The information we collect is used to:</p>
+                <ul>
+                    <li>Provide and improve our services</li>
+                    <li>Process transactions and orders</li>
+                    <li>Communicate with you regarding updates or offers</li>
+                    <li>Enhance user experience and security</li>
+                </ul>
+            </div>
+            <div class="tl-legal__section">
+                <h2>3. Cookies & Tracking Technologies</h2>
+                <p>We use cookies and similar technologies to improve website performance and provide a better user experience. You can control cookie settings through your browser preferences.</p>
+            </div>
+            <div class="tl-legal__section">
+                <h2>4. Data Security</h2>
+                <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+            </div>
+            <div class="tl-legal__section">
+                <h2>5. Sharing of Information</h2>
+                <p>We do not sell, trade, or rent your personal information to third parties. Your data may only be shared with trusted partners where necessary to provide our services.</p>
+            </div>
+            <div class="tl-legal__section">
+                <h2>6. Your Rights</h2>
+                <p>You have the right to access, update, or request deletion of your personal data. You may also opt out of certain communications at any time.</p>
+            </div>
+            <div class="tl-legal__section">
+                <h2>7. Changes to This Policy</h2>
+                <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
+            </div>
 
-	<div class="page-wrapper">
-		<div class="page-card">
-
-			<h1 class="page-title">Privacy Policy</h1>
-			<p class="page-subtitle">
-				Your privacy is important to us. This policy explains how we collect,
-				use, and protect your personal information.
-			</p>
-
-			<div class="section">
-				<h2>1. Information We Collect</h2>
-				<p>
-					We may collect personal information such as your name, email address,
-					phone number, and other details when you interact with our website,
-					register an account, or place an order.
-				</p>
-			</div>
-
-			<div class="section">
-				<h2>2. How We Use Your Information</h2>
-				<p>
-					The information we collect is used to:
-				</p>
-				<ul>
-					<li>Provide and improve our services</li>
-					<li>Process transactions and orders</li>
-					<li>Communicate with you regarding updates or offers</li>
-					<li>Enhance user experience and security</li>
-				</ul>
-			</div>
-
-			<div class="section">
-				<h2>3. Cookies & Tracking Technologies</h2>
-				<p>
-					We use cookies and similar technologies to improve website performance
-					and provide a better user experience. You can control cookie settings
-					through your browser preferences.
-				</p>
-			</div>
-
-			<div class="section">
-				<h2>4. Data Security</h2>
-				<p>
-					We implement appropriate security measures to protect your personal
-					information against unauthorized access, alteration, disclosure,
-					or destruction.
-				</p>
-			</div>
-
-			<div class="section">
-				<h2>5. Sharing of Information</h2>
-				<p>
-					We do not sell, trade, or rent your personal information to third parties.
-					Your data may only be shared with trusted partners where necessary
-					to provide our services.
-				</p>
-			</div>
-
-			<div class="section">
-				<h2>6. Your Rights</h2>
-				<p>
-					You have the right to access, update, or request deletion of your
-					personal data. You may also opt out of certain communications
-					at any time.
-				</p>
-			</div>
-
-			<div class="section">
-				<h2>7. Changes to This Policy</h2>
-				<p>
-					We may update this Privacy Policy from time to time. Any changes
-					will be posted on this page with an updated revision date.
-				</p>
-			</div>
-
-			<div class="divider"></div>
-
-			<div class="footer-actions">
-				<span class="last-updated">
-					Last updated: January 2026
-				</span>
-
-				<a href="/" class="btn-home" aria-label="Go back to home">
-					← Back to Home
-				</a>
-			</div>
-
-		</div>
-	</div>
-
+            <hr class="tl-divider">
+            <div class="tl-legal__footer">
+                <span class="tl-legal__date">Last updated: January 2026</span>
+                <a href="/" class="tl-btn tl-btn--primary">&larr; Back to Home</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

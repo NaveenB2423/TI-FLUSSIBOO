@@ -8,7 +8,7 @@
         <nav class="tl-breadcrumb">
             <a href="{% url 'index' %}">Home</a>
             <span>&rsaquo;</span>
-            <span style="color:var(--tl-ink); font-weight:600;">All Products</span>
+            <span class="tl-breadcrumb__current">All Products</span>
         </nav>
         <h1>All Products</h1>
     </div>
@@ -18,7 +18,7 @@
     <div class="tl-container">
 
         <!-- Filters -->
-        <div class="tl-filter" style="margin-bottom:34px;">
+        <div class="tl-filter tl-mb-xl">
             {% for menu in menus %}
                 <a href="{% url 'main_products' menu.name|slugify %}" class="tl-chip">{{ menu.name }}</a>
                 {% for sub_menu in menu.submenus_set.all %}
@@ -55,7 +55,7 @@
                     </div>
                 </article>
             {% empty %}
-                <div class="tl-empty" style="grid-column:1/-1;">
+                <div class="tl-empty tl-full-span">
                     <i class="fa fa-shopping-bag"></i>
                     No products available right now.
                 </div>

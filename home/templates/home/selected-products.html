@@ -9,7 +9,7 @@
         <nav class="tl-breadcrumb">
             <a href="{% url 'index' %}">Home</a>
             <span>&rsaquo;</span>
-            <span style="color:var(--tl-ink); font-weight:600;">{{ current_url|default:"Products"|title }}</span>
+            <span class="tl-breadcrumb__current">{{ current_url|default:"Products"|title }}</span>
         </nav>
         <h1>{{ current_url|default:"Products"|title }}</h1>
     </div>
@@ -19,7 +19,7 @@
     <div class="tl-container">
 
         <!-- Filters -->
-        <div class="tl-filter" style="margin-bottom:34px;">
+        <div class="tl-filter tl-mb-xl">
             {% for menu in menus %}
                 <a href="{% url 'main_products' menu.name|slugify %}" class="tl-chip {% if current_url == menu.name|slugify %}is-active{% endif %}">{{ menu.name }}</a>
                 {% for sub_menu in menu.submenus_set.all %}
@@ -56,7 +56,7 @@
                     </div>
                 </article>
             {% empty %}
-                <div class="tl-empty" style="grid-column:1/-1;">
+                <div class="tl-empty tl-full-span">
                     <i class="fa fa-shopping-bag"></i>
                     No products found in this collection yet.
                 </div>

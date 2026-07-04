@@ -2,157 +2,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>404 | Page Not Found</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap">
-
-	<style>
-		:root {
-			--primary: #5a4ff3;
-			--secondary: #7b71ff;
-			--bg: #f8fafc;
-			--card: #ffffff;
-			--text-dark: #0f172a;
-			--text-muted: #64748b;
-			--radius: 16px;
-			--shadow: 0 25px 60px rgba(0,0,0,0.12);
-		}
-
-		* {
-			box-sizing: border-box;
-		}
-
-		body {
-			margin: 0;
-			font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-			background: linear-gradient(135deg, #eef2ff, #f8fafc);
-			min-height: 100vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: var(--text-dark);
-		}
-
-		.error-wrapper {
-			background: var(--card);
-			border-radius: var(--radius);
-			box-shadow: var(--shadow);
-			max-width: 460px;
-			width: 100%;
-			padding: 48px 36px;
-			text-align: center;
-			animation: fadeUp 0.6s ease;
-		}
-
-		@keyframes fadeUp {
-			from {
-				opacity: 0;
-				transform: translateY(20px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		.error-code {
-			font-size: 96px;
-			font-weight: 900;
-			line-height: 1;
-			background: linear-gradient(135deg, var(--primary), var(--secondary));
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			margin-bottom: 16px;
-		}
-
-		.error-title {
-			font-size: 24px;
-			font-weight: 700;
-			margin-bottom: 12px;
-		}
-
-		.error-text {
-			color: var(--text-muted);
-			font-size: 15px;
-			line-height: 1.6;
-			margin-bottom: 32px;
-		}
-
-		.btn-home {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			gap: 8px;
-			padding: 14px 28px;
-			border-radius: 999px;
-			background: linear-gradient(135deg, var(--primary), var(--secondary));
-			color: #ffffff;
-			font-weight: 600;
-			font-size: 15px;
-			text-decoration: none;
-			transition: all 0.3s ease;
-			box-shadow: 0 10px 25px rgba(30,64,175,0.35);
-		}
-
-		.btn-home:hover {
-			transform: translateY(-2px) scale(1.03);
-			box-shadow: 0 18px 40px rgba(30,64,175,0.45);
-		}
-
-		.btn-home:focus {
-			outline: 3px solid rgba(59,130,246,0.5);
-			outline-offset: 3px;
-		}
-
-		.illustration {
-			max-width: 220px;
-			margin: 0 auto 28px;
-		}
-
-		.illustration img {
-			width: 100%;
-			height: auto;
-		}
-
-		@media (max-width: 480px) {
-			.error-wrapper {
-				padding: 36px 24px;
-			}
-
-			.error-code {
-				font-size: 72px;
-			}
-
-			.error-title {
-				font-size: 20px;
-			}
-		}
-	</style>
+    <meta charset="UTF-8">
+    <title>404 | Page Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
 </head>
-
-<body>
-
-	<div class="error-wrapper">
-		<div class="illustration">
-			<img src="{% static 'home/images/404.png' %}" alt="Page not found illustration">
-		</div>
-
-		<div class="error-code">404</div>
-
-		<div class="error-title">
-			Page Not Found
-		</div>
-
-		<p class="error-text">
-			Sorry, the page you are looking for doesn’t exist, has been moved,
-			or is temporarily unavailable.
-		</p>
-
-		<a href="/" class="btn-home" aria-label="Go back to homepage">
-			← Back to Home
-		</a>
-	</div>
-
+<body class="tl-standalone tl-standalone--error">
+    <div class="tl-standalone__card">
+        <div class="tl-standalone__img">
+            <img src="{% static 'home/images/404.png' %}" alt="Page not found illustration">
+        </div>
+        <div class="tl-standalone__icon tl-standalone__icon--error">404</div>
+        <div class="tl-standalone__title tl-standalone__title--error">Page Not Found</div>
+        <p class="tl-standalone__text">
+            Sorry, the page you are looking for doesn't exist, has been moved,
+            or is temporarily unavailable.
+        </p>
+        <div class="tl-standalone__actions">
+            <a href="/" class="tl-btn tl-btn--primary tl-btn--lg">&larr; Back to Home</a>
+        </div>
+    </div>
 </body>
 </html>

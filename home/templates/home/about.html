@@ -8,17 +8,16 @@
         <nav class="tl-breadcrumb">
             <a href="{% url 'index' %}">Home</a>
             <span>&rsaquo;</span>
-            <span style="color:var(--tl-ink); font-weight:600;">About Us</span>
+            <span class="tl-breadcrumb__current">About Us</span>
         </nav>
         <h1>About Trendy Looms</h1>
     </div>
 </div>
 
+<!-- Intro -->
 <section class="tl-section tl-scope">
     <div class="tl-container">
-
-        <!-- Intro -->
-        <div class="tl-section__head" style="margin-bottom:48px;">
+        <div class="tl-section__head tl-mb-xl">
             <span class="tl-eyebrow">Who We Are</span>
             <h2 class="tl-section__title">Fashion that tells your story</h2>
             <p class="tl-section__sub">
@@ -27,41 +26,98 @@
             </p>
         </div>
 
-        <!-- Story -->
-        <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:center; margin-bottom:60px;">
-            <div class="tl-card" style="padding:38px;">
-                <h3 class="tl-section__title" style="font-size:24px;">Our Story</h3>
-                <p style="color:var(--tl-muted); line-height:1.9; margin:14px 0 0;">
+        <!-- Stats -->
+        <div class="tl-stats tl-mb-xl">
+            <div class="tl-stat-card">
+                <div class="tl-stat-card__num">10k+</div>
+                <div class="tl-stat-card__label">Happy Customers</div>
+            </div>
+            <div class="tl-stat-card">
+                <div class="tl-stat-card__num">500+</div>
+                <div class="tl-stat-card__label">Unique Designs</div>
+            </div>
+            <div class="tl-stat-card">
+                <div class="tl-stat-card__num">4.8</div>
+                <div class="tl-stat-card__label">Average Rating</div>
+            </div>
+            <div class="tl-stat-card">
+                <div class="tl-stat-card__num">50+</div>
+                <div class="tl-stat-card__label">Cities Delivered</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story -->
+<section class="tl-section tl-scope">
+    <div class="tl-container">
+        <div class="tl-about-row tl-about-row--story">
+            <div class="tl-card tl-card--static tl-p-card-lg">
+                <span class="tl-eyebrow">Our Journey</span>
+                <h3 class="tl-heading tl-heading--sm tl-mb-sm">Our Story</h3>
+                <p class="tl-text-body">
                     Over the years, fashion has evolved significantly — from traditional attire like dhotis,
-                    kurtas, sarees, and lehngas to modern, contemporary styles. Colors, fits, and patterns
+                    kurtas, sarees, and lehengas to modern, contemporary styles. Colors, fits, and patterns
                     change with time, reflecting culture and confidence. We celebrate that journey with
                     designs made for every generation.
                 </p>
             </div>
-            <div style="border-radius:var(--tl-radius); overflow:hidden; box-shadow:var(--tl-shadow);">
-                <img src="{% static 'home/images/about-01.jpg' %}" alt="Our story" style="width:100%; display:block;">
+            <div class="tl-about-img">
+                <img src="{% static 'home/images/about-01.jpg' %}" alt="Our story">
             </div>
         </div>
+    </div>
+</section>
 
-        <!-- Mission -->
-        <div style="display:grid; grid-template-columns:1fr 1.3fr; gap:40px; align-items:center;">
-            <div style="border-radius:var(--tl-radius); overflow:hidden; box-shadow:var(--tl-shadow);">
-                <img src="{% static 'home/images/about-02.jpg' %}" alt="Our mission" style="width:100%; display:block;">
+<!-- Our Mission -->
+<section class="tl-section tl-scope">
+    <div class="tl-container">
+        <div class="tl-about-row tl-about-row--mission">
+            <div class="tl-about-img">
+                <img src="{% static 'home/images/about-02.jpg' %}" alt="Our mission">
             </div>
-            <div class="tl-card" style="padding:38px;">
-                <h3 class="tl-section__title" style="font-size:24px;">Our Mission</h3>
-                <p style="color:var(--tl-muted); line-height:1.9; margin:14px 0 0;">
+            <div class="tl-card tl-card--static tl-p-card-lg">
+                <span class="tl-eyebrow">What Drives Us</span>
+                <h3 class="tl-heading tl-heading--sm tl-mb-sm">Our Mission</h3>
+                <p class="tl-text-body">
                     To redefine fashion by blending tradition with modern style. We believe clothing should
                     express confidence, creativity, and individuality — focusing on quality, comfort, and
                     timeless designs that empower people to express themselves freely.
                 </p>
-                <div style="border-left:4px solid var(--tl-primary); background:var(--tl-bg); padding:20px 24px; border-radius:10px; margin-top:24px;">
-                    <p style="margin:0 0 8px; color:var(--tl-text); font-style:italic;">
-                        "Creativity is just connecting things."
-                    </p>
-                    <span style="font-weight:700; color:var(--tl-ink);">&mdash; Steve Jobs</span>
+                <div class="tl-blockquote">
+                    <p>"Creativity is just connecting things."</p>
+                    <cite>&mdash; Steve Jobs</cite>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values -->
+<section class="tl-section tl-scope">
+    <div class="tl-container">
+        <div class="tl-section__head">
+            <span class="tl-eyebrow">Our Values</span>
+            <h2 class="tl-section__title">What we stand for</h2>
+        </div>
+        <div class="tl-features">
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-diamond"></i></div><div><b>Premium Quality</b><span>Only the finest fabrics and materials</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-heart"></i></div><div><b>Customer First</b><span>Your satisfaction is our priority</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-magic"></i></div><div><b>Innovation</b><span>Bold designs that stand out</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-leaf"></i></div><div><b>Sustainability</b><span>Eco-conscious manufacturing</span></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="tl-section tl-scope">
+    <div class="tl-container">
+        <div class="tl-cta-banner">
+            <div class="tl-cta-banner__text">
+                <h3>Ready to express your style?</h3>
+                <p>Browse our collection or design your own custom apparel.</p>
+            </div>
+            <a href="{% url 'products' %}" class="tl-btn tl-btn--primary">Shop Now <i class="fa fa-arrow-right"></i></a>
         </div>
     </div>
 </section>

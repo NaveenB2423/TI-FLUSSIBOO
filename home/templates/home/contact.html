@@ -8,7 +8,7 @@
         <nav class="tl-breadcrumb">
             <a href="{% url 'index' %}">Home</a>
             <span>&rsaquo;</span>
-            <span style="color:var(--tl-ink); font-weight:600;">Contact</span>
+            <span class="tl-breadcrumb__current">Contact</span>
         </nav>
         <h1>Get in touch</h1>
     </div>
@@ -16,53 +16,67 @@
 
 <section class="tl-section tl-scope">
     <div class="tl-container">
-        <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:32px; align-items:start;">
+        <div class="tl-contact-grid">
 
             <!-- Contact form -->
-            <div class="tl-card" style="padding:38px;">
-                <h3 class="tl-section__title" style="font-size:24px; margin-bottom:6px;">Send us a message</h3>
-                <p style="color:var(--tl-muted); margin:0 0 26px;">We'd love to hear from you. We'll respond as soon as we can.</p>
+            <div class="tl-card tl-card--static tl-p-card-lg">
+                <h3 class="tl-heading tl-heading--sm tl-mb-xs">Send us a message</h3>
+                <p class="tl-text-muted tl-mb-lg">We'd love to hear from you. We'll respond as soon as we can.</p>
 
                 <form>
-                    <div style="margin-bottom:20px;">
-                        <label style="display:block; font-weight:600; color:var(--tl-ink); margin-bottom:8px;">Email Address</label>
-                        <input type="text" name="email" placeholder="your@email.com"
-                               style="width:100%; height:50px; padding:0 16px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px;">
+                    <div class="tl-form-group--lg">
+                        <label class="tl-label">Your Name</label>
+                        <input type="text" name="name" placeholder="Full name" class="tl-input">
                     </div>
-                    <div style="margin-bottom:24px;">
-                        <label style="display:block; font-weight:600; color:var(--tl-ink); margin-bottom:8px;">Message</label>
-                        <textarea name="msg" placeholder="How can we help you?" rows="6"
-                                  style="width:100%; padding:14px 16px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:15px; resize:vertical;"></textarea>
+                    <div class="tl-form-group--lg">
+                        <label class="tl-label">Email Address</label>
+                        <input type="email" name="email" placeholder="your@email.com" class="tl-input">
+                    </div>
+                    <div class="tl-form-group--lg">
+                        <label class="tl-label">Subject</label>
+                        <input type="text" name="subject" placeholder="How can we help?" class="tl-input">
+                    </div>
+                    <div class="tl-form-group--lg">
+                        <label class="tl-label">Message</label>
+                        <textarea name="msg" placeholder="Write your message here..." rows="5" class="tl-textarea"></textarea>
                     </div>
                     <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg">Send Message <i class="fa fa-paper-plane"></i></button>
                 </form>
             </div>
 
             <!-- Contact info -->
-            <div class="tl-card" style="padding:32px; display:flex; flex-direction:column; gap:26px;">
-                <div class="tl-feature" style="box-shadow:none; border:none; padding:0; background:transparent;">
-                    <div class="tl-feature__icon"><i class="fa fa-map-marker"></i></div>
-                    <div><b>Address</b><span>#30 ABC Colony, XYZ Main Road,<br>Salem, Tamil Nadu, India</span></div>
+            <div>
+                <div class="tl-card tl-card--static tl-p-card tl-flex-col tl-gap-md tl-mb-md">
+                    <div class="tl-feature tl-feature--plain">
+                        <div class="tl-feature__icon"><i class="fa fa-map-marker"></i></div>
+                        <div><b>Visit Us</b><span>#30 ABC Colony, XYZ Main Road,<br>Salem, Tamil Nadu, India</span></div>
+                    </div>
+                    <div class="tl-feature tl-feature--plain">
+                        <div class="tl-feature__icon"><i class="fa fa-phone"></i></div>
+                        <div><b>Call Us</b><span>+91 99999 88888</span></div>
+                    </div>
+                    <div class="tl-feature tl-feature--plain">
+                        <div class="tl-feature__icon"><i class="fa fa-envelope-o"></i></div>
+                        <div><b>Email Us</b><span>trendylooms123@gmail.com</span></div>
+                    </div>
+                    <div class="tl-feature tl-feature--plain">
+                        <div class="tl-feature__icon"><i class="fa fa-clock-o"></i></div>
+                        <div><b>Working Hours</b><span>Mon - Sat: 10 AM - 7 PM</span></div>
+                    </div>
                 </div>
-                <div class="tl-feature" style="box-shadow:none; border:none; padding:0; background:transparent;">
-                    <div class="tl-feature__icon"><i class="fa fa-phone"></i></div>
-                    <div><b>Let's Talk</b><span>+91 99999-88888</span></div>
-                </div>
-                <div class="tl-feature" style="box-shadow:none; border:none; padding:0; background:transparent;">
-                    <div class="tl-feature__icon"><i class="fa fa-envelope-o"></i></div>
-                    <div><b>Sales Support</b><span>contact@example.com</span></div>
+
+                <div class="tl-card tl-card--static tl-p-card tl-text-center">
+                    <p class="tl-font-bold tl-text-ink tl-mb-xs">Follow us</p>
+                    <div class="tl-footer__socials tl-justify-center">
+                        <a href="#" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Map (kept for existing map integration) -->
-<div style="border-radius:0; overflow:hidden;">
-    <div class="size-303" id="google_map"
-         data-map-x="40.691446" data-map-y="-73.886787"
-         data-pin="images/icons/" data-scrollwhell="0" data-draggable="1" data-zoom="11"
-         style="height:340px; width:100%;"></div>
-</div>
 
 {% endblock %}

@@ -154,6 +154,18 @@ def update_cart(request):
             'item_total': item_total
         })
 
+def delete_cart(request):
+    if request.method == 'POST':
+        cart_id = request.POST.get('cart_id')
+        try:
+            cart_item = Cart.objects.get(id=cart_id, made_by=request.user)
+            product_name = cart_item.variant.product.name
+            cart_item.delete()
+            messages.success(request, f'"{product_name}" has been removed from your cart.')
+        except Cart.DoesNotExist:
+            messages.error(request, 'Item not found in your cart.')
+    return redirect('shopping_cart')
+
 def blog(request):
     return render(request,'home/blog.html')
 
@@ -225,6 +237,13 @@ def create_order(request):
         "order_id": order["id"],
         "amount": amount_in_paisa,
         "key": settings.RAZORPAY_API_KEY,
-        "name": "Your Store",
+        "name": "Trendy Looms",
         "email": request.user.email,
     })
+
+def payment_success(request):
+    payment_id = request.GET.get('payment_id', '')
+    if request.user.is_authenticated and payment_id:
+        Cart.objects.filter(made_by=request.user).delete()
+        messages.success(request, f'Payment successful! Payment ID: {payment_id}')
+    return render(request, 'home/success.html')

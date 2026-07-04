@@ -1,87 +1,33 @@
 {% extends 'home/commons/main.html' %}
 {% load static %}
 
-{% block extra_css %}
-<style>
-    /* Hero flourish */
-    .tl-hero { position: relative; }
-    .tl-hero__glow { position:absolute; width:520px; height:520px; border-radius:50%;
-        background:radial-gradient(circle, rgba(123,113,255,0.45), transparent 65%);
-        filter:blur(20px); top:-120px; left:-100px; pointer-events:none; }
-    .tl-hero__art { position: relative; }
-    .tl-float { position:absolute; background:rgba(255,255,255,0.96); border-radius:16px;
-        box-shadow:0 18px 40px rgba(10,10,30,0.28); padding:12px 16px; display:flex; align-items:center; gap:11px;
-        backdrop-filter:blur(6px); animation:tlFloat 4.5s ease-in-out infinite; }
-    .tl-float--offer { bottom:30px; left:-26px; }
-    .tl-float__ic { width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
-        color:#fff; font-size:16px; background:linear-gradient(135deg,#7b71ff,#5a4ff3); flex:none; }
-    .tl-float__t { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:15px; color:#14141b; line-height:1.1; }
-    .tl-float__s { font-size:11.5px; color:#7b7b8a; }
-    @keyframes tlFloat { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-9px); } }
-    @media (max-width:1024px){ .tl-float { display:none; } }
-
-    /* Marquee strip */
-    .tl-marquee { background:var(--tl-ink); color:#fff; overflow:hidden; padding:15px 0; }
-    .tl-marquee__row { display:flex; gap:60px; white-space:nowrap; width:max-content; animation:tlMarquee 22s linear infinite; }
-    .tl-marquee span { font-family:'Plus Jakarta Sans'; font-weight:700; font-size:15px; letter-spacing:0.5px; opacity:0.85; display:inline-flex; align-items:center; gap:12px; }
-    .tl-marquee span i { color:#b3aaff; }
-    @keyframes tlMarquee { from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
-
-    /* Testimonials */
-    .tl-quotes { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
-    .tl-quote { background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius); padding:28px;
-        box-shadow:var(--tl-shadow-sm); transition:all var(--tl-ease); }
-    .tl-quote:hover { transform:translateY(-4px); box-shadow:var(--tl-shadow); }
-    .tl-quote__stars { color:#f5a524; margin-bottom:12px; font-size:14px; }
-    .tl-quote__text { color:var(--tl-text); line-height:1.7; font-size:15px; margin:0 0 18px; }
-    .tl-quote__who { display:flex; align-items:center; gap:12px; }
-    .tl-quote__av { width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,#7b71ff,#5a4ff3);
-        color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Plus Jakarta Sans'; }
-    .tl-quote__name { font-weight:700; color:var(--tl-ink); font-size:14.5px; }
-    .tl-quote__role { font-size:12.5px; color:var(--tl-muted); }
-
-    /* Newsletter */
-    .tl-news { background:linear-gradient(135deg,#14141b,#2a2440); border-radius:24px; padding:50px 44px; text-align:center;
-        position:relative; overflow:hidden; }
-    .tl-news:before { content:""; position:absolute; width:380px; height:380px; border-radius:50%;
-        background:radial-gradient(circle, rgba(123,113,255,0.4), transparent 65%); top:-160px; right:-80px; }
-    .tl-news h2 { font-family:'Plus Jakarta Sans'; font-weight:800; color:#fff; font-size:clamp(24px,3vw,34px); margin:0 0 10px; position:relative; }
-    .tl-news p { color:rgba(255,255,255,0.75); margin:0 0 26px; position:relative; }
-    .tl-news__form { display:flex; gap:12px; max-width:480px; margin:0 auto; position:relative; flex-wrap:wrap; justify-content:center; }
-    .tl-news__form input { flex:1; min-width:220px; height:54px; padding:0 18px; border:none; border-radius:var(--tl-radius-sm); font-size:15px; }
-</style>
-{% endblock %}
-
 {% block content %}
 
 <!-- ================= HERO ================= -->
 <section class="tl-hero tl-scope">
     <span class="tl-hero__glow"></span>
-    <div class="tl-container">
-        <div class="tl-hero__inner">
-            <div class="tl-reveal">
-                <span class="tl-hero__eyebrow"><i class="fa fa-star"></i> New Season 2026 Collection</span>
-                <h1 class="tl-hero__title">Wear your <span class="tl-grad">story.</span><br>Designed for you.</h1>
-                <p class="tl-hero__sub">
-                    Premium men's &amp; women's apparel and fully custom-designed
-                    t-shirts. Quality fabric, bold prints, and a fit that feels made to order.
-                </p>
-                <div class="tl-hero__cta">
-                    <a href="{% url 'products' %}" class="tl-btn tl-btn--primary tl-btn--lg">Shop Collection <i class="fa fa-arrow-right"></i></a>
-                    <a href="{% url 'custompage' %}" class="tl-btn tl-btn--light tl-btn--lg">Customize Design</a>
-                </div>
-                <div class="tl-hero__stats">
-                    <div class="tl-hero__stat"><b>10k+</b><span>Happy customers</span></div>
-                    <div class="tl-hero__stat"><b>500+</b><span>Unique designs</span></div>
-                    <div class="tl-hero__stat"><b>4.8&#9733;</b><span>Avg. rating</span></div>
-                </div>
+    <div class="tl-hero__inner tl-container--wide">
+        <div class="tl-hero__text tl-hero__text--padded tl-reveal">
+            <span class="tl-hero__eyebrow"><i class="fa fa-star"></i> New Season 2026</span>
+            <h1 class="tl-hero__title">Wear your <span class="tl-grad">story.</span><br>Designed for you.</h1>
+            <p class="tl-hero__sub">
+                Premium apparel &amp; custom-designed t-shirts. Quality fabric, bold prints, perfect fit.
+            </p>
+            <div class="tl-hero__cta">
+                <a href="{% url 'products' %}" class="tl-btn tl-btn--primary tl-btn--lg">Shop Collection <i class="fa fa-arrow-right"></i></a>
+                <a href="{% url 'custompage' %}" class="tl-btn tl-btn--light tl-btn--lg">Customize Design</a>
             </div>
-            <div class="tl-hero__art tl-reveal">
-                <img src="{% static 'home/images/slide-03.jpg' %}" alt="Trendy Looms collection">
-                <div class="tl-float tl-float--offer">
-                    <div class="tl-float__ic"><i class="fa fa-tags"></i></div>
-                    <div><div class="tl-float__t">Limited Offers</div><div class="tl-float__s">Up to 50% off this week</div></div>
-                </div>
+            <div class="tl-hero__stats">
+                <div class="tl-hero__stat"><b>10k+</b><span>Happy customers</span></div>
+                <div class="tl-hero__stat"><b>500+</b><span>Designs</span></div>
+                <div class="tl-hero__stat"><b>4.8&#9733;</b><span>Rating</span></div>
+            </div>
+        </div>
+        <div class="tl-hero__art tl-reveal">
+            <img src="{% static 'home/images/slide-03.jpg' %}" alt="Trendy Looms collection">
+            <div class="tl-float tl-float--offer">
+                <div class="tl-float__ic"><i class="fa fa-tags"></i></div>
+                <div><div class="tl-float__t">Limited Offers</div><div class="tl-float__s">Up to 50% off</div></div>
             </div>
         </div>
     </div>
@@ -109,21 +55,20 @@
 <section class="tl-section tl-section--tight tl-scope">
     <div class="tl-container">
         <div class="tl-features">
-            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-truck"></i></div><div><b>Free Shipping</b><span>On orders over &#8377;999</span></div></div>
-            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-shield"></i></div><div><b>Secure Payments</b><span>100% protected checkout</span></div></div>
-            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-magic"></i></div><div><b>Custom Designs</b><span>Make it truly yours</span></div></div>
-            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-refresh"></i></div><div><b>Easy Returns</b><span>Hassle-free 7-day returns</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-truck"></i></div><div><b>Free Shipping</b><span>Orders over &#8377;999</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-shield"></i></div><div><b>Secure Payments</b><span>100% protected</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-magic"></i></div><div><b>Custom Designs</b><span>Make it yours</span></div></div>
+            <div class="tl-feature"><div class="tl-feature__icon"><i class="fa fa-refresh"></i></div><div><b>Easy Returns</b><span>7-day returns</span></div></div>
         </div>
     </div>
 </section>
 
 <!-- ================= PRINTED T-SHIRTS ================= -->
-<section class="tl-section tl-scope" id="CustomDesign" style="padding-top:0;">
+<section class="tl-section tl-scope" id="CustomDesign">
     <div class="tl-container">
         <div class="tl-section__head">
             <span class="tl-eyebrow">Trending Now</span>
             <h2 class="tl-section__title">Printed T-Shirts</h2>
-            <p class="tl-section__sub">Bold graphics and premium prints, picked just for you.</p>
         </div>
         <div class="tl-cat-grid">
             {% for image in image %}
@@ -135,40 +80,41 @@
                     </div>
                 </a>
             {% empty %}
-                <div class="tl-empty" style="grid-column:1/-1;"><i class="fa fa-image"></i>New prints dropping soon.</div>
+                <div class="tl-empty tl-full-span"><i class="fa fa-image"></i>New prints dropping soon.</div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- ================= CATEGORY BANNERS ================= -->
-<section class="tl-section tl-scope" style="padding-top:0;">
+<!-- ================= CATEGORY BANNERS (Women & Men) ================= -->
+<section class="tl-section tl-scope">
     <div class="tl-container">
-        <div class="tl-cat-grid" style="grid-template-columns:repeat(auto-fit,minmax(340px,1fr));">
-            <a href="{% url 'products' %}" class="tl-cat" style="aspect-ratio:16/10;">
+        <div class="tl-grid-2 tl-gap-sm">
+            <a href="{% url 'products' %}" class="tl-cat tl-cat--wide">
                 <img src="{% static 'home/images/banner-04.jpg' %}" alt="Women">
                 <div class="tl-cat__overlay">
                     <span class="tl-cat__name">Women</span>
-                    <span class="tl-cat__link">Explore new trends <i class="fa fa-arrow-right"></i></span>
+                    <span class="tl-cat__link">Explore trends <i class="fa fa-arrow-right"></i></span>
                 </div>
             </a>
-            <a href="{% url 'products' %}" class="tl-cat" style="aspect-ratio:16/10;">
+            <a href="{% url 'products' %}" class="tl-cat tl-cat--wide">
                 <img src="{% static 'home/images/banner-05.jpg' %}" alt="Men">
                 <div class="tl-cat__overlay">
                     <span class="tl-cat__name">Men</span>
-                    <span class="tl-cat__link">Explore new trends <i class="fa fa-arrow-right"></i></span>
+                    <span class="tl-cat__link">Explore trends <i class="fa fa-arrow-right"></i></span>
                 </div>
             </a>
         </div>
     </div>
 </section>
 
-<!-- ================= WOMEN ================= -->
-<section class="tl-section tl-scope" id="Women" style="padding-top:0;">
+<!-- ================= WOMEN'S COLLECTION ================= -->
+{% if women_image %}
+<section class="tl-section tl-scope" id="Women">
     <div class="tl-container">
         <div class="tl-section__head">
             <span class="tl-eyebrow">For Her</span>
-            <h2 class="tl-section__title">Category for Women</h2>
+            <h2 class="tl-section__title">Women's Collection</h2>
         </div>
         <div class="tl-cat-grid">
             {% for image in women_image %}
@@ -179,19 +125,19 @@
                         <span class="tl-cat__link">Shop now <i class="fa fa-arrow-right"></i></span>
                     </div>
                 </a>
-            {% empty %}
-                <div class="tl-empty" style="grid-column:1/-1;"><i class="fa fa-image"></i>Collection coming soon.</div>
             {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 
-<!-- ================= MEN ================= -->
-<section class="tl-section tl-scope" id="Men" style="padding-top:0;">
+<!-- ================= MEN'S COLLECTION ================= -->
+{% if men_image %}
+<section class="tl-section tl-scope" id="Men">
     <div class="tl-container">
         <div class="tl-section__head">
             <span class="tl-eyebrow">For Him</span>
-            <h2 class="tl-section__title">Category for Men</h2>
+            <h2 class="tl-section__title">Men's Collection</h2>
         </div>
         <div class="tl-cat-grid">
             {% for image in men_image %}
@@ -202,65 +148,56 @@
                         <span class="tl-cat__link">Shop now <i class="fa fa-arrow-right"></i></span>
                     </div>
                 </a>
-            {% empty %}
-                <div class="tl-empty" style="grid-column:1/-1;"><i class="fa fa-image"></i>Collection coming soon.</div>
             {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if not women_image and not men_image %}
+<section class="tl-section tl-scope">
+    <div class="tl-container">
+        <div class="tl-empty"><i class="fa fa-image"></i>Collections coming soon.</div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ================= CUSTOM DESIGN CTA ================= -->
+<section class="tl-section tl-scope">
+    <div class="tl-container">
+        <div class="tl-cta-banner">
+            <div class="tl-cta-banner__text">
+                <h3>Design your own custom t-shirt</h3>
+                <p>Upload your artwork, pick your color and size, and we'll bring it to life.</p>
+            </div>
+            <a href="{% url 'custompage' %}" class="tl-btn tl-btn--primary">Start Designing <i class="fa fa-arrow-right"></i></a>
         </div>
     </div>
 </section>
 
 <!-- ================= TESTIMONIALS ================= -->
-<section class="tl-section tl-scope" style="padding-top:0;">
+<section class="tl-section tl-scope">
     <div class="tl-container">
         <div class="tl-section__head">
-            <span class="tl-eyebrow">Loved by Customers</span>
-            <h2 class="tl-section__title">What our customers say</h2>
-            <p class="tl-section__sub">Real reviews from people who wear Trendy Looms every day.</p>
+            <span class="tl-eyebrow">Reviews</span>
+            <h2 class="tl-section__title">What customers say</h2>
         </div>
         <div class="tl-quotes">
             <div class="tl-quote">
                 <div class="tl-quote__stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                <p class="tl-quote__text">"The fabric quality is unreal and the custom print came out exactly like my design. My new favourite store."</p>
+                <p class="tl-quote__text">"The fabric quality is unreal and the custom print came out exactly like my design."</p>
                 <div class="tl-quote__who"><div class="tl-quote__av">A</div><div><div class="tl-quote__name">Ananya R.</div><div class="tl-quote__role">Verified Buyer</div></div></div>
             </div>
             <div class="tl-quote">
                 <div class="tl-quote__stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                <p class="tl-quote__text">"Fast delivery, premium packaging, and the fit is perfect. The men's shirts look way more expensive than they are."</p>
+                <p class="tl-quote__text">"Fast delivery, premium packaging, and the fit is perfect. Looks way more expensive."</p>
                 <div class="tl-quote__who"><div class="tl-quote__av">R</div><div><div class="tl-quote__name">Rohan M.</div><div class="tl-quote__role">Verified Buyer</div></div></div>
             </div>
             <div class="tl-quote">
                 <div class="tl-quote__stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                <p class="tl-quote__text">"Designed a tee for my whole team and everyone loved it. The customization tool is so easy to use!"</p>
+                <p class="tl-quote__text">"Designed a tee for my team and everyone loved it. So easy to use!"</p>
                 <div class="tl-quote__who"><div class="tl-quote__av">S</div><div><div class="tl-quote__name">Sneha K.</div><div class="tl-quote__role">Verified Buyer</div></div></div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= NEWSLETTER ================= -->
-<section class="tl-section tl-scope" style="padding-top:0;">
-    <div class="tl-container">
-        <div class="tl-news">
-            <h2>Get 10% off your first order</h2>
-            <p>Join our newsletter for early access to drops, offers, and styling tips.</p>
-            <form class="tl-news__form" onsubmit="return false;">
-                <input type="email" placeholder="Enter your email address" required>
-                <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg">Subscribe</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<!-- ================= CUSTOM DESIGN CTA ================= -->
-<section class="tl-section tl-scope" style="padding-top:0;">
-    <div class="tl-container">
-        <div style="background:radial-gradient(900px 360px at 90% -20%, rgba(123,113,255,0.30), transparent 60%), linear-gradient(135deg,#14141b,#2a2440); border-radius:24px; padding:54px 44px; color:#fff; text-align:center;">
-            <span class="tl-eyebrow" style="color:#b3aaff;">Make It Yours</span>
-            <h2 class="tl-section__title" style="color:#fff;">Design your own custom t-shirt</h2>
-            <p class="tl-section__sub" style="color:rgba(255,255,255,0.78); max-width:560px; margin:0 auto 26px;">
-                Upload your artwork, pick your color and size, and we'll bring your idea to life.
-            </p>
-            <a href="{% url 'custompage' %}" class="tl-btn tl-btn--primary tl-btn--lg">Start Designing <i class="fa fa-arrow-right"></i></a>
         </div>
     </div>
 </section>

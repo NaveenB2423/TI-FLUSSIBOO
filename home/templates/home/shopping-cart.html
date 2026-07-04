@@ -3,39 +3,6 @@
 
 {% block title %}Shopping Cart | Trendy Looms{% endblock %}
 
-{% block extra_css %}
-<style>
-    .tl-cartgrid { display:grid; grid-template-columns:1.65fr 1fr; gap:30px; align-items:start; }
-    .tl-cartpanel { background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius); padding:10px 22px; box-shadow:var(--tl-shadow-sm); }
-    .tl-cartitem { display:flex; gap:18px; align-items:center; padding:20px 0; border-bottom:1px solid var(--tl-line); transition:all var(--tl-ease); }
-    .tl-cartitem:last-child { border-bottom:none; }
-    .tl-cartitem img { width:96px; height:118px; object-fit:cover; border-radius:12px; border:1px solid var(--tl-line); flex:none; }
-    .tl-cartitem__ph { width:96px; height:118px; border-radius:12px; border:1px solid var(--tl-line); background:#f0f0f7; display:flex; align-items:center; justify-content:center; color:var(--tl-muted); font-size:26px; flex:none; }
-    .tl-cartitem h6 { font-family:'Plus Jakarta Sans'; font-weight:700; font-size:16.5px; color:var(--tl-ink); margin:0 0 6px; }
-    .tl-cartmeta { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
-    .tl-tag { font-size:12px; font-weight:600; color:var(--tl-muted); background:var(--tl-bg); border:1px solid var(--tl-line); border-radius:999px; padding:4px 11px; }
-    .tl-qty { display:inline-flex; align-items:center; gap:8px; color:var(--tl-muted); font-size:13.5px; }
-    .tl-qty input { width:54px; height:34px; text-align:center; border:1px solid var(--tl-line); border-radius:9px; background:var(--tl-bg); font-weight:700; color:var(--tl-ink); }
-    .tl-cartitem__right { margin-left:auto; text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-    .tl-cartprice { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:17px; color:var(--tl-ink); }
-    .tl-cartunit { font-size:12.5px; color:var(--tl-muted); }
-    .tl-remove { font-size:12.5px; color:#e5484d; text-decoration:none; font-weight:600; }
-    .tl-remove:hover { text-decoration:underline; }
-    .tl-summary { background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius); padding:28px; box-shadow:var(--tl-shadow-sm); position:sticky; top:24px; }
-    .tl-summary h5 { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:19px; color:var(--tl-ink); margin:0 0 22px; }
-    .tl-srow { display:flex; justify-content:space-between; margin-bottom:14px; color:var(--tl-text); font-size:15px; }
-    .tl-srow span:last-child { font-weight:600; color:var(--tl-ink); }
-    .tl-stotal { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:20px; color:var(--tl-ink); }
-    .tl-promo { display:flex; gap:10px; margin:18px 0 6px; }
-    .tl-promo input { flex:1; height:46px; padding:0 14px; border:1px solid var(--tl-line); border-radius:var(--tl-radius-sm); font-size:14px; }
-    .tl-trust { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:26px; }
-    .tl-trust__i { display:flex; gap:10px; align-items:center; font-size:13px; color:var(--tl-muted); }
-    .tl-trust__i i { color:var(--tl-primary); font-size:17px; }
-    @media (max-width:860px){ .tl-cartgrid { grid-template-columns:1fr; } }
-    @media (max-width:560px){ .tl-cartitem { flex-wrap:wrap; } .tl-cartitem__right { margin-left:0; align-items:flex-start; text-align:left; } }
-</style>
-{% endblock %}
-
 {% block content %}
 
 <!-- Page header -->
@@ -44,7 +11,7 @@
         <nav class="tl-breadcrumb">
             <a href="{% url 'index' %}">Home</a>
             <span>&rsaquo;</span>
-            <span style="color:var(--tl-ink); font-weight:600;">Shopping Cart</span>
+            <span class="tl-breadcrumb__current">Shopping Cart</span>
         </nav>
         <h1>Shopping Cart</h1>
     </div>
@@ -52,15 +19,15 @@
 
 <section class="tl-section tl-scope">
     <div class="tl-container">
-        <div class="tl-cartgrid">
+        <div class="tl-grid-cart">
 
             <!-- Items -->
             <div>
                 {% if carts %}
                 <div class="tl-cartpanel">
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 0 6px; border-bottom:1px solid var(--tl-line);">
-                        <span style="font-weight:700; color:var(--tl-ink);">{{ carts|length }} item{{ carts|length|pluralize }} in your cart</span>
-                        <a href="{% url 'index' %}" style="font-size:13.5px; color:var(--tl-primary); font-weight:600; text-decoration:none;">+ Continue shopping</a>
+                    <div class="tl-cart-header">
+                        <span class="tl-font-bold tl-text-ink">{{ carts|length }} item{{ carts|length|pluralize }} in your cart</span>
+                        <a href="{% url 'index' %}" class="tl-text-sm tl-text-primary tl-font-semi">+ Continue shopping</a>
                     </div>
                     {% for cart in carts %}
                     <div class="tl-cartitem">
@@ -74,7 +41,7 @@
                             <div class="tl-cartmeta">
                                 {% if cart.variant.product.main_menu %}<span class="tl-tag">{{ cart.variant.product.main_menu.name }}</span>{% endif %}
                                 {% if cart.variant.size %}<span class="tl-tag">Size: {{ cart.variant.size.name }}</span>{% endif %}
-                                {% if cart.variant.color %}<span class="tl-tag">Color: {{ cart.variant.color.name }}</span>{% endif %}
+                                {% if cart.variant.color %}<span class="tl-tag"><span class="tl-color-dot" style="background:{{ cart.variant.color.name }};"></span>{{ cart.variant.color.name }}</span>{% endif %}
                             </div>
                             <div class="tl-qty">
                                 <span>Qty</span>
@@ -84,17 +51,21 @@
                         <div class="tl-cartitem__right">
                             <span class="tl-cartprice">&#8377;{{ cart.price|floatformat:0 }}</span>
                             <span class="tl-cartunit">&#8377;{{ cart.variant.product.discount_price|floatformat:0 }} each</span>
-                            <a href="#" class="tl-remove"><i class="fa fa-trash-o"></i> Remove</a>
+                            <form method="post" action="{% url 'delete_cart' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="cart_id" value="{{ cart.id }}">
+                                <button type="submit" class="tl-remove tl-btn--unstyled"><i class="fa fa-trash-o"></i> Remove</button>
+                            </form>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
                 {% else %}
-                <div class="tl-empty" style="background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius); padding:60px 24px;">
-                    <i class="fa fa-shopping-cart" style="font-size:42px; color:var(--tl-muted);"></i>
-                    <p style="margin:16px 0 0; font-weight:600; color:var(--tl-ink);">Your cart is empty</p>
-                    <p style="margin:6px 0 0; color:var(--tl-muted); font-size:14px;">Looks like you haven't added anything yet.</p>
-                    <div style="margin-top:20px;"><a href="{% url 'products' %}" class="tl-btn tl-btn--primary">Start Shopping</a></div>
+                <div class="tl-empty tl-empty--card">
+                    <i class="fa fa-shopping-cart"></i>
+                    <p class="tl-font-semi tl-text-ink tl-mt-sm tl-mb-0">Your cart is empty</p>
+                    <p class="tl-text-muted tl-text-sm tl-mb-0 tl-mt-xs">Looks like you haven't added anything yet.</p>
+                    <div class="tl-mt-md"><a href="{% url 'products' %}" class="tl-btn tl-btn--primary">Start Shopping</a></div>
                 </div>
                 {% endif %}
             </div>
@@ -103,7 +74,7 @@
             <div class="tl-summary">
                 <h5>Order Summary</h5>
                 <div class="tl-srow"><span>Subtotal</span><span>&#8377;<span id="cart_total">{{ total_amount|default:0|floatformat:0 }}</span></span></div>
-                <div class="tl-srow"><span>Shipping</span><span style="color:#16a34a;">Free</span></div>
+                <div class="tl-srow"><span>Shipping</span><span class="tl-text-success">Free</span></div>
                 <div class="tl-srow"><span>Tax</span><span>Included</span></div>
 
                 {% if carts %}
@@ -113,10 +84,10 @@
                 </div>
                 {% endif %}
 
-                <hr style="border:none; border-top:1px solid var(--tl-line); margin:18px 0;">
+                <hr class="tl-divider">
                 <div class="tl-srow tl-stotal"><span>Total</span><span>&#8377;{{ total_amount|default:0|floatformat:0 }}</span></div>
 
-                <button type="button" id="checkout_btn" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block" style="margin-top:22px;" {% if not carts %}disabled{% endif %}>
+                <button type="button" id="checkout_btn" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block tl-mt-md" {% if not carts %}disabled{% endif %}>
                     <i class="fa fa-lock"></i> Proceed to Checkout
                 </button>
 
@@ -138,6 +109,8 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 $("#checkout_btn").click(function () {
+    var btn = $(this);
+    btn.prop("disabled", true).text("Processing...");
     $.ajax({
         url: "/payment/",
         method: "GET",
@@ -148,14 +121,25 @@ $("#checkout_btn").click(function () {
                 "currency": "INR",
                 "name": data.name,
                 "order_id": data.order_id,
+                "prefill": { "email": data.email || "" },
                 "handler": function (response) {
                     window.location.href = "/payment/success/?payment_id=" +
-                         response.razorpay_payment_id;
+                         response.razorpay_payment_id +
+                         "&order_id=" + response.razorpay_order_id;
+                },
+                "modal": {
+                    "ondismiss": function () {
+                        btn.prop("disabled", false).html('<i class="fa fa-lock"></i> Proceed to Checkout');
+                    }
                 },
                 "theme": { "color": "#5a4ff3" }
             };
             var rzp1 = new Razorpay(options);
             rzp1.open();
+        },
+        error: function () {
+            btn.prop("disabled", false).html('<i class="fa fa-lock"></i> Proceed to Checkout');
+            alert("Something went wrong. Please try again.");
         }
     });
 });

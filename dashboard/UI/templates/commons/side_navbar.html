@@ -1,32 +1,42 @@
 {% load static %}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="index3.html" class="brand-link">
-    <!-- <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+  <a href="{% url 'dashboard' %}" class="brand-link">
     <span class="brand-text font-weight-light">TrendyLooms</span>
   </a>
 
   <!-- Sidebar -->
   <div class="sidebar">
 
-
-
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item">
-          <a href="{% url 'view_design' %}" class="nav-link">
-          <i class="nav-icon fas fa-table"></i>
-          <p>Customer Design</p>
+          <a href="{% url 'dashboard' %}" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>Dashboard</p>
           </a>
-          
+        </li>
+
+        <li class="nav-item">
+          <a href="{% url 'orders' %}" class="nav-link">
+            <i class="nav-icon fas fa-shopping-bag"></i>
+            <p>Orders</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{% url 'view_design' %}" class="nav-link">
+            <i class="nav-icon fas fa-paint-brush"></i>
+            <p>Custom Designs</p>
+          </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-table"></i>
+            <i class="nav-icon fas fa-users"></i>
             <p>
-              Customer
+              Customers
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -48,9 +58,9 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-table"></i>
+            <i class="nav-icon fas fa-box-open"></i>
             <p>
-              Product
+              Products
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -72,6 +82,7 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-tags"></i>
             <p>
               Categories
               <i class="right fas fa-angle-left"></i>
@@ -124,9 +135,9 @@
         
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-table"></i>
+            <i class="nav-icon fas fa-images"></i>
             <p>
-              Upload Images
+              Banner Images
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>

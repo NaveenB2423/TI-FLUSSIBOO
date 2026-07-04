@@ -8,45 +8,29 @@
     <link rel="icon" href="{% static 'home/images/icons/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'home/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
-    <style>
-        .tl-cartwrap { padding:48px 0; }
-        .tl-cartgrid { display:grid; grid-template-columns:1.6fr 1fr; gap:28px; align-items:start; }
-        .tl-cartitem { display:flex; gap:18px; align-items:center; background:#fff; border:1px solid var(--tl-line);
-            border-radius:var(--tl-radius); padding:18px; margin-bottom:16px; box-shadow:var(--tl-shadow-sm); }
-        .tl-cartitem img { width:92px; height:112px; object-fit:cover; border-radius:12px; border:1px solid var(--tl-line); }
-        .tl-cartitem h6 { font-weight:600; font-size:16px; color:var(--tl-ink); margin:0 0 6px; }
-        .tl-qty { display:inline-flex; align-items:center; gap:8px; margin-top:10px; color:var(--tl-muted); font-size:14px; }
-        .tl-qty input { width:56px; height:34px; text-align:center; border:1px solid var(--tl-line); border-radius:9px; background:var(--tl-bg); font-weight:600; }
-        .tl-cartprice { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:16px; color:var(--tl-ink); margin-left:auto; }
-        .tl-summary { background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius); padding:28px; box-shadow:var(--tl-shadow-sm); position:sticky; top:24px; }
-        .tl-summary h5 { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:19px; color:var(--tl-ink); margin:0 0 22px; }
-        .tl-srow { display:flex; justify-content:space-between; margin-bottom:14px; color:var(--tl-text); font-size:15px; }
-        .tl-stotal { font-family:'Plus Jakarta Sans'; font-weight:800; font-size:19px; color:var(--tl-ink); }
-        @media (max-width:860px){ .tl-cartgrid { grid-template-columns:1fr; } }
-    </style>
 </head>
 <body class="tl-scope">
 
-<div class="tl-container tl-cartwrap">
-    <h1 style="font-family:'Plus Jakarta Sans'; font-weight:800; font-size:30px; color:var(--tl-ink); margin:0 0 26px;">Shopping Cart</h1>
+<div class="tl-container tl-minicart">
+    <h1 class="tl-heading tl-heading--lg tl-mb-lg">Shopping Cart</h1>
 
-    <div class="tl-cartgrid">
+    <div class="tl-grid-cart">
         <div>
             {% for cart in carts %}
                 <div class="tl-cartitem">
                     <img src="{{ cart.variant.product.image.url }}" alt="{{ cart.variant.product.name }}">
                     <div>
                         <h6>{{ cart.variant.product.name }}</h6>
-                        <div style="color:var(--tl-muted); font-size:14px;">&#8377;{{ cart.variant.product.price }}</div>
+                        <span class="tl-text-muted tl-text-sm">&#8377;{{ cart.variant.product.price }}</span>
                         <div class="tl-qty"><span>Qty</span><input type="number" value="{{ cart.qty }}" readonly></div>
                     </div>
-                    <div class="tl-cartprice">&#8377;{{ cart.variant.product.price }}</div>
+                    <div class="tl-cartprice tl-ml-auto">&#8377;{{ cart.variant.product.price }}</div>
                 </div>
             {% empty %}
-                <div class="tl-empty" style="background:#fff; border:1px solid var(--tl-line); border-radius:var(--tl-radius);">
+                <div class="tl-empty tl-empty--card">
                     <i class="fa fa-shopping-cart"></i>
                     Your cart is empty.
-                    <div style="margin-top:18px;"><a href="{% url 'index' %}" class="tl-btn tl-btn--primary">Continue Shopping</a></div>
+                    <div class="tl-mt-md"><a href="{% url 'index' %}" class="tl-btn tl-btn--primary">Continue Shopping</a></div>
                 </div>
             {% endfor %}
         </div>
@@ -54,10 +38,10 @@
         <div class="tl-summary">
             <h5>Order Summary</h5>
             <div class="tl-srow"><span>Subtotal</span><span>&#8377;{{ total }}</span></div>
-            <div class="tl-srow"><span>Shipping</span><span style="color:#16a34a; font-weight:600;">Free</span></div>
-            <hr style="border:none; border-top:1px solid var(--tl-line); margin:16px 0;">
+            <div class="tl-srow"><span>Shipping</span><span class="tl-text-success tl-font-semi">Free</span></div>
+            <hr class="tl-divider">
             <div class="tl-srow tl-stotal"><span>Total</span><span>&#8377;{{ total }}</span></div>
-            <a href="{% url 'shopping_cart' %}" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block" style="margin-top:22px;">Proceed to Checkout</a>
+            <a href="{% url 'shopping_cart' %}" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block tl-mt-md">Proceed to Checkout</a>
         </div>
     </div>
 </div>

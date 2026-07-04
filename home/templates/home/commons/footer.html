@@ -1,62 +1,94 @@
 {% load static %}
 
 <footer class="tl-footer">
-    <div class="tl-container">
-        <div class="tl-footer__grid">
 
-            <!-- Brand -->
-            <div>
-                <span class="tl-footer__brand">Trendy Looms</span>
-                <p>Premium men's &amp; women's wear and custom-designed apparel. Crafted for comfort, made to stand out.</p>
-                <div class="tl-footer__socials">
-                    <a href="#" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
-                    <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    <!-- Newsletter strip -->
+    <div class="tl-footer__top">
+        <div class="tl-container">
+            <div class="tl-footer__top-inner">
+                <div class="tl-footer__top-text">
+                    Subscribe to our newsletter
+                    <span>Get updates on new arrivals, offers &amp; more.</span>
                 </div>
-            </div>
-
-            <!-- Categories -->
-            <div>
-                <h5>Shop</h5>
-                <ul>
-                    <li><a href="{% url 'products' %}">Women</a></li>
-                    <li><a href="{% url 'products' %}">Men</a></li>
-                    <li><a href="{% url 'custompage' %}">Custom Design T-Shirts</a></li>
-                    <li><a href="#Themes">Themes</a></li>
-                    <li><a href="#Pillow">Pillow</a></li>
-                </ul>
-            </div>
-
-            <!-- Quick Links -->
-            <div>
-                <h5>Company</h5>
-                <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'about_us' %}">About Us</a></li>
-                    <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
-                    <li><a href="{% url 'shopping_cart' %}">Cart</a></li>
-                    <li><a href="{% url 'customer_signup' %}">Create Account</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact -->
-            <div>
-                <h5>Get In Touch</h5>
-                <p>
-                    #30 ABC Colony,<br>
-                    XYZ Main Road,<br>
-                    Salem, Tamil Nadu, India
-                </p>
-                <p>
-                    <i class="fa fa-phone"></i> +91-99999-88888<br>
-                    <i class="fa fa-envelope-o"></i> trendylooms123@gmail.com
-                </p>
+                <form class="tl-footer__top-form" onsubmit="return false;">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
             </div>
         </div>
+    </div>
 
+    <!-- Main footer -->
+    <div class="tl-footer__main">
+        <div class="tl-container">
+            <div class="tl-footer__grid">
+
+                <!-- Brand -->
+                <div>
+                    <a href="{% url 'index' %}" class="tl-footer__brand">
+                        <span class="tl-nav__mark">T</span> TrendyLooms
+                    </a>
+                    <p>Premium men's &amp; women's wear and custom-designed apparel. Crafted for comfort, made to stand out.</p>
+                    <div class="tl-footer__socials">
+                        <a href="#" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Shop -->
+                <div>
+                    <h5>Shop</h5>
+                    <ul>
+                        <li><a href="{% url 'products' %}">All Products</a></li>
+                        <li><a href="{% url 'products' %}">Women's Wear</a></li>
+                        <li><a href="{% url 'products' %}">Men's Wear</a></li>
+                        <li><a href="{% url 'custompage' %}">Custom Designs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div>
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="{% url 'about_us' %}">About Us</a></li>
+                        <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                        <li><a href="{% url 'blog' %}">Blog</a></li>
+                        <li><a href="{% url 'customer_signup' %}">Create Account</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h5>Get In Touch</h5>
+                    <div class="tl-footer__contact-item">
+                        <span class="tl-footer__contact-icon"><i class="fa fa-map-marker"></i></span>
+                        <span>#30 ABC Colony, XYZ Main Road,<br>Salem, Tamil Nadu, India</span>
+                    </div>
+                    <div class="tl-footer__contact-item">
+                        <span class="tl-footer__contact-icon"><i class="fa fa-phone"></i></span>
+                        <span>+91 99999 88888</span>
+                    </div>
+                    <div class="tl-footer__contact-item">
+                        <span class="tl-footer__contact-icon"><i class="fa fa-envelope-o"></i></span>
+                        <span>trendylooms123@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="tl-container">
         <div class="tl-footer__bottom">
             <span>&copy; {% now "Y" %} Trendy Looms. All rights reserved.</span>
-            <span>Made with <i class="fa fa-heart" style="color:#ef4444;"></i> by <a href="https://TrendyLooms.com" target="_blank" rel="noopener">TrendyLooms</a></span>
+            <div class="tl-footer__payments">
+                <span class="tl-footer__pay-icon">VISA</span>
+                <span class="tl-footer__pay-icon">MC</span>
+                <span class="tl-footer__pay-icon">UPI</span>
+                <span class="tl-footer__pay-icon">RZP</span>
+            </div>
         </div>
     </div>
 </footer>
