@@ -9,8 +9,22 @@
 </head>
 <body class="tl-standalone tl-standalone--error">
     <div class="tl-standalone__card">
-        <div class="tl-standalone__img">
-            <img src="{% static 'home/images/404.png' %}" alt="Page not found illustration">
+        <div class="tl-standalone__img" aria-hidden="true">
+            <svg viewBox="0 0 240 150" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+                <defs>
+                    <linearGradient id="tl404" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stop-color="#5a4ff3"/>
+                        <stop offset="1" stop-color="#8b5cf6"/>
+                    </linearGradient>
+                </defs>
+                <ellipse cx="120" cy="132" rx="80" ry="10" fill="#eef2ff"/>
+                <circle cx="120" cy="66" r="52" fill="#eef2ff"/>
+                <circle cx="103" cy="60" r="7" fill="url(#tl404)"/>
+                <circle cx="137" cy="60" r="7" fill="url(#tl404)"/>
+                <path d="M104 88 q16 -14 32 0" stroke="url(#tl404)" stroke-width="4" stroke-linecap="round"/>
+                <path d="M150 30 l14 -10 M170 44 l16 -4 M150 102 l14 10 M170 88 l16 4"
+                      stroke="#c7d2fe" stroke-width="3" stroke-linecap="round"/>
+            </svg>
         </div>
         <div class="tl-standalone__icon tl-standalone__icon--error">404</div>
         <div class="tl-standalone__title tl-standalone__title--error">Page Not Found</div>

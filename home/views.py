@@ -72,7 +72,24 @@ def customer_login(request):
 
 def customer_logout(request):
     logout(request)
+    messages.success(
+        request,
+        "You have been logged out successfully.",
+        extra_tags='logout',
+    )
     return redirect('/')
+
+
+def page_not_found(request, path=''):
+    return render(request, 'home/404.html', status=404)
+
+
+def custom_404(request, exception):
+    return page_not_found(request)
+
+
+def custom_500(request):
+    return render(request, 'home/404.html', status=500)
 
 def customer_signup(request):
     if request.method == 'POST':

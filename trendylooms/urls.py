@@ -15,13 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from home.views import page_not_found
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('',include('home.urls')),
-    path('admin/',include("dashboard.UI.urls")),
-    path('orders/',include("dashboard.orders.urls")),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', include('home.urls')),
+    path('admin/', include("dashboard.UI.urls")),
+    path('orders/', include("dashboard.orders.urls")),
+    # Catch-all: show custom 404 in development (DEBUG=True skips handler404)
+    path('<path:path>', page_not_found),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Custom error pages (used when DEBUG = False)
+handler404 = 'home.views.custom_404'
+handler500 = 'home.views.custom_500'
