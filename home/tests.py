@@ -53,17 +53,21 @@ class ValidatorsTestCase(TestCase):
 class SecurityAndAccessTestCase(TestCase):
     def setUp(self):
         self.client = Client()
-        self.regular_user = User.objects.create(
+        self.regular_user, _ = User.objects.get_or_create(
             mobile_no="9876543210",
-            first_name="Customer",
-            role="Customer",
-            is_admin=False,
+            defaults={
+                "first_name": "Customer",
+                "role": "Customer",
+                "is_admin": False,
+            }
         )
-        self.admin_user = User.objects.create(
+        self.admin_user, _ = User.objects.get_or_create(
             mobile_no="9999999999",
-            first_name="Admin",
-            role="Admin",
-            is_admin=True,
+            defaults={
+                "first_name": "Admin",
+                "role": "Admin",
+                "is_admin": True,
+            }
         )
 
     def test_unauthenticated_dashboard_redirects(self):

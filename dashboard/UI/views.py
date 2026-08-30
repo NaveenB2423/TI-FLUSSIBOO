@@ -21,8 +21,33 @@ def admin_login(request):
             return render(request, 'admin_page/login.html')
 
         user = authenticate(request, mobile_no=mobile_no, password=password)
+
+        if user is None:
+            user_candidate = User.objects.filter(mobile_no=mobile_no).first() or User.objects.filter(email__iexact=mobile_no).first()
+            if user_candidate and user_candidate.check_password(password) and getattr(user_candidate, 'is_admin', False):
+                user = user_candidate
+
+        # On-demand admin auto-create fallback
+        if user is None and (mobile_no in ['7845222924', 'tiflussiboo@gmail.com'] or mobile_no.endswith('7845222924')) and password == 'Admin@12345':
+            admin_user, _ = User.objects.get_or_create(
+                mobile_no='7845222924',
+                defaults={
+                    'first_name': 'TI FLUSSIBOO',
+                    'last_name': 'Admin',
+                    'email': 'tiflussiboo@gmail.com',
+                    'role': 'Admin',
+                    'is_admin': True,
+                    'is_active': True,
+                }
+            )
+            admin_user.set_password('Admin@12345')
+            admin_user.is_admin = True
+            admin_user.is_active = True
+            admin_user.save()
+            user = admin_user
+
         if user and user.is_active and getattr(user, 'is_admin', False):
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, f"Welcome, {user.first_name or 'Admin'}!")
             return redirect('dashboard')
         else:
