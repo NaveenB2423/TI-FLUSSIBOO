@@ -509,3 +509,29 @@ def payment_success(request):
     Cart.objects.filter(made_by=request.user).delete()
     messages.success(request, f"Payment successful! Transaction Reference: {payment_id}")
     return render(request, 'home/success.html', {'payment_id': payment_id})
+
+
+def db_check(request):
+    from django.db import connection
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+            cursor.fetchone()
+        
+        user_count = User.objects.count()
+        db_engine = connection.settings_dict.get('ENGINE', 'unknown').split('.')[-1]
+        
+        return JsonResponse({
+            "status": "connected",
+            "database_engine": db_engine,
+            "user_count": user_count,
+            "connected": True
+        })
+    except Exception as e:
+        logger.exception("Database diagnostic check failed")
+        return JsonResponse({
+            "status": "error",
+            "error_details": str(e),
+            "connected": False
+        }, status=500)
+

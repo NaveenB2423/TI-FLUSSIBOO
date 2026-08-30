@@ -11,6 +11,7 @@ from .views import (
     customer_login,
     customer_logout,
     customer_signup,
+    db_check,
     delete_cart,
     index,
     main_products,
@@ -23,8 +24,9 @@ from .views import (
 )
 
 urlpatterns = [
-    path('', index,name='index' ),
-    path('products/<str:menu>',main_products,name='main_products'),
+    path('', index, name='index'),
+    path('db-check/', db_check, name='db_check'),
+    path('products/<str:menu>', main_products, name='main_products'),
     path('products/<str:main_menu>/<str:sub_menu>',sub_products,name='sub_products'),
     path('about/',about_us, name='about_us'),
     path('contact/',contact_us, name='contact_us'),

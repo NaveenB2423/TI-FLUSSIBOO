@@ -118,24 +118,34 @@ IS_SERVERLESS = (
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL:
-    import urllib.parse
-    url = urllib.parse.urlparse(DATABASE_URL)
-    engine_map = {
-        'postgres': 'django.db.backends.postgresql',
-        'postgresql': 'django.db.backends.postgresql',
-        'mysql': 'django.db.backends.mysql',
-        'sqlite': 'django.db.backends.sqlite3',
-    }
-    DATABASES = {
-        'default': {
-            'ENGINE': engine_map.get(url.scheme, 'django.db.backends.sqlite3'),
-            'NAME': url.path[1:] if url.scheme != 'sqlite' else url.path,
-            'USER': url.username,
-            'PASSWORD': url.password,
-            'HOST': url.hostname,
-            'PORT': url.port or '',
+    try:
+        import dj_database_url
+        DATABASES = {
+            'default': dj_database_url.parse(
+                DATABASE_URL,
+                conn_max_age=600,
+                conn_health_checks=True,
+            )
         }
-    }
+    except Exception:
+        import urllib.parse
+        url = urllib.parse.urlparse(DATABASE_URL)
+        engine_map = {
+            'postgres': 'django.db.backends.postgresql',
+            'postgresql': 'django.db.backends.postgresql',
+            'mysql': 'django.db.backends.mysql',
+            'sqlite': 'django.db.backends.sqlite3',
+        }
+        DATABASES = {
+            'default': {
+                'ENGINE': engine_map.get(url.scheme, 'django.db.backends.postgresql'),
+                'NAME': url.path[1:] if url.scheme != 'sqlite' else url.path,
+                'USER': url.username,
+                'PASSWORD': url.password,
+                'HOST': url.hostname,
+                'PORT': url.port or '',
+            }
+        }
 elif IS_SERVERLESS:
     # Serverless runtime (Vercel Lambda): /var/task is read-only.
     # SQLite requires write access to the directory for locking/journaling.
