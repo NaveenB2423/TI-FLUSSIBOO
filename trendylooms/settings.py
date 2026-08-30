@@ -45,12 +45,20 @@ else:
         if default_host not in ALLOWED_HOSTS:
             ALLOWED_HOSTS.append(default_host)
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
 CSRF_TRUSTED_ORIGINS = [
     'https://*.vercel.app',
     'https://*.now.sh',
     'https://*.onrender.com',
+    'http://*.onrender.com',
     'https://*.tiflussiboo.com',
+    'http://*.tiflussiboo.com',
     'https://tiflussiboo.com',
+    'http://tiflussiboo.com',
+    'https://www.tiflussiboo.com',
+    'http://www.tiflussiboo.com',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
 ]
