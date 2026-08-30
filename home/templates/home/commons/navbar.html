@@ -28,6 +28,9 @@
                     <a href="{% url 'index' %}" class="tl-nav__link {% if current_url == 'index' %}is-active{% endif %}">Home</a>
                 </li>
                 <li>
+                    <a href="{% url 'products' %}" class="tl-nav__link {% if current_url == 'products' %}is-active{% endif %}">Shop All</a>
+                </li>
+                <li>
                     <a href="{% url 'custompage' %}" class="tl-nav__link {% if current_url == 'custompage' %}is-active{% endif %}">Customize Design</a>
                 </li>
 
@@ -59,47 +62,205 @@
                 </a>
 
                 {% if request.user.is_authenticated %}
-                    <li style="list-style:none; position:relative;">
+                    <li style="list-style:none; position:relative;" class="d-none d-sm-block">
                         <a href="{% url 'customer_logout' %}" class="tl-user">
                             <span class="tl-user__avatar">{{ request.user.first_name|first|upper }}</span>
-                            {{ request.user.first_name|title }}
+                            <span>{{ request.user.first_name|title }}</span>
                             <i class="fa fa-sign-out" style="margin-left:4px;"></i>
                         </a>
                     </li>
                 {% else %}
-                    <a href="{% url 'customer_login' %}" class="tl-btn tl-btn--primary">Login</a>
+                    <a href="{% url 'customer_login' %}" class="tl-btn tl-btn--primary d-none d-sm-inline-flex">Login</a>
                 {% endif %}
 
-                <button type="button" class="tl-nav__toggle" id="tlNavToggle" aria-label="Menu">
+                <button type="button" class="tl-nav__toggle" id="tlNavToggle" aria-label="Open navigation menu">
                     <i class="fa fa-bars"></i>
                 </button>
             </div>
         </nav>
     </div>
-
-    <!-- Mobile menu -->
-    <div class="tl-mobile" id="tlMobileMenu">
-        <div class="tl-container">
-            <a href="{% url 'index' %}" class="tl-nav__link">Home</a>
-            <a href="{% url 'custompage' %}" class="tl-nav__link">Customize Design</a>
-            {% for menu in menus %}
-                <a href="{% url 'main_products' menu.name|slugify %}" class="tl-nav__link">{{ menu.name }}</a>
-                {% for sub_menu in menu.submenus_set.all %}
-                    <a href="{% url 'sub_products' sub_menu.main_menu.name|slugify sub_menu.name|slugify %}" class="tl-nav__link" style="padding-left:28px; color:var(--tl-muted);">— {{ sub_menu.name }}</a>
-                {% endfor %}
-            {% endfor %}
-        </div>
-    </div>
 </header>
 
+<!-- ================= MOBILE OFF-CANVAS DRAWER ================= -->
+<div class="tl-drawer-backdrop" id="tlDrawerBackdrop"></div>
+
+<aside class="tl-drawer" id="tlDrawer" aria-label="Mobile Navigation">
+    <div class="tl-drawer__head">
+        <a href="{% url 'index' %}" class="tl-nav__logo">
+            <span class="tl-nav__mark">T</span>
+            Trendy<span class="tl-dot">Looms</span>
+        </a>
+        <button type="button" class="tl-drawer__close" id="tlDrawerClose" aria-label="Close menu">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+
+    <!-- User banner -->
+    {% if request.user.is_authenticated %}
+        <div class="tl-drawer__user">
+            <span class="tl-drawer__user-avatar">{{ request.user.first_name|first|upper }}</span>
+            <div>
+                <div class="tl-drawer__user-name">{{ request.user.first_name|title }} {{ request.user.last_name|default:''|title }}</div>
+                <div class="tl-drawer__user-sub">{{ request.user.email|default:request.user.mobile }}</div>
+            </div>
+        </div>
+    {% else %}
+        <div class="tl-drawer__user">
+            <div class="tl-drawer__user-avatar"><i class="fa fa-user"></i></div>
+            <div>
+                <div class="tl-drawer__user-name">Welcome, Guest</div>
+                <div class="tl-drawer__user-sub"><a href="{% url 'customer_login' %}" style="color:var(--tl-primary); font-weight:700;">Login</a> or <a href="{% url 'customer_signup' %}" style="color:var(--tl-primary); font-weight:700;">Sign up</a></div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Navigation links -->
+    <div class="tl-drawer__body">
+        <div class="tl-drawer__nav-item">
+            <a href="{% url 'index' %}" class="tl-drawer__link {% if current_url == 'index' %}is-active{% endif %}">
+                <span><i class="fa fa-home" style="margin-right:10px; color:var(--tl-primary);"></i> Home</span>
+            </a>
+        </div>
+        <div class="tl-drawer__nav-item">
+            <a href="{% url 'products' %}" class="tl-drawer__link {% if current_url == 'products' %}is-active{% endif %}">
+                <span><i class="fa fa-shopping-bag" style="margin-right:10px; color:var(--tl-primary);"></i> All Products</span>
+            </a>
+        </div>
+        <div class="tl-drawer__nav-item">
+            <a href="{% url 'custompage' %}" class="tl-drawer__link {% if current_url == 'custompage' %}is-active{% endif %}">
+                <span><i class="fa fa-magic" style="margin-right:10px; color:var(--tl-primary);"></i> Customize Design</span>
+                <span class="tl-price__off">Custom</span>
+            </a>
+        </div>
+
+        {% for menu in menus %}
+            <div class="tl-drawer__nav-item">
+                {% if menu.submenus_set.all %}
+                    <button type="button" class="tl-drawer__link js-drawer-accordion">
+                        <span><i class="fa fa-tag" style="margin-right:10px; color:var(--tl-primary);"></i> {{ menu.name }}</span>
+                        <i class="fa fa-chevron-down chevron"></i>
+                    </button>
+                    <div class="tl-drawer__submenu">
+                        <a href="{% url 'main_products' menu.name|slugify %}" class="tl-drawer__sublink">View All {{ menu.name }}</a>
+                        {% for sub_menu in menu.submenus_set.all %}
+                            <a href="{% url 'sub_products' menu.name|slugify sub_menu.name|slugify %}" class="tl-drawer__sublink">&bull; {{ sub_menu.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <a href="{% url 'main_products' menu.name|slugify %}" class="tl-drawer__link">
+                        <span><i class="fa fa-tag" style="margin-right:10px; color:var(--tl-primary);"></i> {{ menu.name }}</span>
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="tl-divider" style="margin: 12px 0;"></div>
+
+        <div class="tl-drawer__nav-item">
+            <a href="{% url 'about_us' %}" class="tl-drawer__link">
+                <span><i class="fa fa-info-circle" style="margin-right:10px; color:var(--tl-muted);"></i> About Us</span>
+            </a>
+        </div>
+        <div class="tl-drawer__nav-item">
+            <a href="{% url 'contact_us' %}" class="tl-drawer__link">
+                <span><i class="fa fa-envelope" style="margin-right:10px; color:var(--tl-muted);"></i> Contact Us</span>
+            </a>
+        </div>
+        <div class="tl-drawer__nav-item">
+            <a href="{% url 'blog' %}" class="tl-drawer__link">
+                <span><i class="fa fa-newspaper-o" style="margin-right:10px; color:var(--tl-muted);"></i> Blog &amp; Trends</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="tl-drawer__footer">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'customer_logout' %}" class="tl-btn tl-btn--ghost tl-btn--block">
+                <i class="fa fa-sign-out"></i> Logout
+            </a>
+        {% else %}
+            <a href="{% url 'customer_login' %}" class="tl-btn tl-btn--primary tl-btn--block">Login</a>
+            <a href="{% url 'customer_signup' %}" class="tl-btn tl-btn--ghost tl-btn--block">Create Account</a>
+        {% endif %}
+        <div class="tl-text-center tl-text-xs tl-text-muted tl-mt-xs">
+            <i class="fa fa-phone"></i> +91 99999 88888 &bull; Salem, TN
+        </div>
+    </div>
+</aside>
+
+<!-- ================= MOBILE APP BOTTOM NAVIGATION BAR ================= -->
+<nav class="tl-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <div class="tl-bottom-nav__inner">
+        <a href="{% url 'index' %}" class="tl-bottom-nav__item {% if current_url == 'index' %}is-active{% endif %}">
+            <i class="fa fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{% url 'products' %}" class="tl-bottom-nav__item {% if current_url == 'products' or current_url == 'selected_products' %}is-active{% endif %}">
+            <i class="fa fa-th-large"></i>
+            <span>Shop</span>
+        </a>
+        <a href="{% url 'custompage' %}" class="tl-bottom-nav__item {% if current_url == 'custompage' %}is-active{% endif %}">
+            <i class="fa fa-magic"></i>
+            <span>Custom</span>
+        </a>
+        <a href="{% url 'shopping_cart' %}" class="tl-bottom-nav__item {% if current_url == 'shopping_cart' %}is-active{% endif %}">
+            <i class="zmdi zmdi-shopping-cart"></i>
+            <span>Cart</span>
+            {% if cart_counts %}<span class="tl-bottom-nav__badge">{{ cart_counts }}</span>{% endif %}
+        </a>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'customer_logout' %}" class="tl-bottom-nav__item" title="Logout {{ request.user.first_name }}">
+                <i class="fa fa-user-circle"></i>
+                <span>Account</span>
+            </a>
+        {% else %}
+            <a href="{% url 'customer_login' %}" class="tl-bottom-nav__item {% if current_url == 'customer_login' %}is-active{% endif %}">
+                <i class="fa fa-user-circle-o"></i>
+                <span>Login</span>
+            </a>
+        {% endif %}
+    </div>
+</nav>
+
 <script>
-    (function () {
-        var toggle = document.getElementById('tlNavToggle');
-        var menu = document.getElementById('tlMobileMenu');
-        if (toggle && menu) {
-            toggle.addEventListener('click', function () {
-                menu.classList.toggle('is-open');
-            });
+(function () {
+    var toggleBtn = document.getElementById('tlNavToggle');
+    var closeBtn = document.getElementById('tlDrawerClose');
+    var backdrop = document.getElementById('tlDrawerBackdrop');
+    var drawer = document.getElementById('tlDrawer');
+
+    function openDrawer() {
+        if (drawer && backdrop) {
+            drawer.classList.add('is-open');
+            backdrop.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
         }
-    })();
+    }
+
+    function closeDrawer() {
+        if (drawer && backdrop) {
+            drawer.classList.remove('is-open');
+            backdrop.classList.remove('is-active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeDrawer();
+    });
+
+    // Submenu accordions
+    var accordions = document.querySelectorAll('.js-drawer-accordion');
+    accordions.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var item = this.closest('.tl-drawer__nav-item');
+            if (item) item.classList.toggle('is-expanded');
+        });
+    });
+})();
 </script>

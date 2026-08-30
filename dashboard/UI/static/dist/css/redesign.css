@@ -176,3 +176,45 @@ label { font-weight: 600; color: var(--tl-ink); }
     border-radius: var(--tl-radius) !important;
     box-shadow: var(--tl-shadow) !important;
 }
+
+/* ---------- Mobile Responsive Overrides for Admin ---------- */
+@media (max-width: 768px) {
+    .content-header h1 { font-size: 20px !important; }
+    .card-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .card-body {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .table-responsive, .dataTables_wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+    .dataTables_length, .dataTables_filter, .dataTables_info, .dataTables_paginate {
+        text-align: left !important;
+        margin-bottom: 8px;
+    }
+    .pagination {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .main-footer {
+        text-align: center;
+        font-size: 13px;
+        padding: 12px 14px;
+    }
+    .main-footer .float-right {
+        display: none !important;
+    }
+}

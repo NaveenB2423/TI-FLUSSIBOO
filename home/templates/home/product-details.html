@@ -81,12 +81,16 @@
                     <!-- Quantity -->
                     <div class="tl-form-group--lg">
                         <label class="tl-label">Quantity</label>
-                        <input type="number" name="qty" value="1" min="1" class="tl-input tl-input--qty">
+                        <div class="tl-qty-stepper">
+                            <button type="button" class="tl-qty-stepper__btn" id="qtyMinus" aria-label="Decrease quantity">&minus;</button>
+                            <input type="number" name="qty" id="qtyInput" value="1" min="1" max="99" class="tl-qty-stepper__input" readonly>
+                            <button type="button" class="tl-qty-stepper__btn" id="qtyPlus" aria-label="Increase quantity">&plus;</button>
+                        </div>
                     </div>
 
                     <!-- Actions -->
-                    <div class="tl-flex tl-flex-wrap tl-gap-sm tl-mb-lg">
-                        <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg"><i class="zmdi zmdi-shopping-cart"></i> Add to Cart</button>
+                    <div class="tl-flex tl-flex-wrap tl-gap-sm tl-mb-lg" id="mainPdpActions">
+                        <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg" style="flex: 1; min-width: 180px;"><i class="zmdi zmdi-shopping-cart"></i> Add to Cart</button>
                         <a href="{% url 'shopping_cart' %}" class="tl-btn tl-btn--ghost tl-btn--lg">View Cart</a>
                         <a href="{% url 'products' %}" class="tl-btn tl-btn--ghost tl-btn--lg">Continue Shopping</a>
                     </div>
@@ -101,5 +105,59 @@
         </div>
     </div>
 </section>
+
+<!-- Sticky Mobile Action Bar -->
+<div class="tl-sticky-pdp-bar" id="tlStickyPdpBar">
+    <div class="tl-sticky-pdp-bar__inner">
+        <div>
+            <div class="tl-text-xs tl-text-muted">Total Price</div>
+            <div class="tl-sticky-pdp-bar__price">&#8377;{{ product.discount_price|floatformat:0 }}</div>
+        </div>
+        <button type="button" class="tl-btn tl-btn--primary tl-sticky-pdp-bar__btn" id="stickyAddToCartBtn">
+            <i class="zmdi zmdi-shopping-cart"></i> Add to Cart
+        </button>
+    </div>
+</div>
+
+<script>
+(function () {
+    var qtyInput = document.getElementById('qtyInput');
+    var minusBtn = document.getElementById('qtyMinus');
+    var plusBtn = document.getElementById('qtyPlus');
+
+    if (minusBtn && plusBtn && qtyInput) {
+        minusBtn.addEventListener('click', function () {
+            var val = parseInt(qtyInput.value, 10) || 1;
+            if (val > 1) qtyInput.value = val - 1;
+        });
+        plusBtn.addEventListener('click', function () {
+            var val = parseInt(qtyInput.value, 10) || 1;
+            if (val < 99) qtyInput.value = val + 1;
+        });
+    }
+
+    var stickyBar = document.getElementById('tlStickyPdpBar');
+    var mainActions = document.getElementById('mainPdpActions');
+    var stickyBtn = document.getElementById('stickyAddToCartBtn');
+    var mainForm = document.querySelector('form[action=""]');
+
+    if (stickyBar && mainActions) {
+        window.addEventListener('scroll', function () {
+            var rect = mainActions.getBoundingClientRect();
+            if (rect.bottom < 0) {
+                stickyBar.classList.add('is-visible');
+            } else {
+                stickyBar.classList.remove('is-visible');
+            }
+        }, { passive: true });
+    }
+
+    if (stickyBtn && mainForm) {
+        stickyBtn.addEventListener('click', function () {
+            mainForm.requestSubmit ? mainForm.requestSubmit() : mainForm.submit();
+        });
+    }
+})();
+</script>
 
 {% endblock %}

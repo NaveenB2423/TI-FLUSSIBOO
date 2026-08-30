@@ -32,13 +32,24 @@ SECRET_KEY = os.environ.get(
 # Defaults to True to keep current behavior; set DJANGO_DEBUG=0 in production.
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
+# Allowed hosts
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
     if host.strip()
 ]
-if DEBUG and not ALLOWED_HOSTS:
+if not ALLOWED_HOSTS:
     ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.vercel.app',
+    'https://*.now.sh',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+]
+custom_csrf = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS')
+if custom_csrf:
+    CSRF_TRUSTED_ORIGINS.extend([origin.strip() for origin in custom_csrf.split(',') if origin.strip()])
 
 
 # Application definition
@@ -91,12 +102,57 @@ WSGI_APPLICATION = 'trendylooms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+IS_SERVERLESS = (
+    os.environ.get('VERCEL') == '1'
+    or bool(os.environ.get('AWS_LAMBDA_FUNCTION_NAME'))
+    or str(BASE_DIR).startswith('/var/task')
+)
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    import urllib.parse
+    url = urllib.parse.urlparse(DATABASE_URL)
+    engine_map = {
+        'postgres': 'django.db.backends.postgresql',
+        'postgresql': 'django.db.backends.postgresql',
+        'mysql': 'django.db.backends.mysql',
+        'sqlite': 'django.db.backends.sqlite3',
     }
-}
+    DATABASES = {
+        'default': {
+            'ENGINE': engine_map.get(url.scheme, 'django.db.backends.sqlite3'),
+            'NAME': url.path[1:] if url.scheme != 'sqlite' else url.path,
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+            'PORT': url.port or '',
+        }
+    }
+elif IS_SERVERLESS:
+    # Serverless runtime (Vercel Lambda): /var/task is read-only.
+    # SQLite requires write access to the directory for locking/journaling.
+    # Use /tmp/db.sqlite3 which is writable in Lambda.
+    import shutil
+    tmp_db = Path('/tmp/db.sqlite3')
+    bundled_db = BASE_DIR / 'db.sqlite3'
+    if not tmp_db.exists() and bundled_db.exists():
+        try:
+            shutil.copy2(bundled_db, tmp_db)
+        except Exception:
+            pass
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': tmp_db,
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation

@@ -18,7 +18,8 @@
     <div class="tl-container">
 
         <!-- Filters -->
-        <div class="tl-filter tl-mb-xl">
+        <div class="tl-filter tl-filter--scroll tl-mb-xl">
+            <a href="{% url 'products' %}" class="tl-chip is-active">All Items</a>
             {% for menu in menus %}
                 <a href="{% url 'main_products' menu.name|slugify %}" class="tl-chip">{{ menu.name }}</a>
                 {% for sub_menu in menu.submenus_set.all %}
@@ -32,7 +33,9 @@
             {% for product in product %}
                 <article class="tl-card">
                     <div class="tl-card__media">
-                        {% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% endif %}
+                        <a href="{% url 'product_details' product.name|slugify %}" style="display:block; width:100%; height:100%;">
+                            {% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% endif %}
+                        </a>
                         <a href="#" class="tl-card__fav" aria-label="Add to wishlist"><i class="fa fa-heart-o"></i></a>
                         <div class="tl-card__quick">
                             <a href="{% url 'product_details' product.name|slugify %}" class="tl-btn tl-btn--dark tl-btn--block">Quick View</a>

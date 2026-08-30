@@ -5,7 +5,8 @@
     <title>{% block title %}Trendy Looms{% endblock %}</title>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#5a4ff3">
     <meta name="description" content="Trendy Looms – Premium Mens & Womens Wear">
     <meta name="keywords" content="Trendy Looms, Fashion, Clothing, Online Store">
     <meta name="author" content="Trendy Looms">
@@ -114,6 +115,34 @@
     </script>
 
     <script src="{% static 'home/js/main.js' %}"></script>
+
+    <!-- ================= FLOATING QUICK ACTIONS ================= -->
+    <div class="tl-float-actions">
+        <button type="button" class="tl-back-to-top" id="tlBackToTop" aria-label="Scroll to top">
+            <i class="fa fa-chevron-up"></i>
+        </button>
+        <a href="https://wa.me/919999988888?text=Hi%20Trendy%20Looms%2C%20I%20have%20an%20inquiry%20about%20your%20products" class="tl-float-wa" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+            <i class="fa fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <script>
+    (function () {
+        var backToTop = document.getElementById('tlBackToTop');
+        if (backToTop) {
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('is-visible');
+                } else {
+                    backToTop.classList.remove('is-visible');
+                }
+            }, { passive: true });
+            backToTop.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    })();
+    </script>
 
     {% block extra_js %}{% endblock %}
 
