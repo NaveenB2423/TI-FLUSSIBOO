@@ -37,6 +37,10 @@ try:
         admin_user.is_admin = True
         admin_user.is_active = True
         admin_user.save()
+        print("Initialized default admin user: 7845222924", file=sys.stderr)
+except Exception as e:
+    print(f"Admin init notice: {e}", file=sys.stderr)
+
 # Auto-seed default demo customer if absent
 try:
     from domain.models import User
@@ -58,6 +62,3 @@ try:
         print("Initialized default demo customer: 9876543210", file=sys.stderr)
 except Exception as e:
     print(f"Customer init notice: {e}", file=sys.stderr)
-
-
-
