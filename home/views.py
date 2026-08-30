@@ -415,6 +415,10 @@ def create_order(request):
 
     amount_in_paisa = int(round(total_amount * 100))
 
+    if not getattr(settings, 'RAZORPAY_API_KEY', '') or not getattr(settings, 'RAZORPAY_API_SECRET', ''):
+        logger.error("Razorpay API keys are not set in environment variables (RAZORPAY_API_KEY / RAZORPAY_API_SECRET).")
+        return JsonResponse({"error": "Payment gateway is not configured. Please set RAZORPAY_API_KEY and RAZORPAY_API_SECRET."}, status=503)
+
     client = razorpay.Client(auth=(settings.RAZORPAY_API_KEY, settings.RAZORPAY_API_SECRET))
 
     try:

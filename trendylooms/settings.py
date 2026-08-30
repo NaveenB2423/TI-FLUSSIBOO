@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Read from the environment in production; the default preserves existing
-# local/dev behavior so nothing changes when no env var is set.
-SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY',
-    'django-insecure-$05d71%^6fylyb^f9*#og1-mf*ky4ziug&i9r4cnvhg1rd7+=c',
-)
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    if os.environ.get('DJANGO_DEBUG', '1') == '1':
+        SECRET_KEY = 'django-insecure-local-dev-fallback-key'
+    else:
+        raise ValueError("DJANGO_SECRET_KEY environment variable must be set in production.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Defaults to True to keep current behavior; set DJANGO_DEBUG=0 in production.
@@ -219,5 +219,5 @@ SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SECURE_REFERRER_POLICY = 'same-origin'
 
-RAZORPAY_API_KEY = os.environ.get('RAZORPAY_API_KEY', 'rzp_test_Re3mSnvORrkpiR')
-RAZORPAY_API_SECRET = os.environ.get('RAZORPAY_API_SECRET', '4Oe70Q6v7xiyPhGnGPT3oDz7')
+RAZORPAY_API_KEY = os.environ.get('RAZORPAY_API_KEY', '')
+RAZORPAY_API_SECRET = os.environ.get('RAZORPAY_API_SECRET', '')
