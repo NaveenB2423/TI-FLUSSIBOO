@@ -151,5 +151,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'domain.User'
 
+LOGIN_URL = 'customer_login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
+# Security Hardening
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = True
+SECURE_REFERRER_POLICY = 'same-origin'
+
 RAZORPAY_API_KEY = os.environ.get('RAZORPAY_API_KEY', 'rzp_test_Re3mSnvORrkpiR')
-RAZORPAY_API_SECRET = os.environ.get('RAZORPAY_API_SECRET', '4Oe70Q6v7xiyPhGnGPT3oDz7')
+RAZORPAY_API_SECRET = os.environ.get('RAZORPAY_API_SECRET', '4Oe70Q6v7xiyPhGnGPT3oDz7')

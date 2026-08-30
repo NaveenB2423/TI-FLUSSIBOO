@@ -137,9 +137,14 @@ $("#checkout_btn").click(function () {
             var rzp1 = new Razorpay(options);
             rzp1.open();
         },
-        error: function () {
+        error: function (xhr) {
             btn.prop("disabled", false).html('<i class="fa fa-lock"></i> Proceed to Checkout');
-            alert("Something went wrong. Please try again.");
+            var errMsg = (xhr.responseJSON && xhr.responseJSON.error) ? xhr.responseJSON.error : "Something went wrong. Please try again.";
+            if (window.showToast) {
+                showToast(errMsg, "error");
+            } else {
+                alert(errMsg);
+            }
         }
     });
 });

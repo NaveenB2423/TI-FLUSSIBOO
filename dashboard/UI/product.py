@@ -1,109 +1,246 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
-from domain.models import Category, Product, Size, Color, ProductVariant, Cart, SubMenus, MainMenus
+from django.shortcuts import get_object_or_404, redirect, render
 
+from domain.models import Color, MainMenus, Product, ProductVariant, Size, SubMenus
+from domain.validators import validate_image_file, validate_positive_number
+from .decorators import admin_required
+
+
+@admin_required
 def add_product(request):
-    categories = MainMenus.objects.filter(status=1).all()
-    sizes = Size.objects.filter(status=1).all()
-    colors = Color.objects.filter(status=1).all()
-    product = Product()
+    categories = MainMenus.objects.filter(status=1)
+    sizes = Size.objects.filter(status=1)
+    colors = Color.objects.filter(status=1)
+
     if request.method == "POST":
-        product.name= request.POST.get('name','').strip()
-        product.description = request.POST.get('description','').strip()
-        product.main_menu_id = request.POST.get('category')
-        if request.POST.get('subcategory'):
-            product.sub_menu_id = request.POST.get('subcategory')
-        product.price = request.POST.get('price','').strip()
-        product.discount_price = request.POST.get('discount_price','').strip()
-        product.image = request.FILES.get('itemImage', '')
-        product.save()
-        
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
+        category_id = request.POST.get('category')
+        subcategory_id = request.POST.get('subcategory')
+        raw_price = request.POST.get('price', '').strip()
+        raw_discount_price = request.POST.get('discount_price', '').strip()
+        uploaded_image = request.FILES.get('itemImage')
         selected_colors = request.POST.getlist('color')
         selected_sizes = request.POST.getlist('size')
-        for color_id in selected_colors:
-            
-            for size_id in selected_sizes:
-                product_sku = ProductVariant()
-                product_sku.color = Color.objects.get(id=color_id)
-                product_sku.size = Size.objects.get(id=size_id)
-                product_sku.product = product
-                product_sku.save()
 
-    return render(request, 'product/add_product.html', {'categories':categories,'sizes':sizes,'colors':colors})
+        errors = []
+        if not name:
+            errors.append("Product name is required.")
+        if not description:
+            errors.append("Product description is required.")
+        if not category_id:
+            errors.append("Please select a category.")
 
+        price = 0.0
+        discount_price = 0.0
+        try:
+            price = validate_positive_number(raw_price, "Price")
+        except ValidationError as e:
+            errors.append(str(e.message))
+
+        try:
+            discount_price = validate_positive_number(raw_discount_price, "Discount price")
+            if discount_price > price:
+                errors.append("Discount price cannot exceed the original price.")
+        except ValidationError as e:
+            errors.append(str(e.message))
+
+        if uploaded_image:
+            try:
+                validate_image_file(uploaded_image, max_size_mb=5)
+            except ValidationError as e:
+                errors.append(str(e.message))
+
+        if not selected_colors:
+            errors.append("Please select at least one color.")
+        if not selected_sizes:
+            errors.append("Please select at least one size.")
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return render(request, 'product/add_product.html', {
+                'categories': categories,
+                'sizes': sizes,
+                'colors': colors,
+            })
+
+        try:
+            category_obj = MainMenus.objects.get(id=category_id, status=1)
+            subcategory_obj = None
+            if subcategory_id:
+                subcategory_obj = SubMenus.objects.filter(id=subcategory_id, status=1).first()
+
+            product = Product.objects.create(
+                name=name,
+                description=description,
+                main_menu=category_obj,
+                sub_menu=subcategory_obj,
+                price=price,
+                discount_price=discount_price,
+                image=uploaded_image,
+                status=1,
+            )
+
+            for color_id in selected_colors:
+                for size_id in selected_sizes:
+                    try:
+                        color = Color.objects.get(id=color_id, status=1)
+                        size = Size.objects.get(id=size_id, status=1)
+                        ProductVariant.objects.create(
+                            product=product,
+                            color=color,
+                            size=size,
+                            status=1,
+                        )
+                    except (Color.DoesNotExist, Size.DoesNotExist):
+                        continue
+
+            messages.success(request, f'Product "{name}" added successfully.')
+            return redirect('list_product')
+
+        except MainMenus.DoesNotExist:
+            messages.error(request, "Selected category not found.")
+
+    return render(request, 'product/add_product.html', {
+        'categories': categories,
+        'sizes': sizes,
+        'colors': colors,
+    })
+
+
+@admin_required
 def list_product(request):
-    products = Product.objects.filter(status=1).all()
-    return render(request, 'product/list_product.html',{'products': products})
+    products = Product.objects.filter(status=1)
+    return render(request, 'product/list_product.html', {'products': products})
 
-def edit_product(request,id):
-    categories = MainMenus.objects.filter(status=1).all
-    sizes = Size.objects.filter(status=1).all()
-    colors = Color.objects.filter(status=1).all()
-    product = Product.objects.get(id=id)
+
+@admin_required
+def edit_product(request, id):
+    categories = MainMenus.objects.filter(status=1)
+    sizes = Size.objects.filter(status=1)
+    colors = Color.objects.filter(status=1)
+    product = get_object_or_404(Product, id=id)
+
     if request.method == "POST":
-        product.name= request.POST.get('name','').strip()
-        product.description = request.POST.get('description','').strip()
-        product.main_menu_id = request.POST.get('category')
-        product.price = request.POST.get('price','').strip()
-        product.discount_price = request.POST.get('discount_price','').strip()
-        if request.FILES.get('itemImage'):
-            product.image = request.FILES.get('itemImage', '')
-        product.save()
-        
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
+        category_id = request.POST.get('category')
+        raw_price = request.POST.get('price', '').strip()
+        raw_discount_price = request.POST.get('discount_price', '').strip()
+        uploaded_image = request.FILES.get('itemImage')
         selected_colors = request.POST.getlist('color')
         selected_sizes = request.POST.getlist('size')
-        old_variants = ProductVariant.objects.filter(product=product).all()
-        for old in old_variants:
-            old.status=0
-            old.save()
-        for color_id in selected_colors: 
-            for size_id in selected_sizes:
-                color = Color.objects.get(id=color_id)
-                size = Size.objects.get(id=size_id)
-                check_variant = ProductVariant.objects.filter(product=product, color=color,size=size).exists()
-                if not check_variant:
-                    variant = ProductVariant.objects.create(product=product, size=size, color=color,status=1)
-                else:
-                    variant = ProductVariant.objects.get(product=product, color=color,size=size)
-                    variant.status=1
-                    variant.save()
 
-        return redirect(list_product)
-    return render(request, 'product/edit_product.html',{'product': product,'categories':categories,'sizes':sizes,'colors':colors})
+        errors = []
+        if not name:
+            errors.append("Product name is required.")
+        if not description:
+            errors.append("Product description is required.")
+        if not category_id:
+            errors.append("Please select a category.")
 
+        price = product.price
+        discount_price = product.discount_price
+        try:
+            price = validate_positive_number(raw_price, "Price")
+        except ValidationError as e:
+            errors.append(str(e.message))
+
+        try:
+            discount_price = validate_positive_number(raw_discount_price, "Discount price")
+            if discount_price > price:
+                errors.append("Discount price cannot exceed the original price.")
+        except ValidationError as e:
+            errors.append(str(e.message))
+
+        if uploaded_image:
+            try:
+                validate_image_file(uploaded_image, max_size_mb=5)
+            except ValidationError as e:
+                errors.append(str(e.message))
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return render(request, 'product/edit_product.html', {
+                'product': product,
+                'categories': categories,
+                'sizes': sizes,
+                'colors': colors,
+            })
+
+        try:
+            product.name = name
+            product.description = description
+            product.main_menu = MainMenus.objects.get(id=category_id, status=1)
+            product.price = price
+            product.discount_price = discount_price
+            if uploaded_image:
+                product.image = uploaded_image
+            product.save()
+
+            if selected_colors and selected_sizes:
+                ProductVariant.objects.filter(product=product).update(status=0)
+                for color_id in selected_colors:
+                    for size_id in selected_sizes:
+                        try:
+                            color = Color.objects.get(id=color_id)
+                            size = Size.objects.get(id=size_id)
+                            variant, _ = ProductVariant.objects.get_or_create(
+                                product=product,
+                                color=color,
+                                size=size,
+                            )
+                            variant.status = 1
+                            variant.save()
+                        except (Color.DoesNotExist, Size.DoesNotExist):
+                            continue
+
+            messages.success(request, f'Product "{name}" updated successfully.')
+            return redirect('list_product')
+
+        except MainMenus.DoesNotExist:
+            messages.error(request, "Selected category not found.")
+
+    return render(request, 'product/edit_product.html', {
+        'product': product,
+        'categories': categories,
+        'sizes': sizes,
+        'colors': colors,
+    })
+
+
+@admin_required
 def update_home_item(request):
-    id =  request.POST.get('id')
-    data_id = request.POST.get('data_id') if request.POST.get('data_id') else  None
-    return JsonResponse({"status" : "success"})
+    return JsonResponse({"status": "success"})
 
-def delete_product(request,id):
-    product = Product.objects.get(id=id)
+
+@admin_required
+def delete_product(request, id):
+    product = get_object_or_404(Product, id=id)
     product.status = 0
     product.save()
-    return redirect(list_product)
+    messages.success(request, f'Product "{product.name}" removed.')
+    return redirect('list_product')
 
+
+@admin_required
 def ecommerce(request):
     product = Product.objects.filter(status=1).last()
-    if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        size_name = request.POST.get('size')
-        
-        color_name =request.POST.get('color')
-       
-        qty =request.POST.get('qty')
-        size = Size.objects.get(name=size_name,status=1)
-        color = Color.objects.get(name=color_name,status=1)
-        productVariant = ProductVariant.objects.get(product_id=product_id, size=size, color=color)
-        cart = Cart()
-        cart.variant=productVariant
-        cart.qty = qty
-        cart.save()
-        
-    return render(request,'product/e-commerce.html',{'product':product})
+    return render(request, 'product/e-commerce.html', {'product': product})
 
+
+@admin_required
 def get_sub_menus(request):
     if request.method == "POST":
-        id = request.POST.get('id','').strip()
-        sub_menus = SubMenus.objects.filter(main_menu_id=id).values()
-        return JsonResponse({"values":list(sub_menus)})
-    return JsonResponse({})
+        raw_id = request.POST.get('id', '').strip()
+        try:
+            menu_id = int(raw_id)
+            sub_menus = list(SubMenus.objects.filter(main_menu_id=menu_id, status=1).values('id', 'name'))
+            return JsonResponse({"values": sub_menus})
+        except ValueError:
+            return JsonResponse({"values": []}, status=400)
+    return JsonResponse({"values": []})

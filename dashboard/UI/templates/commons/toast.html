@@ -1,0 +1,200 @@
+<style>
+    .admin-toast-wrap {
+        position: fixed; top: 20px; right: 20px; z-index: 999999;
+        display: flex; flex-direction: column; gap: 10px;
+        max-width: min(400px, calc(100vw - 30px));
+        pointer-events: none;
+    }
+    .admin-toast {
+        pointer-events: auto;
+        display: flex; align-items: flex-start; gap: 12px;
+        background: #ffffff; color: #1e293b;
+        border-radius: 10px; padding: 14px 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 3px 8px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-left: 6px solid #64748b;
+        font-family: inherit;
+        transform: translateX(120%); opacity: 0;
+        transition: transform .35s cubic-bezier(.16, 1, .3, 1), opacity .3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .admin-toast.is-in { transform: translateX(0); opacity: 1; }
+    .admin-toast.is-out { transform: translateX(120%); opacity: 0; }
+
+    /* Green Toast for Success */
+    .admin-toast--success {
+        border-left-color: #10b981;
+        background: #f0fdf4;
+    }
+    .admin-toast--success .admin-toast__icon {
+        background: #10b981;
+        color: #ffffff;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.35);
+    }
+    .admin-toast--success .admin-toast__title { color: #065f46; font-weight: 700; }
+    .admin-toast--success .admin-toast__msg { color: #047857; }
+    .admin-toast--success .admin-toast__bar { background: #10b981; }
+
+    /* Red Toast for Negative / Error */
+    .admin-toast--error, .admin-toast--danger {
+        border-left-color: #ef4444;
+        background: #fef2f2;
+    }
+    .admin-toast--error .admin-toast__icon, .admin-toast--danger .admin-toast__icon {
+        background: #ef4444;
+        color: #ffffff;
+        box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
+    }
+    .admin-toast--error .admin-toast__title, .admin-toast--danger .admin-toast__title { color: #991b1b; font-weight: 700; }
+    .admin-toast--error .admin-toast__msg, .admin-toast--danger .admin-toast__msg { color: #b91c1c; }
+    .admin-toast--error .admin-toast__bar, .admin-toast--danger .admin-toast__bar { background: #ef4444; }
+
+    /* Warning */
+    .admin-toast--warning {
+        border-left-color: #f59e0b;
+        background: #fffbeb;
+    }
+    .admin-toast--warning .admin-toast__icon { background: #f59e0b; color: #ffffff; }
+    .admin-toast--warning .admin-toast__title { color: #92400e; font-weight: 700; }
+    .admin-toast--warning .admin-toast__msg { color: #b45309; }
+    .admin-toast--warning .admin-toast__bar { background: #f59e0b; }
+
+    /* Info */
+    .admin-toast--info {
+        border-left-color: #3b82f6;
+        background: #eff6ff;
+    }
+    .admin-toast--info .admin-toast__icon { background: #3b82f6; color: #ffffff; }
+    .admin-toast--info .admin-toast__title { color: #1e40af; font-weight: 700; }
+    .admin-toast--info .admin-toast__msg { color: #1d4ed8; }
+    .admin-toast--info .admin-toast__bar { background: #3b82f6; }
+
+    .admin-toast__icon {
+        flex: none; width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .admin-toast__icon svg { width: 16px; height: 16px; display: block; }
+    .admin-toast__body { flex: 1; padding-top: 1px; }
+    .admin-toast__title { font-size: 14px; margin: 0 0 2px; }
+    .admin-toast__msg { font-size: 13px; line-height: 1.4; }
+    .admin-toast__close {
+        flex: none; background: none; border: none; cursor: pointer;
+        color: #94a3b8; font-size: 18px; line-height: 1; padding: 2px 4px;
+        transition: color .2s;
+    }
+    .admin-toast__close:hover { color: #0f172a; }
+    .admin-toast__bar {
+        position: absolute; left: 0; bottom: 0; height: 3px;
+        width: 100%; opacity: 0.85;
+        animation: adminToastProgress 4.5s linear forwards;
+    }
+    @keyframes adminToastProgress { from { width: 100%; } to { width: 0%; } }
+</style>
+
+<div class="admin-toast-wrap" id="adminToastWrap">
+    {% if messages %}
+    {% for message in messages %}
+        {% if 'success' in message.tags %}{% with cls='success' title='Success' %}
+            <div class="admin-toast admin-toast--{{ cls }}">
+                <div class="admin-toast__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="admin-toast__body"><div class="admin-toast__title">{{ title }}</div><div class="admin-toast__msg">{{ message }}</div></div>
+                <button type="button" class="admin-toast__close" aria-label="Close">&times;</button>
+                <span class="admin-toast__bar"></span>
+            </div>
+        {% endwith %}{% elif 'error' in message.tags or 'danger' in message.tags %}{% with cls='error' title='Error' %}
+            <div class="admin-toast admin-toast--{{ cls }}">
+                <div class="admin-toast__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </div>
+                <div class="admin-toast__body"><div class="admin-toast__title">{{ title }}</div><div class="admin-toast__msg">{{ message }}</div></div>
+                <button type="button" class="admin-toast__close" aria-label="Close">&times;</button>
+                <span class="admin-toast__bar"></span>
+            </div>
+        {% endwith %}{% elif 'warning' in message.tags %}{% with cls='warning' title='Warning' %}
+            <div class="admin-toast admin-toast--{{ cls }}">
+                <div class="admin-toast__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="admin-toast__body"><div class="admin-toast__title">{{ title }}</div><div class="admin-toast__msg">{{ message }}</div></div>
+                <button type="button" class="admin-toast__close" aria-label="Close">&times;</button>
+                <span class="admin-toast__bar"></span>
+            </div>
+        {% endwith %}{% else %}{% with cls='info' title='Information' %}
+            <div class="admin-toast admin-toast--{{ cls }}">
+                <div class="admin-toast__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="admin-toast__body"><div class="admin-toast__title">{{ title }}</div><div class="admin-toast__msg">{{ message }}</div></div>
+                <button type="button" class="admin-toast__close" aria-label="Close">&times;</button>
+                <span class="admin-toast__bar"></span>
+            </div>
+        {% endwith %}{% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
+
+<script>
+    (function () {
+        var toasts = document.querySelectorAll('#adminToastWrap .admin-toast');
+        toasts.forEach(function (el, i) {
+            setTimeout(function () { el.classList.add('is-in'); }, 80 + i * 120);
+            var dismiss = function () {
+                el.classList.remove('is-in');
+                el.classList.add('is-out');
+                setTimeout(function () { el.remove(); }, 450);
+            };
+            var btn = el.querySelector('.admin-toast__close');
+            if (btn) { btn.addEventListener('click', dismiss); }
+            setTimeout(dismiss, 4500 + i * 120);
+        });
+
+        window.showToast = function (message, type, title) {
+            type = type || 'info';
+            title = title || (type === 'success' ? 'Success' : (type === 'error' || type === 'danger' ? 'Error' : (type === 'warning' ? 'Warning' : 'Information')));
+
+            var wrap = document.getElementById('adminToastWrap');
+            if (!wrap) {
+                wrap = document.createElement('div');
+                wrap.id = 'adminToastWrap';
+                wrap.className = 'admin-toast-wrap';
+                document.body.appendChild(wrap);
+            }
+
+            var toast = document.createElement('div');
+            toast.className = 'admin-toast admin-toast--' + (type === 'danger' ? 'error' : type);
+
+            var iconSvg = '';
+            if (type === 'success') {
+                iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+            } else if (type === 'error' || type === 'danger') {
+                iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+            } else if (type === 'warning') {
+                iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+            } else {
+                iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+            }
+
+            toast.innerHTML = '<div class="admin-toast__icon">' + iconSvg + '</div>' +
+                              '<div class="admin-toast__body"><div class="admin-toast__title">' + title + '</div><div class="admin-toast__msg">' + message + '</div></div>' +
+                              '<button type="button" class="admin-toast__close" aria-label="Close">&times;</button>' +
+                              '<span class="admin-toast__bar"></span>';
+
+            wrap.appendChild(toast);
+
+            setTimeout(function () { toast.classList.add('is-in'); }, 50);
+
+            var dismiss = function () {
+                toast.classList.remove('is-in');
+                toast.classList.add('is-out');
+                setTimeout(function () { toast.remove(); }, 450);
+            };
+
+            var closeBtn = toast.querySelector('.admin-toast__close');
+            if (closeBtn) { closeBtn.addEventListener('click', dismiss); }
+            setTimeout(dismiss, 4500);
+        };
+    })();
+</script>
