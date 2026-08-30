@@ -463,7 +463,7 @@ def create_order(request):
         "order_id": razorpay_order["id"],
         "amount": amount_in_paisa,
         "key": settings.RAZORPAY_API_KEY,
-        "name": "Trendy Looms",
+        "name": "TI FLUSSIBOO",
         "email": request.user.email or "",
     })
 
