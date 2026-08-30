@@ -1107,13 +1107,42 @@ body {
     width: 34px; height: 34px; flex: none; display: grid; place-items: center;
     border-radius: 8px; background: rgba(255,255,255,0.06); color: var(--tl-primary-2); font-size: 14px;
 }
-.tl-footer__socials { display: flex; gap: 10px; margin-top: 20px; }
-.tl-footer__socials a {
-    width: 38px; height: 38px; display: grid; place-items: center;
-    border-radius: 10px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); font-size: 17px;
-    transition: all var(--tl-ease); text-decoration: none;
+.tl-footer__socials { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.tl-footer__socials a, .tl-social-btn {
+    width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 10px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); font-size: 18px;
+    transition: all var(--tl-ease); text-decoration: none; border: 1px solid rgba(255,255,255,0.12);
 }
-.tl-footer__socials a:hover { background: var(--tl-primary); color: #fff; transform: translateY(-3px); }
+.tl-footer__socials a:hover, .tl-social-btn:hover { background: var(--tl-primary); color: #fff; transform: translateY(-3px); }
+
+/* On light surfaces (like cards, pages) */
+.tl-card .tl-footer__socials a,
+.tl-socials .tl-social-btn {
+    background: #f1f2f8 !important;
+    color: #1b1b29 !important;
+    border: 1px solid #e2e4ef !important;
+}
+.tl-card .tl-footer__socials a:hover,
+.tl-socials .tl-social-btn:hover {
+    color: #fff !important;
+    transform: translateY(-3px);
+}
+.tl-social-btn--wa:hover, .tl-card .tl-footer__socials a[aria-label="WhatsApp"]:hover {
+    background: #25d366 !important;
+    border-color: #25d366 !important;
+}
+.tl-social-btn--ig:hover, .tl-card .tl-footer__socials a[aria-label="Instagram"]:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+    border-color: #dc2743 !important;
+}
+.tl-social-btn--fb:hover, .tl-card .tl-footer__socials a[aria-label="Facebook"]:hover {
+    background: #1877f2 !important;
+    border-color: #1877f2 !important;
+}
+.tl-social-btn--tw:hover, .tl-card .tl-footer__socials a[aria-label="Twitter"]:hover {
+    background: #1da1f2 !important;
+    border-color: #1da1f2 !important;
+}
 .tl-footer__bottom {
     padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.08);
     display: flex; justify-content: space-between; align-items: center;
