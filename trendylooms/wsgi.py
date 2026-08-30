@@ -37,8 +37,27 @@ try:
         admin_user.is_admin = True
         admin_user.is_active = True
         admin_user.save()
-        print("Initialized default admin user: 7845222924", file=sys.stderr)
+# Auto-seed default demo customer if absent
+try:
+    from domain.models import User
+    demo_user, c_created = User.objects.get_or_create(
+        mobile_no='9876543210',
+        defaults={
+            'first_name': 'Demo',
+            'last_name': 'Customer',
+            'email': 'demo@tiflussiboo.com',
+            'role': 'Customer',
+            'is_admin': False,
+            'is_active': True,
+        }
+    )
+    if c_created or not demo_user.is_active:
+        demo_user.set_password('Customer@123')
+        demo_user.is_active = True
+        demo_user.save()
+        print("Initialized default demo customer: 9876543210", file=sys.stderr)
 except Exception as e:
-    print(f"Admin init notice: {e}", file=sys.stderr)
+    print(f"Customer init notice: {e}", file=sys.stderr)
+
 
 
