@@ -18,3 +18,27 @@ if (
     except Exception as e:
         print(f"Serverless migration notice: {e}", file=sys.stderr)
 
+# Auto-seed default admin user if absent
+try:
+    from domain.models import User
+    admin_user, created = User.objects.get_or_create(
+        mobile_no='7845222924',
+        defaults={
+            'first_name': 'TI FLUSSIBOO',
+            'last_name': 'Admin',
+            'email': 'tiflussiboo@gmail.com',
+            'role': 'Admin',
+            'is_admin': True,
+            'is_active': True,
+        }
+    )
+    if created or not admin_user.is_admin:
+        admin_user.set_password('Admin@12345')
+        admin_user.is_admin = True
+        admin_user.is_active = True
+        admin_user.save()
+        print("Initialized default admin user: 7845222924", file=sys.stderr)
+except Exception as e:
+    print(f"Admin init notice: {e}", file=sys.stderr)
+
+
