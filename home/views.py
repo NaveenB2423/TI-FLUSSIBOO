@@ -74,15 +74,18 @@ def contact_us(request):
 
 def customer_login(request):
     if request.user.is_authenticated:
+        if getattr(request.user, 'is_admin', False):
+            return redirect('dashboard')
         return redirect('index')
 
+    mobile = ''
     if request.method == 'POST':
         mobile = request.POST.get('mobile', '').strip()
         password = request.POST.get('password', '').strip()
 
         if not mobile or not password:
             messages.error(request, "Please enter both mobile number/email and password.")
-            return render(request, 'home/login.html')
+            return render(request, 'home/login.html', {'mobile': mobile})
 
         user = None
 
@@ -123,6 +126,8 @@ def customer_login(request):
             messages.error(request, "Invalid mobile number/email or password. Please try again.")
 
         return render(request, 'home/login.html', {'mobile': mobile})
+
+    return render(request, 'home/login.html', {'mobile': ''})
 
 
 def customer_logout(request):

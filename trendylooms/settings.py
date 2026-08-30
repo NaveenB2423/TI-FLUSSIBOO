@@ -33,17 +33,14 @@ if not SECRET_KEY:
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
 # Allowed hosts
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
-    if host.strip()
-]
-if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['*']
-else:
-    for default_host in ['.tiflussiboo.com', 'tiflussiboo.com', '.onrender.com', 'localhost', '127.0.0.1']:
+raw_hosts = os.environ.get('DJANGO_ALLOWED_HOSTS', '').strip()
+if raw_hosts:
+    ALLOWED_HOSTS = [h.strip() for h in raw_hosts.split(',') if h.strip()]
+    for default_host in ['*', '.tiflussiboo.com', 'tiflussiboo.com', '.onrender.com', 'localhost', '127.0.0.1']:
         if default_host not in ALLOWED_HOSTS:
             ALLOWED_HOSTS.append(default_host)
+else:
+    ALLOWED_HOSTS = ['*']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
