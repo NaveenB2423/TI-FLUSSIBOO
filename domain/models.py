@@ -44,6 +44,10 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'mobile_no'
     REQUIRED_FIELDS = ['password']
 
+    @property
+    def mobile(self):
+        return self.mobile_no
+
 class UserAddrsss(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
     type = models.CharField(max_length=200, null=True)

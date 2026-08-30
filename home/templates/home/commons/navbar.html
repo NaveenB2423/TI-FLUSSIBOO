@@ -98,10 +98,10 @@
     <!-- User banner -->
     {% if request.user.is_authenticated %}
         <div class="tl-drawer__user">
-            <span class="tl-drawer__user-avatar">{{ request.user.first_name|first|upper }}</span>
+            <span class="tl-drawer__user-avatar">{{ request.user.first_name|default:'U'|first|upper }}</span>
             <div>
-                <div class="tl-drawer__user-name">{{ request.user.first_name|title }} {{ request.user.last_name|default:''|title }}</div>
-                <div class="tl-drawer__user-sub">{{ request.user.email|default:request.user.mobile }}</div>
+                <div class="tl-drawer__user-name">{{ request.user.first_name|default:'User'|title }} {{ request.user.last_name|default:''|title }}</div>
+                <div class="tl-drawer__user-sub">{{ request.user.email|default:request.user.mobile_no }}</div>
             </div>
         </div>
     {% else %}
