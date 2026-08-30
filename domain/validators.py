@@ -6,12 +6,13 @@ from django.core.validators import validate_email
 
 def validate_mobile_number(value):
     """
-    Validate that the mobile number contains only digits and is between 10 and 15 digits.
+    Validate and clean mobile numbers (allowing spaces, hyphens, parentheses).
     """
     if not value:
         raise ValidationError("Mobile number is required.")
     
-    cleaned = str(value).strip()
+    raw = str(value).strip()
+    cleaned = re.sub(r'[\s\-\(\)]', '', raw)
     if not re.fullmatch(r'^\+?[0-9]{10,15}$', cleaned):
         raise ValidationError("Enter a valid mobile number (10 to 15 digits).")
     return cleaned

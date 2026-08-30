@@ -81,16 +81,31 @@ def customer_login(request):
         password = request.POST.get('password', '').strip()
 
         if not mobile or not password:
-            messages.error(request, "Please enter both mobile number and password.")
+            messages.error(request, "Please enter both mobile number/email and password.")
             return render(request, 'home/login.html')
 
-        try:
-            cleaned_mobile = validate_mobile_number(mobile)
-        except ValidationError:
-            messages.error(request, "Invalid mobile number format. Please enter a valid 10-15 digit number.")
-            return render(request, 'home/login.html')
+        user = None
 
-        user = authenticate(request, mobile_no=cleaned_mobile, password=password)
+        # 1. Allow login via Email
+        if '@' in mobile:
+            try:
+                user_match = User.objects.filter(email__iexact=mobile).first()
+                if user_match:
+                    user = authenticate(request, mobile_no=user_match.mobile_no, password=password)
+            except Exception:
+                pass
+
+        # 2. Allow login via Mobile Number (sanitized)
+        if user is None:
+            import re
+            cleaned_mobile = re.sub(r'[\s\-\(\)]', '', mobile)
+            user = authenticate(request, mobile_no=cleaned_mobile, password=password)
+            
+            # Try +91 / without +91 variations if not matched
+            if user is None and cleaned_mobile.startswith('+91'):
+                user = authenticate(request, mobile_no=cleaned_mobile[3:], password=password)
+            elif user is None and not cleaned_mobile.startswith('+') and len(cleaned_mobile) == 10:
+                user = authenticate(request, mobile_no='+91' + cleaned_mobile, password=password)
 
         if user is not None:
             if user.is_active:
@@ -105,9 +120,9 @@ def customer_login(request):
             else:
                 messages.error(request, "Your account has been deactivated. Please contact support.")
         else:
-            messages.error(request, "Invalid mobile number or password. Please try again.")
+            messages.error(request, "Invalid mobile number/email or password. Please try again.")
 
-    return render(request, 'home/login.html')
+        return render(request, 'home/login.html')
 
 
 def customer_logout(request):
