@@ -122,7 +122,7 @@ def customer_login(request):
         else:
             messages.error(request, "Invalid mobile number/email or password. Please try again.")
 
-        return render(request, 'home/login.html')
+        return render(request, 'home/login.html', {'mobile': mobile})
 
 
 def customer_logout(request):
@@ -153,20 +153,22 @@ def customer_signup(request):
 
     if request.method == 'POST':
         first_name = request.POST.get('firstname', '').strip()
-        mobile = request.POST.get('mobile', '').strip()
+        raw_mobile = request.POST.get('mobile', '').strip()
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '').strip()
+        confirm_password = request.POST.get('confirm_password', '').strip()
 
         # Validation
         errors = []
         if not first_name:
-            errors.append("First name is required.")
+            errors.append("Full name is required.")
 
-        if not mobile:
+        mobile = None
+        if not raw_mobile:
             errors.append("Mobile number is required.")
         else:
             try:
-                mobile = validate_mobile_number(mobile)
+                mobile = validate_mobile_number(raw_mobile)
                 if User.objects.filter(mobile_no=mobile).exists():
                     errors.append("An account with this mobile number already exists.")
             except ValidationError as e:
@@ -182,26 +184,28 @@ def customer_signup(request):
 
         if not password or len(password) < 6:
             errors.append("Password must be at least 6 characters long.")
+        elif confirm_password and password != confirm_password:
+            errors.append("Passwords do not match. Please ensure both fields are identical.")
 
         if errors:
             for error in errors:
                 messages.error(request, error)
             return render(request, 'home/signup.html', {
                 'firstname': first_name,
-                'mobile': mobile,
+                'mobile': raw_mobile,
                 'email': email,
             })
 
         new_user = User()
         new_user.first_name = first_name
-        new_user.mobile_no = mobile
+        new_user.mobile_no = mobile or raw_mobile
         new_user.email = email if email else None
         new_user.password = make_password(password)
         new_user.is_password_set = True
         new_user.role = 'Customer'
         new_user.save()
 
-        messages.success(request, "Account created successfully. Please log in to continue.")
+        messages.success(request, "Account created successfully! Please log in to continue.")
         return redirect('customer_login')
 
     return render(request, 'home/signup.html')

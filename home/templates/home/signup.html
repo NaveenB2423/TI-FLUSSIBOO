@@ -2,54 +2,315 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Sign Up | TI FLUSSIBOO</title>
+    <title>Create Account | TI FLUSSIBOO</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="icon" href="{% static 'home/images/icons/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
 </head>
 <body class="tl-auth-page">
     <div class="tl-auth tl-auth--signup tl-scope">
+        <!-- Brand Showcase Side -->
         <div class="tl-auth__brand">
-            <a href="{% url 'index' %}" class="tl-nav__logo tl-text-white tl-mb-md">
-                <span class="tl-nav__mark">TF</span> TI <span class="tl-dot">FLUSSIBOO</span>
-            </a>
-            <h1>Join the look.</h1>
-            <p>Create your account to shop premium fashion, design custom pieces, and track your orders.</p>
+            <div class="tl-auth__brand-content">
+                <a href="{% url 'index' %}" class="tl-auth__brand-logo">
+                    <span class="tl-nav__mark">TF</span>
+                    <span>TI FLUSSIBOO</span>
+                </a>
+                <h2 class="tl-auth__brand-title">
+                    Join the <span>TI FLUSSIBOO</span> Experience
+                </h2>
+                <p class="tl-auth__brand-desc">
+                    Create your account to unlock curated fashion, save your favorites, customize apparel, and enjoy fast checkout.
+                </p>
+
+                <ul class="tl-auth__features">
+                    <li class="tl-auth__feature-item">
+                        <span class="tl-auth__feature-icon">&#10003;</span>
+                        <span>Exclusive member-only discounts</span>
+                    </li>
+                    <li class="tl-auth__feature-item">
+                        <span class="tl-auth__feature-icon">&#10003;</span>
+                        <span>Personalized order history &amp; instant tracking</span>
+                    </li>
+                    <li class="tl-auth__feature-item">
+                        <span class="tl-auth__feature-icon">&#10003;</span>
+                        <span>Save multiple delivery addresses</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tl-auth__brand-footer">
+                &copy; {% now "Y" %} TI FLUSSIBOO. All rights reserved.
+            </div>
         </div>
 
+        <!-- Form Side -->
         <div class="tl-auth__form">
-            <h3>Create Account</h3>
-            <p class="sub">Fill in your details to get started.</p>
+            <div class="tl-auth__form-header">
+                <h1 class="tl-auth__form-title">Create Account</h1>
+                <p class="tl-auth__form-sub">Enter your details to create your TI FLUSSIBOO account.</p>
+            </div>
 
-            <form method="post">
+            <!-- Inline Error / Status Message Alert Box -->
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'error' in message.tags or 'danger' in message.tags %}
+                        <div class="tl-auth-alert tl-auth-alert--error" role="alert">
+                            <svg class="tl-auth-alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            <div class="tl-auth-alert__content">
+                                <div class="tl-auth-alert__title">Sign Up Error</div>
+                                <div>{{ message }}</div>
+                            </div>
+                        </div>
+                    {% elif 'success' in message.tags %}
+                        <div class="tl-auth-alert tl-auth-alert--success" role="alert">
+                            <svg class="tl-auth-alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <div class="tl-auth-alert__content">
+                                <div class="tl-auth-alert__title">Success</div>
+                                <div>{{ message }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" action="{% url 'customer_signup' %}" id="signupForm" novalidate>
                 {% csrf_token %}
-                <div class="tl-field">
-                    <label>Full Name</label>
-                    <input type="text" name="firstname" class="tl-input" placeholder="Enter your full name" required>
+
+                <div class="tl-auth-group">
+                    <label class="tl-auth-label" for="signupName">
+                        <span>Full Name</span>
+                    </label>
+                    <div class="tl-auth-input-wrap">
+                        <svg class="tl-auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="signupName" 
+                            name="firstname" 
+                            class="tl-auth-input" 
+                            placeholder="e.g. Rahul Sharma" 
+                            value="{{ firstname|default:'' }}"
+                            autocomplete="name"
+                            required>
+                    </div>
                 </div>
-                <div class="tl-field">
-                    <label>Mobile Number</label>
-                    <input type="text" name="mobile" class="tl-input" placeholder="Enter your mobile number" required>
+
+                <div class="tl-auth-group">
+                    <label class="tl-auth-label" for="signupMobile">
+                        <span>Mobile Number</span>
+                        <span class="tl-auth-label-hint">10-digit number</span>
+                    </label>
+                    <div class="tl-auth-input-wrap">
+                        <svg class="tl-auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <input 
+                            type="tel" 
+                            id="signupMobile" 
+                            name="mobile" 
+                            class="tl-auth-input" 
+                            placeholder="e.g. 9876543210" 
+                            value="{{ mobile|default:'' }}"
+                            autocomplete="tel"
+                            required>
+                    </div>
                 </div>
-                <div class="tl-field">
-                    <label>Email Address</label>
-                    <input type="email" name="email" class="tl-input" placeholder="Enter your email address" required>
+
+                <div class="tl-auth-group">
+                    <label class="tl-auth-label" for="signupEmail">
+                        <span>Email Address</span>
+                    </label>
+                    <div class="tl-auth-input-wrap">
+                        <svg class="tl-auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <input 
+                            type="email" 
+                            id="signupEmail" 
+                            name="email" 
+                            class="tl-auth-input" 
+                            placeholder="name@example.com" 
+                            value="{{ email|default:'' }}"
+                            autocomplete="email"
+                            required>
+                    </div>
                 </div>
-                <div class="tl-field">
-                    <label>Password</label>
-                    <input type="password" name="password" class="tl-input" placeholder="Create password">
+
+                <div class="tl-auth-group">
+                    <label class="tl-auth-label" for="signupPassword">
+                        <span>Password</span>
+                        <span class="tl-auth-label-hint">Min 6 characters</span>
+                    </label>
+                    <div class="tl-auth-input-wrap">
+                        <svg class="tl-auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input 
+                            type="password" 
+                            id="signupPassword" 
+                            name="password" 
+                            class="tl-auth-input" 
+                            placeholder="Create a strong password" 
+                            autocomplete="new-password"
+                            required>
+                        <button type="button" class="tl-auth-toggle-pass" data-target="signupPassword" aria-label="Toggle password visibility">
+                            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-closed" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-                <div class="tl-field tl-field--lg">
-                    <label>Confirm Password</label>
-                    <input type="password" name="confirm_password" class="tl-input" placeholder="Confirm password">
+
+                <div class="tl-auth-group">
+                    <label class="tl-auth-label" for="signupConfirmPassword">
+                        <span>Confirm Password</span>
+                    </label>
+                    <div class="tl-auth-input-wrap">
+                        <svg class="tl-auth-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input 
+                            type="password" 
+                            id="signupConfirmPassword" 
+                            name="confirm_password" 
+                            class="tl-auth-input" 
+                            placeholder="Re-type your password" 
+                            autocomplete="new-password"
+                            required>
+                        <button type="button" class="tl-auth-toggle-pass" data-target="signupConfirmPassword" aria-label="Toggle password visibility">
+                            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-closed" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="passMatchIndicator" class="tl-pass-match"></div>
                 </div>
-                <button type="submit" class="tl-btn tl-btn--primary tl-btn--lg tl-btn--block">Create Account</button>
-                <div class="tl-auth__alt">Already have an account? <a href="{% url 'customer_login' %}">Login</a></div>
+
+                <button type="submit" class="tl-auth-submit" id="signupBtn">
+                    <span>Create Account</span>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+
+                <div class="tl-auth-footer-links">
+                    Already have an account? <a href="{% url 'customer_login' %}">Sign In</a>
+                </div>
             </form>
         </div>
     </div>
 
     {% include 'home/commons/toast.html' %}
+
+    <script>
+        (function() {
+            // Password Visibility Toggles
+            document.querySelectorAll('.tl-auth-toggle-pass').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var targetId = this.getAttribute('data-target');
+                    var input = document.getElementById(targetId);
+                    if (!input) return;
+                    var isPass = input.type === 'password';
+                    input.type = isPass ? 'text' : 'password';
+                    var openEye = this.querySelector('.eye-open');
+                    var closedEye = this.querySelector('.eye-closed');
+                    if (openEye && closedEye) {
+                        openEye.style.display = isPass ? 'none' : 'block';
+                        closedEye.style.display = isPass ? 'block' : 'none';
+                    }
+                });
+            });
+
+            // Live Password Match Check
+            var pass = document.getElementById('signupPassword');
+            var confirmPass = document.getElementById('signupConfirmPassword');
+            var indicator = document.getElementById('passMatchIndicator');
+
+            function checkMatch() {
+                if (!confirmPass.value) {
+                    indicator.className = 'tl-pass-match';
+                    indicator.textContent = '';
+                    return;
+                }
+                if (pass.value === confirmPass.value) {
+                    indicator.className = 'tl-pass-match is-match';
+                    indicator.textContent = '✓ Passwords match';
+                } else {
+                    indicator.className = 'tl-pass-match is-mismatch';
+                    indicator.textContent = '✕ Passwords do not match';
+                }
+            }
+
+            if (pass && confirmPass) {
+                pass.addEventListener('input', checkMatch);
+                confirmPass.addEventListener('input', checkMatch);
+            }
+
+            // Client Validation on Submit
+            var form = document.getElementById('signupForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    var name = document.getElementById('signupName');
+                    var mob = document.getElementById('signupMobile');
+                    var em = document.getElementById('signupEmail');
+                    var p1 = document.getElementById('signupPassword');
+                    var p2 = document.getElementById('signupConfirmPassword');
+
+                    var hasErr = false;
+                    [name, mob, em, p1, p2].forEach(function(el) {
+                        if (!el.value.trim()) {
+                            el.classList.add('tl-auth-input--has-error');
+                            hasErr = true;
+                        }
+                    });
+
+                    if (p1.value && p1.value.length < 6) {
+                        p1.classList.add('tl-auth-input--has-error');
+                        hasErr = true;
+                    }
+
+                    if (p1.value && p2.value && p1.value !== p2.value) {
+                        p2.classList.add('tl-auth-input--has-error');
+                        hasErr = true;
+                    }
+
+                    if (hasErr) {
+                        e.preventDefault();
+                    }
+                });
+
+                form.querySelectorAll('.tl-auth-input').forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        this.classList.remove('tl-auth-input--has-error');
+                    });
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
