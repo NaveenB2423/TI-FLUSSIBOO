@@ -576,19 +576,58 @@ def payment_success(request):
 
 def db_check(request):
     from django.db import connection
+    import datetime
     try:
         with connection.cursor() as cursor:
             cursor.execute("SELECT 1")
             cursor.fetchone()
         
+        # Ensure default admin and demo customer always exist
+        admin_u, a_created = User.objects.get_or_create(
+            mobile_no='7845222924',
+            defaults={
+                'first_name': 'TI FLUSSIBOO',
+                'last_name': 'Admin',
+                'email': 'tiflussiboo@gmail.com',
+                'role': 'Admin',
+                'is_admin': True,
+                'is_active': True,
+            }
+        )
+        if a_created or not admin_u.is_admin:
+            admin_u.set_password('Admin@12345')
+            admin_u.is_admin = True
+            admin_u.is_active = True
+            admin_u.save()
+
+        demo_u, d_created = User.objects.get_or_create(
+            mobile_no='9876543210',
+            defaults={
+                'first_name': 'Demo',
+                'last_name': 'Customer',
+                'email': 'demo@tiflussiboo.com',
+                'role': 'Customer',
+                'is_admin': False,
+                'is_active': True,
+            }
+        )
+        if d_created or not demo_u.is_active:
+            demo_u.set_password('Customer@123')
+            demo_u.is_active = True
+            demo_u.save()
+
         user_count = User.objects.count()
         db_engine = connection.settings_dict.get('ENGINE', 'unknown').split('.')[-1]
+        active_users = list(User.objects.values('mobile_no', 'email', 'first_name', 'is_admin'))
         
         return JsonResponse({
             "status": "connected",
             "database_engine": db_engine,
             "user_count": user_count,
-            "connected": True
+            "active_users": active_users,
+            "connected": True,
+            "server_time": datetime.datetime.now().isoformat(),
+            "latest_deployment": "active"
         })
     except Exception as e:
         logger.exception("Database diagnostic check failed")
