@@ -40,10 +40,17 @@ ALLOWED_HOSTS = [
 ]
 if not ALLOWED_HOSTS:
     ALLOWED_HOSTS = ['*']
+else:
+    for default_host in ['.tiflussiboo.com', 'tiflussiboo.com', '.onrender.com', 'localhost', '127.0.0.1']:
+        if default_host not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS.append(default_host)
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.vercel.app',
     'https://*.now.sh',
+    'https://*.onrender.com',
+    'https://*.tiflussiboo.com',
+    'https://tiflussiboo.com',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
 ]
