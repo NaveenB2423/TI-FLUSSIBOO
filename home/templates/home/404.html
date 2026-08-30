@@ -3,37 +3,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>404 | Page Not Found</title>
+    <title>404 | Page Not Found - TI FLUSSIBOO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'home/images/icons/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
 </head>
-<body class="tl-standalone tl-standalone--error">
-    <div class="tl-standalone__card">
-        <div class="tl-standalone__img" aria-hidden="true">
-            <svg viewBox="0 0 240 150" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-                <defs>
-                    <linearGradient id="tl404" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0" stop-color="#5a4ff3"/>
-                        <stop offset="1" stop-color="#8b5cf6"/>
-                    </linearGradient>
-                </defs>
-                <ellipse cx="120" cy="132" rx="80" ry="10" fill="#eef2ff"/>
-                <circle cx="120" cy="66" r="52" fill="#eef2ff"/>
-                <circle cx="103" cy="60" r="7" fill="url(#tl404)"/>
-                <circle cx="137" cy="60" r="7" fill="url(#tl404)"/>
-                <path d="M104 88 q16 -14 32 0" stroke="url(#tl404)" stroke-width="4" stroke-linecap="round"/>
-                <path d="M150 30 l14 -10 M170 44 l16 -4 M150 102 l14 10 M170 88 l16 4"
-                      stroke="#c7d2fe" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-        </div>
-        <div class="tl-standalone__icon tl-standalone__icon--error">404</div>
-        <div class="tl-standalone__title tl-standalone__title--error">Page Not Found</div>
-        <p class="tl-standalone__text">
-            Sorry, the page you are looking for doesn't exist, has been moved,
-            or is temporarily unavailable.
+<body class="tl-standalone tl-standalone--error" style="display:flex; min-height:100vh; align-items:center; justify-content:center; background:#0f172a; padding:20px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+    <div class="tl-standalone__card" style="background:#ffffff; border-radius:24px; max-width:480px; width:100%; padding:48px 36px; text-align:center; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+        <div style="font-size:72px; font-weight:900; line-height:1; color:#5a4ff3; margin-bottom:12px;">404</div>
+        <h1 style="font-size:24px; font-weight:800; color:#0f172a; margin:0 0 12px;">Page Not Found</h1>
+        <p style="color:#64748b; font-size:15px; line-height:1.6; margin:0 0 28px;">
+            The page you are looking for doesn't exist, has been moved, or is temporarily unavailable.
         </p>
-        <div class="tl-standalone__actions">
-            <a href="/" class="tl-btn tl-btn--primary tl-btn--lg">&larr; Back to Home</a>
+        <div>
+            <a href="{% url 'index' %}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; color:#ffffff; background:linear-gradient(135deg, #5a4ff3, #7b71ff); padding:14px 32px; border-radius:12px; font-weight:700; font-size:15px; box-shadow:0 8px 20px rgba(90,79,243,0.4); transition:transform 0.2s;">
+                &larr; Back to Home
+            </a>
         </div>
     </div>
 </body>

@@ -3,19 +3,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>500 | Server Error</title>
+    <title>500 | Server Error - TI FLUSSIBOO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'home/images/icons/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
 </head>
-<body class="tl-standalone tl-standalone--error">
-    <div class="tl-standalone__card">
-        <div class="tl-standalone__icon tl-standalone__icon--error" style="color: #ef4444;">500</div>
-        <div class="tl-standalone__title tl-standalone__title--error">Server Error</div>
-        <p class="tl-standalone__text">
-            Something went wrong on the server. Please try refreshing or check back in a few minutes.
+<body class="tl-standalone tl-standalone--error" style="display:flex; min-height:100vh; align-items:center; justify-content:center; background:#0f172a; padding:20px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+    <div class="tl-standalone__card" style="background:#ffffff; border-radius:24px; max-width:480px; width:100%; padding:48px 36px; text-align:center; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+        <div style="font-size:72px; font-weight:900; line-height:1; color:#ef4444; margin-bottom:12px;">500</div>
+        <h1 style="font-size:24px; font-weight:800; color:#0f172a; margin:0 0 12px;">Server Error</h1>
+        <p style="color:#64748b; font-size:15px; line-height:1.6; margin:0 0 28px;">
+            Something unexpected occurred. Please click below to return to the store homepage.
         </p>
-        <div class="tl-standalone__actions">
-            <a href="/" class="tl-btn tl-btn--primary tl-btn--lg">&larr; Back to Home</a>
+        <div>
+            <a href="{% url 'index' %}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; color:#ffffff; background:linear-gradient(135deg, #5a4ff3, #7b71ff); padding:14px 32px; border-radius:12px; font-weight:700; font-size:15px; box-shadow:0 8px 20px rgba(90,79,243,0.4); transition:transform 0.2s;">
+                &larr; Back to Home
+            </a>
         </div>
     </div>
 </body>

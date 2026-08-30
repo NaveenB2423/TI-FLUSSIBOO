@@ -78,41 +78,43 @@ def customer_login(request):
             return redirect('dashboard')
         return redirect('index')
 
-    mobile = ''
+    mobile_input = ''
     if request.method == 'POST':
-        mobile = request.POST.get('mobile', '').strip()
+        import re
+        mobile_input = request.POST.get('mobile', '').strip()
         password = request.POST.get('password', '').strip()
 
-        if not mobile or not password:
+        if not mobile_input or not password:
             messages.error(request, "Please enter both mobile number/email and password.")
-            return render(request, 'home/login.html', {'mobile': mobile})
+            return render(request, 'home/login.html', {'mobile': mobile_input})
+
+        # Sanitize mobile input (digits only)
+        digits_only = re.sub(r'\D', '', mobile_input)
+        last_10 = digits_only[-10:] if len(digits_only) >= 10 else digits_only
 
         user = None
 
-        # 1. Allow login via Email
-        if '@' in mobile:
-            try:
-                user_match = User.objects.filter(email__iexact=mobile).first()
-                if user_match:
-                    user = authenticate(request, mobile_no=user_match.mobile_no, password=password)
-            except Exception:
-                pass
+        # 1. Try standard Django authenticate with exact mobile
+        user = authenticate(request, mobile_no=mobile_input, password=password)
 
-        # 2. Allow login via Mobile Number (sanitized)
+        # 2. Try authenticate with digits-only mobile
+        if user is None and digits_only:
+            user = authenticate(request, mobile_no=digits_only, password=password)
+
+        # 3. Direct User lookup fallback (mobile, last 10 digits, or email)
         if user is None:
-            import re
-            cleaned_mobile = re.sub(r'[\s\-\(\)]', '', mobile)
-            user = authenticate(request, mobile_no=cleaned_mobile, password=password)
-            
-            # Try +91 / without +91 variations if not matched
-            if user is None and cleaned_mobile.startswith('+91'):
-                user = authenticate(request, mobile_no=cleaned_mobile[3:], password=password)
-            elif user is None and not cleaned_mobile.startswith('+') and len(cleaned_mobile) == 10:
-                user = authenticate(request, mobile_no='+91' + cleaned_mobile, password=password)
+            user_candidate = (
+                User.objects.filter(mobile_no=mobile_input).first()
+                or (User.objects.filter(mobile_no=digits_only).first() if digits_only else None)
+                or (User.objects.filter(mobile_no__endswith=last_10).first() if last_10 else None)
+                or User.objects.filter(email__iexact=mobile_input).first()
+            )
+            if user_candidate and user_candidate.check_password(password):
+                user = user_candidate
 
         if user is not None:
             if user.is_active:
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 messages.success(request, f"Welcome back, {user.first_name or 'User'}!")
                 next_url = request.GET.get('next') or request.POST.get('next') or ''
                 if next_url and next_url.startswith('/') and not next_url.startswith('//'):
@@ -121,11 +123,11 @@ def customer_login(request):
                     return redirect('dashboard')
                 return redirect('index')
             else:
-                messages.error(request, "Your account has been deactivated. Please contact support.")
+                messages.error(request, "Your account has been deactivated. Please contact customer support.")
         else:
             messages.error(request, "Invalid mobile number/email or password. Please try again.")
 
-        return render(request, 'home/login.html', {'mobile': mobile})
+        return render(request, 'home/login.html', {'mobile': mobile_input})
 
     return render(request, 'home/login.html', {'mobile': ''})
 
@@ -205,8 +207,9 @@ def customer_signup(request):
         new_user.first_name = first_name
         new_user.mobile_no = mobile or raw_mobile
         new_user.email = email if email else None
-        new_user.password = make_password(password)
+        new_user.set_password(password)
         new_user.is_password_set = True
+        new_user.is_active = True
         new_user.role = 'Customer'
         new_user.save()
 
