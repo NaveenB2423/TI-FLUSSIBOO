@@ -22,12 +22,9 @@ from django.conf.urls.static import static
 from home.views import page_not_found
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('admin/', include("dashboard.UI.urls")),
     path('orders/', include("dashboard.orders.urls")),
-    # Catch-all: show custom 404 in development (DEBUG=True skips handler404)
-    path('<path:path>', page_not_found),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Custom error pages (used when DEBUG = False)

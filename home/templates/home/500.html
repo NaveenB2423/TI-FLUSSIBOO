@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>500 | Server Error</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'home/css/redesign.css' %}">
+</head>
+<body class="tl-standalone tl-standalone--error">
+    <div class="tl-standalone__card">
+        <div class="tl-standalone__icon tl-standalone__icon--error" style="color: #ef4444;">500</div>
+        <div class="tl-standalone__title tl-standalone__title--error">Server Error</div>
+        <p class="tl-standalone__text">
+            Something went wrong on the server. Please try refreshing or check back in a few minutes.
+        </p>
+        <div class="tl-standalone__actions">
+            <a href="/" class="tl-btn tl-btn--primary tl-btn--lg">&larr; Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

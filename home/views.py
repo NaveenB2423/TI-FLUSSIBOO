@@ -95,9 +95,13 @@ def customer_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                messages.success(request, "Welcome back! You are now logged in.")
-                next_url = request.GET.get('next') or request.POST.get('next') or 'index'
-                return redirect(next_url)
+                messages.success(request, f"Welcome back, {user.first_name or 'User'}!")
+                next_url = request.GET.get('next') or request.POST.get('next') or ''
+                if next_url and next_url.startswith('/') and not next_url.startswith('//'):
+                    return redirect(next_url)
+                if getattr(user, 'is_admin', False):
+                    return redirect('dashboard')
+                return redirect('index')
             else:
                 messages.error(request, "Your account has been deactivated. Please contact support.")
         else:
@@ -125,7 +129,7 @@ def custom_404(request, exception):
 
 
 def custom_500(request):
-    return render(request, 'home/404.html', status=500)
+    return render(request, 'home/500.html', status=500)
 
 
 def customer_signup(request):
